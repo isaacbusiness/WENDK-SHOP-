@@ -1,14 +1,10 @@
 /* =========================================================
-   WENDK SHOP
-   SCRIPT.JS
+   WENDK SHOP — SCRIPT.JS
    VERSION COMPLÈTE
-   SUPABASE + PANIER + WHATSAPP
+   BLOC 1/3
    ========================================================= */
 
-
-/* =========================================================
-   CONFIGURATION
-   ========================================================= */
+/* ================= CONFIGURATION ================= */
 
 const WHATSAPP_NUMBER = "22607309472";
 
@@ -16,7 +12,7 @@ const SUPABASE_URL =
     "https://peytqrampgxvqdzygxnc.supabase.co";
 
 const SUPABASE_KEY =
-    "sb_publishable_atQoFNjWTz8MxT81vg2QGQ_iO4_giOb";
+    "sb_publishable_atQoFNjWTz8MxT81vg2QGQ_iOb";
 
 const SUPABASE_HEADERS = {
     "apikey": SUPABASE_KEY,
@@ -25,9 +21,7 @@ const SUPABASE_HEADERS = {
 };
 
 
-/* =========================================================
-   PRODUITS DE SECOURS
-   ========================================================= */
+/* ================= PRODUITS ================= */
 
 const products = [
 
@@ -194,9 +188,7 @@ const products = [
 ];
 
 
-/* =========================================================
-   ÉTAT
-   ========================================================= */
+/* ================= ÉTAT ================= */
 
 let cart =
     JSON.parse(localStorage.getItem("wendkShopCart")) || [];
@@ -205,9 +197,7 @@ let currentCategory = "all";
 let searchTerm = "";
 
 
-/* =========================================================
-   DOM
-   ========================================================= */
+/* ================= DOM ================= */
 
 const productsGrid =
     document.getElementById("productsGrid");
@@ -270,9 +260,7 @@ const currentYear =
     document.getElementById("currentYear");
 
 
-/* =========================================================
-   FORMAT PRIX
-   ========================================================= */
+/* ================= FORMAT PRIX ================= */
 
 function formatPrice(price) {
 
@@ -282,123 +270,47 @@ function formatPrice(price) {
 }
 
 
-/* =========================================================
-   CHARGER PRODUITS SUPABASE
-   ========================================================= */
+/* ================= CATÉGORIES ================= */
 
-async function loadProductsFromSupabase() {
+function getCategoryName(category) {
 
-    try {
+    const categories = {
+        iphone: "iPhone",
+        samsung: "Samsung",
+        redmi: "Redmi",
+        tecno: "Tecno",
+        accessoires: "Accessoires"
+    };
 
-        const response = await fetch(
-            `${SUPABASE_URL}/rest/v1/products?select=*`,
-            {
-                method: "GET",
-                headers: SUPABASE_HEADERS
-            }
-        );
-
-        if (!response.ok) {
-
-            throw new Error(
-                `Supabase ${response.status}`
-            );
-
-        }
-
-        const data = await response.json();
-
-        if (Array.isArray(data) && data.length > 0) {
-
-            products.length = 0;
-
-            data.forEach(product => {
-
-                products.push({
-
-                    id: Number(product.id),
-
-                    name: product.name || "Produit",
-
-                    category:
-                        product.category || "accessoires",
-
-                    price:
-                        Number(product.price) || 0,
-
-                    description:
-                        product.description || "",
-
-                    image:
-                        product.image || "",
-
-                    badge:
-                        product.badge || ""
-
-                });
-
-            });
-
-            console.log(
-                "✅ Produits Supabase chargés :",
-                products.length
-            );
-
-            renderProducts();
-            updateCartUI();
-
-        } else {
-
-            console.log(
-                "ℹ️ Aucun produit Supabase. Produits locaux utilisés."
-            );
-
-        }
-
-    } catch (error) {
-
-        console.warn(
-            "⚠️ Supabase produits indisponible.",
-            "Produits locaux utilisés.",
-            error
-        );
-
-    }
+    return categories[category] || "Produit";
 
 }
 
 
-/* =========================================================
-   AFFICHER PRODUITS
-   ========================================================= */
+/* ================= AFFICHER PRODUITS ================= */
 
 function renderProducts() {
 
     if (!productsGrid) return;
 
-    const filteredProducts =
-        products.filter(product => {
+    const filteredProducts = products.filter(product => {
 
-            const categoryMatch =
-                currentCategory === "all" ||
-                product.category === currentCategory;
+        const categoryMatch =
+            currentCategory === "all" ||
+            product.category === currentCategory;
 
-            const text =
-                `${product.name} ${product.description}`
-                    .toLowerCase();
+        const text =
+            `${product.name} ${product.description}`
+                .toLowerCase();
 
-            const searchMatch =
-                text.includes(
-                    searchTerm.toLowerCase()
-                );
+        const searchMatch =
+            text.includes(searchTerm.toLowerCase());
 
-            return categoryMatch && searchMatch;
+        return categoryMatch && searchMatch;
 
-        });
-
+    });
 
     productsGrid.innerHTML = "";
-
 
     if (filteredProducts.length === 0) {
 
@@ -410,11 +322,9 @@ function renderProducts() {
 
     }
 
-
     if (noProducts) {
         noProducts.classList.add("hidden");
     }
-
 
     filteredProducts.forEach(product => {
 
@@ -422,7 +332,6 @@ function renderProducts() {
             document.createElement("article");
 
         card.className = "product-card";
-
 
         card.innerHTML = `
 
@@ -441,7 +350,6 @@ function renderProducts() {
 
             </div>
 
-
             <div class="product-info">
 
                 <span class="product-category">
@@ -455,7 +363,6 @@ function renderProducts() {
                 <p class="product-description">
                     ${product.description}
                 </p>
-
 
                 <div class="product-bottom">
 
@@ -474,63 +381,30 @@ function renderProducts() {
                 </div>
 
             </div>
-
         `;
-
 
         productsGrid.appendChild(card);
 
     });
 
-
     document
         .querySelectorAll(".add-cart")
         .forEach(button => {
 
-            button.addEventListener(
-                "click",
-                () => {
+            button.addEventListener("click", () => {
 
-                    addToCart(
-                        Number(button.dataset.id)
-                    );
+                addToCart(
+                    Number(button.dataset.id)
+                );
 
-                }
-            );
+            });
 
         });
 
 }
 
 
-/* =========================================================
-   CATÉGORIES
-   ========================================================= */
-
-function getCategoryName(category) {
-
-    const categories = {
-
-        iphone: "iPhone",
-
-        samsung: "Samsung",
-
-        redmi: "Redmi",
-
-        tecno: "Tecno",
-
-        accessoires: "Accessoires"
-
-    };
-
-    return categories[category] || "Produit";
-
-}
-
-
-/* =========================================================
-   PANIER
-   ========================================================= */
+/* ================= PANIER ================= */
 
 function addToCart(productId) {
 
@@ -541,12 +415,10 @@ function addToCart(productId) {
 
     if (!product) return;
 
-
     const existingItem =
         cart.find(
             item => item.id === productId
         );
-
 
     if (existingItem) {
 
@@ -555,18 +427,13 @@ function addToCart(productId) {
     } else {
 
         cart.push({
-
-            id: product.id,
-
+            id: productId,
             quantity: 1
-
         });
 
     }
 
-
     saveCart();
-
     updateCartUI();
 
     showToast(
@@ -604,9 +471,7 @@ function changeQuantity(productId, amount) {
 
     if (!item) return;
 
-
     item.quantity += amount;
-
 
     if (item.quantity <= 0) {
 
@@ -617,9 +482,7 @@ function changeQuantity(productId, amount) {
 
     }
 
-
     saveCart();
-
     updateCartUI();
 
 }
@@ -633,12 +496,9 @@ function removeFromCart(productId) {
         );
 
     saveCart();
-
     updateCartUI();
 
-    showToast(
-        "Produit supprimé du panier"
-    );
+    showToast("Produit supprimé du panier");
 
 }
 
@@ -647,20 +507,15 @@ function clearCart() {
 
     if (cart.length === 0) return;
 
-
-    const confirmed =
-        confirm(
+    if (
+        !confirm(
             "Voulez-vous vraiment vider le panier ?"
-        );
-
-
-    if (!confirmed) return;
-
+        )
+    ) return;
 
     cart = [];
 
     saveCart();
-
     updateCartUI();
 
     showToast("Panier vidé");
@@ -668,9 +523,7 @@ function clearCart() {
 }
 
 
-/* =========================================================
-   AFFICHAGE PANIER
-   ========================================================= */
+/* ================= RENDRE PANIER ================= */
 
 function renderCart() {
 
@@ -678,33 +531,25 @@ function renderCart() {
 
     cartItems.innerHTML = "";
 
-
     if (cart.length === 0) {
 
-        if (emptyCart) {
+        if (emptyCart)
             emptyCart.classList.remove("hidden");
-        }
 
-        if (cartFooter) {
+        if (cartFooter)
             cartFooter.classList.add("hidden");
-        }
 
         return;
 
     }
 
-
-    if (emptyCart) {
+    if (emptyCart)
         emptyCart.classList.add("hidden");
-    }
 
-    if (cartFooter) {
+    if (cartFooter)
         cartFooter.classList.remove("hidden");
-    }
-
 
     let total = 0;
-
 
     cart.forEach(item => {
 
@@ -713,19 +558,16 @@ function renderCart() {
 
         if (!product) return;
 
-
         const subtotal =
-            product.price * item.quantity;
-
+            Number(product.price) *
+            Number(item.quantity);
 
         total += subtotal;
-
 
         const cartItem =
             document.createElement("div");
 
         cartItem.className = "cart-item";
-
 
         cartItem.innerHTML = `
 
@@ -739,7 +581,6 @@ function renderCart() {
 
             </div>
 
-
             <div>
 
                 <div class="cart-item-name">
@@ -749,7 +590,6 @@ function renderCart() {
                 <div class="cart-item-price">
                     ${formatPrice(product.price)}
                 </div>
-
 
                 <div class="quantity-control">
 
@@ -775,29 +615,24 @@ function renderCart() {
 
             </div>
 
-
             <button
                 class="remove-item"
                 data-action="remove"
                 data-id="${product.id}"
-                aria-label="Supprimer ${product.name}"
             >
                 🗑️
             </button>
 
         `;
 
-
         cartItems.appendChild(cartItem);
 
     });
-
 
     if (cartTotal) {
         cartTotal.textContent =
             formatPrice(total);
     }
-
 
     document
         .querySelectorAll("[data-action]")
@@ -813,26 +648,14 @@ function renderCart() {
                     const action =
                         button.dataset.action;
 
-
-                    if (action === "increase") {
-
+                    if (action === "increase")
                         changeQuantity(id, 1);
 
-                    }
-
-
-                    if (action === "decrease") {
-
+                    if (action === "decrease")
                         changeQuantity(id, -1);
 
-                    }
-
-
-                    if (action === "remove") {
-
+                    if (action === "remove")
                         removeFromCart(id);
-
-                    }
 
                 }
             );
@@ -847,60 +670,52 @@ function updateCartUI() {
     const count =
         cart.reduce(
             (total, item) =>
-                total + item.quantity,
+                total + Number(item.quantity),
             0
         );
-
 
     if (cartCount) {
         cartCount.textContent = count;
     }
-
 
     renderCart();
 
 }
 
 
-/* =========================================================
-   PANIER DRAWER
-   ========================================================= */
+/* ================= PANIER DRAWER ================= */
 
 function openCart() {
 
-    if (!cartDrawer || !cartOverlay) return;
+    if (cartDrawer)
+        cartDrawer.classList.add("open");
 
-    cartDrawer.classList.add("open");
-
-    cartOverlay.classList.add("active");
+    if (cartOverlay)
+        cartOverlay.classList.add("active");
 
 }
 
 
 function closeCart() {
 
-    if (!cartDrawer || !cartOverlay) return;
+    if (cartDrawer)
+        cartDrawer.classList.remove("open");
 
-    cartDrawer.classList.remove("open");
-
-    cartOverlay.classList.remove("active");
+    if (cartOverlay)
+        cartOverlay.classList.remove("active");
 
 }
 
 
-/* =========================================================
-   TOAST
-   ========================================================= */
+/* ================= TOAST ================= */
 
 function showToast(message) {
 
     if (!toast) return;
 
-
     toast.textContent = message;
 
     toast.classList.add("show");
-
 
     setTimeout(() => {
 
@@ -908,28 +723,110 @@ function showToast(message) {
 
     }, 2500);
 
+
+}
+/* =========================================================
+   BLOC 2/3 — SUPABASE + CHECKOUT + WHATSAPP
+   ========================================================= */
+
+/* ================= SUPABASE — PRODUITS ================= */
+
+async function loadProductsFromSupabase() {
+
+    try {
+
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/Product?select=*`,
+            {
+                method: "GET",
+                headers: SUPABASE_HEADERS
+            }
+        );
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Supabase produits : HTTP ${response.status}`
+            );
+
+        }
+
+        const data = await response.json();
+
+        if (!Array.isArray(data) || data.length === 0) {
+
+            console.warn(
+                "⚠️ La table Product est vide. Produits locaux conservés."
+            );
+
+            return;
+
+        }
+
+        products.length = 0;
+
+        data.forEach(product => {
+
+            products.push({
+
+                id: Number(product.id),
+
+                name: product.name || "Produit",
+
+                category:
+                    product.category || "accessoires",
+
+                price:
+                    Number(product.price) || 0,
+
+                description:
+                    product.description || "",
+
+                image:
+                    product.image || "",
+
+                badge:
+                    product.badge || ""
+
+            });
+
+        });
+
+        console.log(
+            "✅ Produits chargés depuis Supabase :",
+            products.length
+        );
+
+        renderProducts();
+
+    } catch (error) {
+
+        console.warn(
+            "⚠️ Supabase produits indisponible.",
+            "Les produits locaux sont utilisés.",
+            error
+        );
+
+        renderProducts();
+
+    }
+
 }
 
 
-/* =========================================================
-   WHATSAPP
-   ========================================================= */
+/* ================= WHATSAPP ================= */
 
 function createWhatsAppLink(message) {
 
-    if (
-        !WHATSAPP_NUMBER ||
-        WHATSAPP_NUMBER.includes("XXXXXXXX")
-    ) {
+    if (!WHATSAPP_NUMBER) {
 
         alert(
-            "Configure ton numéro WhatsApp dans script.js."
+            "Le numéro WhatsApp n'est pas configuré."
         );
 
         return null;
 
     }
-
 
     return (
         `https://wa.me/${WHATSAPP_NUMBER}` +
@@ -939,16 +836,553 @@ function createWhatsAppLink(message) {
 }
 
 
-/* =========================================================
-   MESSAGE WHATSAPP GÉNÉRAL
-   ========================================================= */
+/* ================= CALCUL PANIER ================= */
 
-function setupGeneralWhatsApp() {
+function getCartTotal() {
 
-    const message =
+    return cart.reduce(
+        (total, item) => {
+
+            const product =
+                getCartProduct(item);
+
+            if (!product) return total;
+
+            return total +
+                Number(product.price) *
+                Number(item.quantity);
+
+        },
+        0
+    );
+
+}
+
+
+/* ================= CRÉER LISTE COMMANDE ================= */
+
+function getOrderItems() {
+
+    return cart
+        .map(item => {
+
+            const product =
+                getCartProduct(item);
+
+            if (!product) return null;
+
+            return {
+
+                id: product.id,
+
+                name: product.name,
+
+                price: Number(product.price),
+
+                quantity: Number(item.quantity),
+
+                subtotal:
+                    Number(product.price) *
+                    Number(item.quantity)
+
+            };
+
+        })
+        .filter(Boolean);
+
+}
+
+
+/* ================= MODALE CHECKOUT ================= */
+
+function createCheckoutModal() {
+
+    if (
+        document.getElementById(
+            "checkoutModal"
+        )
+    ) {
+
+        return;
+
+    }
+
+    const modal =
+        document.createElement("div");
+
+    modal.id = "checkoutModal";
+
+    modal.innerHTML = `
+
+        <div
+            class="checkout-modal-overlay"
+            id="checkoutModalOverlay"
+        >
+
+            <div
+                class="checkout-modal"
+                role="dialog"
+                aria-modal="true"
+            >
+
+                <button
+                    type="button"
+                    id="closeCheckoutModal"
+                    class="checkout-modal-close"
+                >
+                    ×
+                </button>
+
+                <div class="checkout-modal-header">
+
+                    <span class="section-label">
+                        FINALISER LA COMMANDE
+                    </span>
+
+                    <h2>
+                        Vos informations
+                    </h2>
+
+                    <p>
+                        Remplissez vos informations
+                        pour envoyer votre commande.
+                    </p>
+
+                </div>
+
+                <form id="checkoutForm">
+
+                    <div class="checkout-field">
+
+                        <label for="customerName">
+                            Nom complet
+                        </label>
+
+                        <input
+                            type="text"
+                            id="customerName"
+                            name="customerName"
+                            placeholder="Votre nom"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="checkout-field">
+
+                        <label for="customerPhone">
+                            Téléphone
+                        </label>
+
+                        <input
+                            type="tel"
+                            id="customerPhone"
+                            name="customerPhone"
+                            placeholder="Ex : 70 12 34 56"
+                            required
+                        >
+
+                    </div>
+
+                    <div class="checkout-field">
+
+                        <label for="customerAddress">
+                            Adresse
+                        </label>
+
+                        <textarea
+                            id="customerAddress"
+                            name="customerAddress"
+                            rows="3"
+                            placeholder="Ville, quartier, secteur..."
+                            required
+                        ></textarea>
+
+                    </div>
+
+                    <div
+                        class="checkout-summary"
+                        id="checkoutSummary"
+                    ></div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-whatsapp checkout-submit"
+                    >
+                        💬 Confirmer et commander
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+
+    const closeButton =
+        document.getElementById(
+            "closeCheckoutModal"
+        );
+
+    const overlay =
+        document.getElementById(
+            "checkoutModalOverlay"
+        );
+
+    const form =
+        document.getElementById(
+            "checkoutForm"
+        );
+
+
+    closeButton.addEventListener(
+        "click",
+        closeCheckoutModal
+    );
+
+
+    overlay.addEventListener(
+        "click",
+        event => {
+
+            if (
+                event.target === overlay
+            ) {
+
+                closeCheckoutModal();
+
+            }
+
+        }
+    );
+
+
+    form.addEventListener(
+        "submit",
+        handleCheckoutSubmit
+    );
+
+}
+
+
+/* ================= OUVRIR CHECKOUT ================= */
+
+function openCheckoutModal() {
+
+    if (cart.length === 0) {
+
+        alert(
+            "Votre panier est vide."
+        );
+
+        return;
+
+    }
+
+    createCheckoutModal();
+
+    const modal =
+        document.getElementById(
+            "checkoutModal"
+        );
+
+    const summary =
+        document.getElementById(
+            "checkoutSummary"
+        );
+
+    if (summary) {
+
+        const total =
+            getCartTotal();
+
+        const items =
+            getOrderItems();
+
+        summary.innerHTML = `
+
+            <div class="checkout-summary-title">
+                Résumé de votre commande
+            </div>
+
+            ${items.map(item => `
+
+                <div class="checkout-summary-item">
+
+                    <span>
+                        ${item.name}
+                        × ${item.quantity}
+                    </span>
+
+                    <strong>
+                        ${formatPrice(item.subtotal)}
+                    </strong>
+
+                </div>
+
+            `).join("")}
+
+            <div class="checkout-summary-total">
+
+                <span>
+                    TOTAL
+                </span>
+
+                <strong>
+                    ${formatPrice(total)}
+                </strong>
+
+            </div>
+        `;
+
+    }
+
+    modal.classList.add("active");
+
+    setTimeout(() => {
+
+        const nameInput =
+            document.getElementById(
+                "customerName"
+            );
+
+        if (nameInput) {
+            nameInput.focus();
+        }
+
+    }, 100);
+
+}
+
+
+/* ================= FERMER CHECKOUT ================= */
+
+function closeCheckoutModal() {
+
+    const modal =
+        document.getElementById(
+            "checkoutModal"
+        );
+
+    if (modal) {
+
+        modal.classList.remove("active");
+
+    }
+
+}
+
+
+/* ================= SAUVEGARDER COMMANDE ================= */
+
+async function saveOrderToSupabase(order) {
+
+    try {
+
+        const response =
+            await fetch(
+                `${SUPABASE_URL}/rest/v1/orders`,
+                {
+                    method: "POST",
+
+                    headers: {
+                        ...SUPABASE_HEADERS,
+                        "Prefer":
+                            "return=representation"
+                    },
+
+                    body:
+                        JSON.stringify(order)
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+            throw new Error(
+                errorText ||
+                `HTTP ${response.status}`
+            );
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "✅ Commande enregistrée :",
+            data
+        );
+
+
+        return data;
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Erreur enregistrement commande :",
+            error
+        );
+
+
+        return null;
+
+    }
+
+}
+
+
+/* ================= TRAITER CHECKOUT ================= */
+
+async function handleCheckoutSubmit(event) {
+
+    event.preventDefault();
+
+
+    const name =
+        document
+            .getElementById("customerName")
+            .value
+            .trim();
+
+
+    const phone =
+        document
+            .getElementById("customerPhone")
+            .value
+            .trim();
+
+
+    const address =
+        document
+            .getElementById("customerAddress")
+            .value
+            .trim();
+
+
+    if (!name || !phone || !address) {
+
+        alert(
+            "Veuillez remplir tous les champs."
+        );
+
+        return;
+
+    }
+
+
+    if (cart.length === 0) {
+
+        alert(
+            "Votre panier est vide."
+        );
+
+        closeCheckoutModal();
+
+        return;
+
+    }
+
+
+    const items =
+        getOrderItems();
+
+
+    const total =
+        getCartTotal();
+
+
+    /*
+       On prépare les données
+       pour la table orders.
+    */
+
+    const order = {
+
+        customer_name: name,
+
+        customer_phone: phone,
+
+        address: address,
+
+        items: items,
+
+        total: total,
+
+        statut: "Nouvelle"
+
+    };
+
+
+    const submitButton =
+        document.querySelector(
+            ".checkout-submit"
+        );
+
+
+    if (submitButton) {
+
+        submitButton.disabled = true;
+
+        submitButton.textContent =
+            "⏳ Enregistrement...";
+
+    }
+
+
+    const savedOrder =
+        await saveOrderToSupabase(order);
+
+
+    /*
+       Même si Supabase rencontre
+       un problème, la commande
+       WhatsApp pourra continuer.
+    */
+
+
+    let message =
         "Bonjour WENDK SHOP 👋\n\n" +
-        "Je voudrais avoir des informations " +
-        "sur vos téléphones et accessoires.";
+
+        "🛍️ *NOUVELLE COMMANDE*\n\n" +
+
+        `👤 Nom : ${name}\n` +
+
+        `📞 Téléphone : ${phone}\n` +
+
+        `📍 Adresse : ${address}\n\n` +
+
+        "📦 *Produits :*\n\n";
+
+
+    items.forEach(item => {
+
+        message +=
+            `• ${item.name}\n` +
+
+            `  Quantité : ${item.quantity}\n` +
+
+            `  Prix : ${formatPrice(item.subtotal)}\n\n`;
+
+    });
+
+
+    message +=
+        "━━━━━━━━━━━━━━\n" +
+
+        `💰 *TOTAL : ${formatPrice(total)}*\n\n` +
+
+        "Merci pour votre commande. 🙏";
+
 
     const link =
         createWhatsAppLink(message);
@@ -956,19 +1390,402 @@ function setupGeneralWhatsApp() {
 
     if (link) {
 
-        if (promoWhatsapp) {
-            promoWhatsapp.href = link;
-        }
+        closeCheckoutModal();
 
-        if (contactWhatsapp) {
-            contactWhatsapp.href = link;
-        }
+        window.open(
+            link,
+            "_blank"
+        );
+
+    }
+
+
+    /*
+       On vide le panier uniquement
+       après la création de la commande.
+    */
+
+    cart = [];
+
+    saveCart();
+
+    updateCartUI();
+
+
+    if (savedOrder) {
+
+        showToast(
+            "Commande enregistrée ✅"
+        );
+
+    } else {
+
+        showToast(
+            "Commande envoyée sur WhatsApp ✅"
+        );
+
+    }
+
+
+    if (submitButton) {
+
+        submitButton.disabled = false;
+
+        submitButton.textContent =
+            "💬 Confirmer et commander";
+
+    }
+
+    }
+/* =========================================================
+   BLOC 3/3 — ÉVÉNEMENTS + INITIALISATION
+   ========================================================= */
+
+/* ================= LIENS WHATSAPP ================= */
+
+function setupWhatsAppLinks() {
+
+    const generalMessage =
+        "Bonjour WENDK SHOP 👋\n\n" +
+        "Je souhaite avoir des informations " +
+        "sur vos produits et disponibilités.";
+
+    const link =
+        createWhatsAppLink(generalMessage);
+
+    if (promoWhatsapp && link) {
+
+        promoWhatsapp.href = link;
+
+    }
+
+    if (contactWhatsapp && link) {
+
+        contactWhatsapp.href = link;
 
     }
 
 }
 
 
+/* ================= CATÉGORIES ================= */
+
+function setupCategories() {
+
+    const categoryButtons =
+        document.querySelectorAll(
+            ".category-btn"
+        );
+
+    categoryButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                categoryButtons.forEach(
+                    btn => {
+                        btn.classList.remove(
+                            "active"
+                        );
+                    }
+                );
+
+                button.classList.add("active");
+
+                currentCategory =
+                    button.dataset.category ||
+                    "all";
+
+                renderProducts();
+
+            }
+        );
+
+    });
+
+}
+
+
+/* ================= RECHERCHE ================= */
+
+function setupSearch() {
+
+    if (!searchInput) return;
+
+    searchInput.addEventListener(
+        "input",
+        event => {
+
+            searchTerm =
+                event.target.value.trim();
+
+            renderProducts();
+
+        }
+    );
+
+}
+
+
+/* ================= BOUTON RESET ================= */
+
+function setupResetFilters() {
+
+    if (!resetFilters) return;
+
+    resetFilters.addEventListener(
+        "click",
+        () => {
+
+            currentCategory = "all";
+
+            searchTerm = "";
+
+            if (searchInput) {
+
+                searchInput.value = "";
+
+            }
+
+
+            document
+                .querySelectorAll(
+                    ".category-btn"
+                )
+                .forEach(button => {
+
+                    button.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+            const allButton =
+                document.querySelector(
+                    '.category-btn[data-category="all"]'
+                );
+
+            if (allButton) {
+
+                allButton.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            renderProducts();
+
+        }
+    );
+
+}
+
+
+/* ================= PANIER ================= */
+
+function setupCart() {
+
+    if (openCartBtn) {
+
+        openCartBtn.addEventListener(
+            "click",
+            openCart
+        );
+
+    }
+
+
+    if (closeCartBtn) {
+
+        closeCartBtn.addEventListener(
+            "click",
+            closeCart
+        );
+
+    }
+
+
+    if (cartOverlay) {
+
+        cartOverlay.addEventListener(
+            "click",
+            closeCart
+        );
+
+    }
+
+
+    if (continueShopping) {
+
+        continueShopping.addEventListener(
+            "click",
+            closeCart
+        );
+
+    }
+
+
+    if (clearCartBtn) {
+
+        clearCartBtn.addEventListener(
+            "click",
+            clearCart
+        );
+
+    }
+
+
+    if (checkoutBtn) {
+
+        checkoutBtn.addEventListener(
+            "click",
+            openCheckoutModal
+        );
+
+    }
+
+}
+
+
+/* ================= ANNÉE ================= */
+
+function setupYear() {
+
+    if (currentYear) {
+
+        currentYear.textContent =
+            new Date().getFullYear();
+
+    }
+
+}
+
+
+/* ================= TOUCHE ESC ================= */
+
+function setupKeyboard() {
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (event.key === "Escape") {
+
+                closeCart();
+
+                closeCheckoutModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* ================= NETTOYAGE PANIER ================= */
+
+function cleanCart() {
+
+    cart = cart.filter(item => {
+
+        const product =
+            products.find(
+                product =>
+                    product.id === item.id
+            );
+
+        return (
+            product &&
+            Number(item.quantity) > 0
+        );
+
+    });
+
+    saveCart();
+
+}
+
+
 /* =========================================================
-   COMMANDE WHATSAPP
-   =================
+   INITIALISATION
+   ========================================================= */
+
+async function initWendkShop() {
+
+    console.log(
+        "🚀 WENDK SHOP — démarrage..."
+    );
+
+
+    /*
+       On affiche immédiatement
+       les produits locaux.
+    */
+
+    renderProducts();
+
+    updateCartUI();
+
+    setupCategories();
+
+    setupSearch();
+
+    setupResetFilters();
+
+    setupCart();
+
+    setupWhatsAppLinks();
+
+    setupYear();
+
+    setupKeyboard();
+
+    cleanCart();
+
+
+    /*
+       Ensuite on tente de charger
+       les produits depuis Supabase.
+    */
+
+    await loadProductsFromSupabase();
+
+
+    /*
+       Réaffichage après Supabase.
+    */
+
+    renderProducts();
+
+    updateCartUI();
+
+
+    console.log(
+        "✅ WENDK SHOP prêt."
+    );
+
+}
+
+
+/* =========================================================
+   LANCEMENT
+   ========================================================= */
+
+if (
+    document.readyState === "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initWendkShop
+    );
+
+} else {
+
+    initWendkShop();
+
+       }
