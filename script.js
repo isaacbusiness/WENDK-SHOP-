@@ -1,7 +1,8 @@
 /* =========================================================
    WENDK SHOP
    SCRIPT.JS
-   VERSION SUPABASE + WHATSAPP
+   VERSION COMPLÈTE
+   SUPABASE + PANIER + WHATSAPP
    ========================================================= */
 
 
@@ -25,7 +26,7 @@ const SUPABASE_HEADERS = {
 
 
 /* =========================================================
-   PRODUITS
+   PRODUITS DE SECOURS
    ========================================================= */
 
 const products = [
@@ -126,7 +127,7 @@ const products = [
         category: "redmi",
         price: 145000,
         badge: "Top vente",
-        description: "Note 13 Pro • 256 Go",
+        description: "Redmi Note 13 Pro • 256 Go",
         image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=85"
     },
 
@@ -276,72 +277,64 @@ const currentYear =
 function formatPrice(price) {
 
     return new Intl.NumberFormat("fr-FR")
-        .format(price) + " FCFA";
+        .format(Number(price) || 0) + " FCFA";
 
 }
 
 
 /* =========================================================
-   PRODUITS SUPABASE
+   CHARGER PRODUITS SUPABASE
    ========================================================= */
 
 async function loadProductsFromSupabase() {
 
     try {
 
-        let response = await fetch(
-            `${SUPABASE_URL}/rest/v1/Product?select=*`,
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/products?select=*`,
             {
                 method: "GET",
                 headers: SUPABASE_HEADERS
             }
         );
 
-        /*
-         Si la table PostgreSQL est en minuscule,
-         on essaie également "product".
-        */
-
-        if (!response.ok) {
-
-            response = await fetch(
-                `${SUPABASE_URL}/rest/v1/product?select=*`,
-                {
-                    method: "GET",
-                    headers: SUPABASE_HEADERS
-                }
-            );
-
-        }
-
         if (!response.ok) {
 
             throw new Error(
-                `Erreur produits Supabase : ${response.status}`
+                `Supabase ${response.status}`
             );
 
         }
 
-        const data =
-            await response.json();
+        const data = await response.json();
 
-        if (
-            Array.isArray(data) &&
-            data.length > 0
-        ) {
+        if (Array.isArray(data) && data.length > 0) {
 
             products.length = 0;
 
             data.forEach(product => {
 
                 products.push({
+
                     id: Number(product.id),
-                    name: product.name,
-                    category: product.category,
-                    price: Number(product.price),
-                    description: product.description || "",
-                    image: product.image || "",
-                    badge: product.badge || ""
+
+                    name: product.name || "Produit",
+
+                    category:
+                        product.category || "accessoires",
+
+                    price:
+                        Number(product.price) || 0,
+
+                    description:
+                        product.description || "",
+
+                    image:
+                        product.image || "",
+
+                    badge:
+                        product.badge || ""
+
                 });
 
             });
@@ -351,13 +344,22 @@ async function loadProductsFromSupabase() {
                 products.length
             );
 
+            renderProducts();
+            updateCartUI();
+
+        } else {
+
+            console.log(
+                "ℹ️ Aucun produit Supabase. Produits locaux utilisés."
+            );
+
         }
 
     } catch (error) {
 
         console.warn(
-            "⚠️ Produits Supabase non chargés.",
-            "Les produits locaux sont utilisés.",
+            "⚠️ Supabase produits indisponible.",
+            "Produits locaux utilisés.",
             error
         );
 
@@ -371,6 +373,8 @@ async function loadProductsFromSupabase() {
    ========================================================= */
 
 function renderProducts() {
+
+    if (!productsGrid) return;
 
     const filteredProducts =
         products.filter(product => {
@@ -398,14 +402,18 @@ function renderProducts() {
 
     if (filteredProducts.length === 0) {
 
-        noProducts.classList.remove("hidden");
+        if (noProducts) {
+            noProducts.classList.remove("hidden");
+        }
 
         return;
 
     }
 
 
-    noProducts.classList.add("hidden");
+    if (noProducts) {
+        noProducts.classList.add("hidden");
+    }
 
 
     filteredProducts.forEach(product => {
@@ -433,6 +441,7 @@ function renderProducts() {
 
             </div>
 
+
             <div class="product-info">
 
                 <span class="product-category">
@@ -446,6 +455,7 @@ function renderProducts() {
                 <p class="product-description">
                     ${product.description}
                 </p>
+
 
                 <div class="product-bottom">
 
@@ -502,9 +512,13 @@ function getCategoryName(category) {
     const categories = {
 
         iphone: "iPhone",
+
         samsung: "Samsung",
+
         redmi: "Redmi",
+
         tecno: "Tecno",
+
         accessoires: "Accessoires"
 
     };
@@ -541,14 +555,18 @@ function addToCart(productId) {
     } else {
 
         cart.push({
+
             id: product.id,
+
             quantity: 1
+
         });
 
     }
 
 
     saveCart();
+
     updateCartUI();
 
     showToast(
@@ -601,6 +619,7 @@ function changeQuantity(productId, amount) {
 
 
     saveCart();
+
     updateCartUI();
 
 }
@@ -614,6 +633,7 @@ function removeFromCart(productId) {
         );
 
     saveCart();
+
     updateCartUI();
 
     showToast(
@@ -628,20 +648,19 @@ function clearCart() {
     if (cart.length === 0) return;
 
 
-    if (
-        !confirm(
+    const confirmed =
+        confirm(
             "Voulez-vous vraiment vider le panier ?"
-        )
-    ) {
+        );
 
-        return;
 
-    }
+    if (!confirmed) return;
 
 
     cart = [];
 
     saveCart();
+
     updateCartUI();
 
     showToast("Panier vidé");
@@ -655,21 +674,33 @@ function clearCart() {
 
 function renderCart() {
 
+    if (!cartItems) return;
+
     cartItems.innerHTML = "";
 
 
     if (cart.length === 0) {
 
-        emptyCart.classList.remove("hidden");
-        cartFooter.classList.add("hidden");
+        if (emptyCart) {
+            emptyCart.classList.remove("hidden");
+        }
+
+        if (cartFooter) {
+            cartFooter.classList.add("hidden");
+        }
 
         return;
 
     }
 
 
-    emptyCart.classList.add("hidden");
-    cartFooter.classList.remove("hidden");
+    if (emptyCart) {
+        emptyCart.classList.add("hidden");
+    }
+
+    if (cartFooter) {
+        cartFooter.classList.remove("hidden");
+    }
 
 
     let total = 0;
@@ -685,6 +716,7 @@ function renderCart() {
 
         const subtotal =
             product.price * item.quantity;
+
 
         total += subtotal;
 
@@ -707,6 +739,7 @@ function renderCart() {
 
             </div>
 
+
             <div>
 
                 <div class="cart-item-name">
@@ -716,6 +749,7 @@ function renderCart() {
                 <div class="cart-item-price">
                     ${formatPrice(product.price)}
                 </div>
+
 
                 <div class="quantity-control">
 
@@ -741,10 +775,12 @@ function renderCart() {
 
             </div>
 
+
             <button
                 class="remove-item"
                 data-action="remove"
                 data-id="${product.id}"
+                aria-label="Supprimer ${product.name}"
             >
                 🗑️
             </button>
@@ -757,8 +793,10 @@ function renderCart() {
     });
 
 
-    cartTotal.textContent =
-        formatPrice(total);
+    if (cartTotal) {
+        cartTotal.textContent =
+            formatPrice(total);
+    }
 
 
     document
@@ -814,7 +852,10 @@ function updateCartUI() {
         );
 
 
-    cartCount.textContent = count;
+    if (cartCount) {
+        cartCount.textContent = count;
+    }
+
 
     renderCart();
 
@@ -827,7 +868,10 @@ function updateCartUI() {
 
 function openCart() {
 
+    if (!cartDrawer || !cartOverlay) return;
+
     cartDrawer.classList.add("open");
+
     cartOverlay.classList.add("active");
 
 }
@@ -835,7 +879,10 @@ function openCart() {
 
 function closeCart() {
 
+    if (!cartDrawer || !cartOverlay) return;
+
     cartDrawer.classList.remove("open");
+
     cartOverlay.classList.remove("active");
 
 }
@@ -893,57 +940,35 @@ function createWhatsAppLink(message) {
 
 
 /* =========================================================
-   FORMULAIRE CLIENT
+   MESSAGE WHATSAPP GÉNÉRAL
    ========================================================= */
 
-function createCheckoutModal() {
+function setupGeneralWhatsApp() {
 
-    if (
-        document.getElementById(
-            "checkoutModal"
-        )
-    ) {
+    const message =
+        "Bonjour WENDK SHOP 👋\n\n" +
+        "Je voudrais avoir des informations " +
+        "sur vos téléphones et accessoires.";
 
-        return;
+    const link =
+        createWhatsAppLink(message);
+
+
+    if (link) {
+
+        if (promoWhatsapp) {
+            promoWhatsapp.href = link;
+        }
+
+        if (contactWhatsapp) {
+            contactWhatsapp.href = link;
+        }
 
     }
 
+}
 
-    const modal =
-        document.createElement("div");
 
-    modal.id = "checkoutModal";
-
-    modal.innerHTML = `
-
-        <div
-            class="checkout-modal-overlay"
-            id="checkoutModalOverlay"
-        >
-
-            <div
-                class="checkout-modal"
-                role="dialog"
-                aria-modal="true"
-            >
-
-                <button
-                    type="button"
-                    id="closeCheckoutModal"
-                    class="checkout-modal-close"
-                >
-                    ×
-                </button>
-
-                <div class="checkout-modal-header">
-
-                    <span class="section-label">
-                        FINALISER LA COMMANDE
-                    </span>
-
-                    <h2>
-                        Vos informations
-                    </h2>
-
-                    <p>
-        
+/* =========================================================
+   COMMANDE WHATSAPP
+   =================
