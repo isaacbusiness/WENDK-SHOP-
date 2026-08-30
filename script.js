@@ -733,7 +733,7 @@ function showToast(message) {
 
 async function loadProductsFromSupabase() {
 
-    try {
+    try {on 
 
         const response = await fetch(
             `${SUPABASE_URL}/rest/v1/Product?select=*`,
@@ -1179,67 +1179,64 @@ function closeCheckoutModal() {
 /* ================= SAUVEGARDER COMMANDE ================= */
 
 async function saveOrderToSupabase(order) {
-
     try {
 
-        const response =
-            await fetch(
-                `${SUPABASE_URL}/rest/v1/orders`,
-                {
-                    method: "POST",
+        console.log("📦 Envoi de la commande à Supabase :", order);
 
-                    headers: {
-                        ...SUPABASE_HEADERS,
-                        "Prefer":
-                            "return=representation"
-                    },
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/orders`,
+            {
+                method: "POST",
+                headers: {
+                    "apikey": SUPABASE_KEY,
+                    "Authorization": `Bearer ${SUPABASE_KEY}`,
+                    "Content-Type": "application/json",
+                    "Prefer": "return=representation"
+                },
+                body: JSON.stringify(order)
+            }
+        );
 
-                    body:
-                        JSON.stringify(order)
-                }
-            );
-
+        const result = await response.text();
 
         if (!response.ok) {
 
-            const errorText =
-                await response.text();
-
-            throw new Error(
-                errorText ||
-                `HTTP ${response.status}`
+            console.error(
+                "❌ Erreur Supabase :",
+                response.status,
+                result
             );
 
+            alert(
+                "Impossible d'enregistrer la commande dans Supabase.\n\n" +
+                "Erreur : " + result
+            );
+
+            return false;
         }
 
-
-        const data =
-            await response.json();
-
-
         console.log(
-            "✅ Commande enregistrée :",
-            data
+            "✅ Commande enregistrée dans Supabase :",
+            result
         );
 
-
-        return data;
-
+        return true;
 
     } catch (error) {
 
         console.error(
-            "❌ Erreur enregistrement commande :",
+            "❌ Erreur connexion Supabase :",
             error
         );
 
+        alert(
+            "Erreur de connexion à Supabase.\n" +
+            "La commande n'a pas été enregistrée."
+        );
 
-        return null;
-
+        return false;
     }
-
 }
-
 
 /* ================= TRAITER CHECKOUT ================= */
 
