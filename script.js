@@ -20,7 +20,84 @@
 */
 
 const WHATSAPP_NUMBER = "22607309472";
+/* =========================================================
+   SUPABASE
+   ========================================================= */
 
+const SUPABASE_URL = "https://peytqrampgxvqdzygxnc.supabase.co";
+const SUPABASE_KEY = "sb_publishable_atQoFNjWTz8MxT81vg2QGQ_iO4_giOb";
+
+const SUPABASE_HEADERS = {
+    "apikey": SUPABASE_KEY,
+    "Authorization": `Bearer ${SUPABASE_KEY}`,
+    "Content-Type": "application/json"
+};
+
+/* =========================================================
+   CHARGER LES PRODUITS DEPUIS SUPABASE
+   ========================================================= */
+
+async function loadProductsFromSupabase() {
+    try {
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/Product?select=*`,
+            {
+                method: "GET",
+                headers: SUPABASE_HEADERS
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error(`Erreur Supabase: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (Array.isArray(data) && data.length > 0) {
+            products.length = 0;
+            products.push(...data);
+            console.log("✅ Produits chargés depuis Supabase :", data.length);
+        }
+    } catch (error) {
+        console.error("❌ Erreur chargement produits Supabase :", error);
+        console.log("ℹ️ Les produits locaux seront utilisés.");
+    }
+}
+
+/* =========================================================
+   ENREGISTRER UNE COMMANDE DANS SUPABASE
+   ========================================================= */
+
+async function saveOrderToSupabase(order) {
+    try {
+        const response = await fetch(
+            `${SUPABASE_URL}/rest/v1/orders`,
+            {
+                method: "POST",
+                headers: {
+                    ...SUPABASE_HEADERS,
+                    "Prefer": "return=representation"
+                },
+                body: JSON.stringify(order)
+            }
+        );
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(errorText);
+        }
+
+        const savedOrder = await response.json();
+
+        console.log("✅ Commande enregistrée dans Supabase :", savedOrder);
+
+        return savedOrder;
+
+    } catch (error) {
+        console.error("❌ Impossible d'enregistrer la commande :", error);
+        return null;
+    }
+   }
 
 /* =========================================================
    PRODUITS
@@ -807,42 +884,76 @@ function checkoutWhatsApp() {
    WHATSAPP GÉNÉRAL
    ========================================================= */
 
-function setupWhatsAppLinks() {
+function setupWhatsAppLinks() { async function checkoutWhatsApp() {
 
-    const generalMessage =
+    if (cart.length === 0) {
+        alert("Votre panier est vide.");
+        return;
+    }
+
+    let message =
         "Bonjour WENDK SHOP 👋\n\n" +
-        "Je voudrais avoir des informations sur vos téléphones et accessoires.";
+        "Je souhaite commander les produits suivants :\n\n";
 
+    let total = 0;
+    const orderItems = [];
 
-    const link =
-        createWhatsAppLink(generalMessage);
+    cart.forEach(item => {
 
+        const product = getCartProduct(item);
 
-    if (!link) return;
+        if (!product) return;
 
+        const subtotal =
+            product.price * item.quantity;
 
-    const promoWhatsapp =
-        document.getElementById("promoWhatsapp");
+        total += subtotal;
 
+        orderItems.push({
+            id: product.id,
+            name: product.name,
+            quantity: item.quantity,
+            price: product.price,
+            subtotal: subtotal
+        });
 
-    const contactWhatsapp =
-        document.getElementById("contactWhatsapp");
+        message +=
+            `📱 ${product.name}\n` +
+            `Quantité : ${item.quantity}\n` +
+            `Prix : ${formatPrice(subtotal)}\n\n`;
+    });
 
+    message +=
+        "━━━━━━━━━━━━━━\n" +
+        `💰 TOTAL : ${formatPrice(total)}\n\n` +
+        "📍 Ville / quartier : \n" +
+        "📞 Nom du client : \n" +
+        "🚚 Mode de livraison : \n\n" +
+        "Merci de me confirmer la disponibilité. 🙏";
 
-    if (promoWhatsapp) {
+    /* =====================================================
+       ENREGISTRER LA COMMANDE DANS SUPABASE
+       ===================================================== */
 
-        promoWhatsapp.href = link;
+    const order = {
+        customer_name: "",
+        customer_phone: "",
+        address: "",
+        items: orderItems,
+        total: total
+    };
 
-    }
+    await saveOrderToSupabase(order);
 
+    /* =====================================================
+       OUVRIR WHATSAPP
+       ===================================================== */
 
-    if (contactWhatsapp) {
+    const whatsappURL =
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
-        contactWhatsapp.href = link;
-
-    }
-
-}
+    window.open(whatsappURL, "_blank");
+} }
 
 
 /* =========================================================
