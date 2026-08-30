@@ -1,6 +1,7 @@
 /* =========================================================
    WENDK SHOP
    SCRIPT.JS
+   VERSION SUPABASE + WHATSAPP
    ========================================================= */
 
 
@@ -8,24 +9,13 @@
    CONFIGURATION
    ========================================================= */
 
-/*
-   IMPORTANT :
-   Remplace 226XXXXXXXX par ton vrai numéro WhatsApp.
-
-   Exemple :
-   const WHATSAPP_NUMBER = "22670123456";
-
-   Ne mets PAS :
-   +226 70 12 34 56
-*/
-
 const WHATSAPP_NUMBER = "22607309472";
-/* =========================================================
-   SUPABASE
-   ========================================================= */
 
-const SUPABASE_URL = "https://peytqrampgxvqdzygxnc.supabase.co";
-const SUPABASE_KEY = "sb_publishable_atQoFNjWTz8MxT81vg2QGQ_iO4_giOb";
+const SUPABASE_URL =
+    "https://peytqrampgxvqdzygxnc.supabase.co";
+
+const SUPABASE_KEY =
+    "sb_publishable_atQoFNjWTz8MxT81vg2QGQ_iO4_giOb";
 
 const SUPABASE_HEADERS = {
     "apikey": SUPABASE_KEY,
@@ -33,71 +23,6 @@ const SUPABASE_HEADERS = {
     "Content-Type": "application/json"
 };
 
-/* =========================================================
-   CHARGER LES PRODUITS DEPUIS SUPABASE
-   ========================================================= */
-
-async function loadProductsFromSupabase() {
-    try {
-        const response = await fetch(
-            `${SUPABASE_URL}/rest/v1/Product?select=*`,
-            {
-                method: "GET",
-                headers: SUPABASE_HEADERS
-            }
-        );
-
-        if (!response.ok) {
-            throw new Error(`Erreur Supabase: ${response.status}`);
-        }
-
-        const data = await response.json();
-
-        if (Array.isArray(data) && data.length > 0) {
-            products.length = 0;
-            products.push(...data);
-            console.log("✅ Produits chargés depuis Supabase :", data.length);
-        }
-    } catch (error) {
-        console.error("❌ Erreur chargement produits Supabase :", error);
-        console.log("ℹ️ Les produits locaux seront utilisés.");
-    }
-}
-
-/* =========================================================
-   ENREGISTRER UNE COMMANDE DANS SUPABASE
-   ========================================================= */
-
-async function saveOrderToSupabase(order) {
-    try {
-        const response = await fetch(
-            `${SUPABASE_URL}/rest/v1/orders`,
-            {
-                method: "POST",
-                headers: {
-                    ...SUPABASE_HEADERS,
-                    "Prefer": "return=representation"
-                },
-                body: JSON.stringify(order)
-            }
-        );
-
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(errorText);
-        }
-
-        const savedOrder = await response.json();
-
-        console.log("✅ Commande enregistrée dans Supabase :", savedOrder);
-
-        return savedOrder;
-
-    } catch (error) {
-        console.error("❌ Impossible d'enregistrer la commande :", error);
-        return null;
-    }
-   }
 
 /* =========================================================
    PRODUITS
@@ -269,13 +194,13 @@ const products = [
 
 
 /* =========================================================
-   ÉTAT DE L'APPLICATION
+   ÉTAT
    ========================================================= */
 
-let cart = JSON.parse(localStorage.getItem("wendkShopCart")) || [];
+let cart =
+    JSON.parse(localStorage.getItem("wendkShopCart")) || [];
 
 let currentCategory = "all";
-
 let searchTerm = "";
 
 
@@ -283,27 +208,65 @@ let searchTerm = "";
    DOM
    ========================================================= */
 
-const productsGrid = document.getElementById("productsGrid");
+const productsGrid =
+    document.getElementById("productsGrid");
 
-const noProducts = document.getElementById("noProducts");
+const noProducts =
+    document.getElementById("noProducts");
 
-const searchInput = document.getElementById("searchInput");
+const searchInput =
+    document.getElementById("searchInput");
 
-const cartCount = document.getElementById("cartCount");
+const cartCount =
+    document.getElementById("cartCount");
 
-const cartDrawer = document.getElementById("cartDrawer");
+const cartDrawer =
+    document.getElementById("cartDrawer");
 
-const cartOverlay = document.getElementById("cartOverlay");
+const cartOverlay =
+    document.getElementById("cartOverlay");
 
-const cartItems = document.getElementById("cartItems");
+const cartItems =
+    document.getElementById("cartItems");
 
-const cartTotal = document.getElementById("cartTotal");
+const cartTotal =
+    document.getElementById("cartTotal");
 
-const emptyCart = document.getElementById("emptyCart");
+const emptyCart =
+    document.getElementById("emptyCart");
 
-const cartFooter = document.getElementById("cartFooter");
+const cartFooter =
+    document.getElementById("cartFooter");
 
-const toast = document.getElementById("toast");
+const toast =
+    document.getElementById("toast");
+
+const checkoutBtn =
+    document.getElementById("checkoutBtn");
+
+const openCartBtn =
+    document.getElementById("openCartBtn");
+
+const closeCartBtn =
+    document.getElementById("closeCartBtn");
+
+const clearCartBtn =
+    document.getElementById("clearCartBtn");
+
+const continueShopping =
+    document.getElementById("continueShopping");
+
+const resetFilters =
+    document.getElementById("resetFilters");
+
+const promoWhatsapp =
+    document.getElementById("promoWhatsapp");
+
+const contactWhatsapp =
+    document.getElementById("contactWhatsapp");
+
+const currentYear =
+    document.getElementById("currentYear");
 
 
 /* =========================================================
@@ -312,7 +275,93 @@ const toast = document.getElementById("toast");
 
 function formatPrice(price) {
 
-    return new Intl.NumberFormat("fr-FR").format(price) + " FCFA";
+    return new Intl.NumberFormat("fr-FR")
+        .format(price) + " FCFA";
+
+}
+
+
+/* =========================================================
+   PRODUITS SUPABASE
+   ========================================================= */
+
+async function loadProductsFromSupabase() {
+
+    try {
+
+        let response = await fetch(
+            `${SUPABASE_URL}/rest/v1/Product?select=*`,
+            {
+                method: "GET",
+                headers: SUPABASE_HEADERS
+            }
+        );
+
+        /*
+         Si la table PostgreSQL est en minuscule,
+         on essaie également "product".
+        */
+
+        if (!response.ok) {
+
+            response = await fetch(
+                `${SUPABASE_URL}/rest/v1/product?select=*`,
+                {
+                    method: "GET",
+                    headers: SUPABASE_HEADERS
+                }
+            );
+
+        }
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Erreur produits Supabase : ${response.status}`
+            );
+
+        }
+
+        const data =
+            await response.json();
+
+        if (
+            Array.isArray(data) &&
+            data.length > 0
+        ) {
+
+            products.length = 0;
+
+            data.forEach(product => {
+
+                products.push({
+                    id: Number(product.id),
+                    name: product.name,
+                    category: product.category,
+                    price: Number(product.price),
+                    description: product.description || "",
+                    image: product.image || "",
+                    badge: product.badge || ""
+                });
+
+            });
+
+            console.log(
+                "✅ Produits Supabase chargés :",
+                products.length
+            );
+
+        }
+
+    } catch (error) {
+
+        console.warn(
+            "⚠️ Produits Supabase non chargés.",
+            "Les produits locaux sont utilisés.",
+            error
+        );
+
+    }
 
 }
 
@@ -323,19 +372,25 @@ function formatPrice(price) {
 
 function renderProducts() {
 
-    const filteredProducts = products.filter(product => {
+    const filteredProducts =
+        products.filter(product => {
 
-        const categoryMatch =
-            currentCategory === "all" ||
-            product.category === currentCategory;
+            const categoryMatch =
+                currentCategory === "all" ||
+                product.category === currentCategory;
 
-        const searchMatch =
-            product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            product.description.toLowerCase().includes(searchTerm.toLowerCase());
+            const text =
+                `${product.name} ${product.description}`
+                    .toLowerCase();
 
-        return categoryMatch && searchMatch;
+            const searchMatch =
+                text.includes(
+                    searchTerm.toLowerCase()
+                );
 
-    });
+            return categoryMatch && searchMatch;
+
+        });
 
 
     productsGrid.innerHTML = "";
@@ -355,7 +410,8 @@ function renderProducts() {
 
     filteredProducts.forEach(product => {
 
-        const card = document.createElement("article");
+        const card =
+            document.createElement("article");
 
         card.className = "product-card";
 
@@ -377,7 +433,6 @@ function renderProducts() {
 
             </div>
 
-
             <div class="product-info">
 
                 <span class="product-category">
@@ -391,7 +446,6 @@ function renderProducts() {
                 <p class="product-description">
                     ${product.description}
                 </p>
-
 
                 <div class="product-bottom">
 
@@ -419,17 +473,22 @@ function renderProducts() {
     });
 
 
-    document.querySelectorAll(".add-cart").forEach(button => {
+    document
+        .querySelectorAll(".add-cart")
+        .forEach(button => {
 
-        button.addEventListener("click", () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-            const productId = Number(button.dataset.id);
+                    addToCart(
+                        Number(button.dataset.id)
+                    );
 
-            addToCart(productId);
+                }
+            );
 
         });
-
-    });
 
 }
 
@@ -443,13 +502,9 @@ function getCategoryName(category) {
     const categories = {
 
         iphone: "iPhone",
-
         samsung: "Samsung",
-
         redmi: "Redmi",
-
         tecno: "Tecno",
-
         accessoires: "Accessoires"
 
     };
@@ -460,17 +515,23 @@ function getCategoryName(category) {
 
 
 /* =========================================================
-   AJOUTER AU PANIER
+   PANIER
    ========================================================= */
 
 function addToCart(productId) {
 
-    const product = products.find(item => item.id === productId);
+    const product =
+        products.find(
+            item => item.id === productId
+        );
 
     if (!product) return;
 
 
-    const existingItem = cart.find(item => item.id === productId);
+    const existingItem =
+        cart.find(
+            item => item.id === productId
+        );
 
 
     if (existingItem) {
@@ -480,28 +541,22 @@ function addToCart(productId) {
     } else {
 
         cart.push({
-
             id: product.id,
-
             quantity: 1
-
         });
 
     }
 
 
     saveCart();
-
     updateCartUI();
 
-    showToast(`${product.name} ajouté au panier ✅`);
+    showToast(
+        `${product.name} ajouté au panier ✅`
+    );
 
 }
 
-
-/* =========================================================
-   SAUVEGARDER PANIER
-   ========================================================= */
 
 function saveCart() {
 
@@ -513,10 +568,6 @@ function saveCart() {
 }
 
 
-/* =========================================================
-   OBTENIR PRODUIT DU PANIER
-   ========================================================= */
-
 function getCartProduct(item) {
 
     return products.find(
@@ -526,8 +577,80 @@ function getCartProduct(item) {
 }
 
 
+function changeQuantity(productId, amount) {
+
+    const item =
+        cart.find(
+            item => item.id === productId
+        );
+
+    if (!item) return;
+
+
+    item.quantity += amount;
+
+
+    if (item.quantity <= 0) {
+
+        cart =
+            cart.filter(
+                item => item.id !== productId
+            );
+
+    }
+
+
+    saveCart();
+    updateCartUI();
+
+}
+
+
+function removeFromCart(productId) {
+
+    cart =
+        cart.filter(
+            item => item.id !== productId
+        );
+
+    saveCart();
+    updateCartUI();
+
+    showToast(
+        "Produit supprimé du panier"
+    );
+
+}
+
+
+function clearCart() {
+
+    if (cart.length === 0) return;
+
+
+    if (
+        !confirm(
+            "Voulez-vous vraiment vider le panier ?"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    cart = [];
+
+    saveCart();
+    updateCartUI();
+
+    showToast("Panier vidé");
+
+}
+
+
 /* =========================================================
-   RENDRE PANIER
+   AFFICHAGE PANIER
    ========================================================= */
 
 function renderCart() {
@@ -538,7 +661,6 @@ function renderCart() {
     if (cart.length === 0) {
 
         emptyCart.classList.remove("hidden");
-
         cartFooter.classList.add("hidden");
 
         return;
@@ -547,7 +669,6 @@ function renderCart() {
 
 
     emptyCart.classList.add("hidden");
-
     cartFooter.classList.remove("hidden");
 
 
@@ -556,7 +677,8 @@ function renderCart() {
 
     cart.forEach(item => {
 
-        const product = getCartProduct(item);
+        const product =
+            getCartProduct(item);
 
         if (!product) return;
 
@@ -564,13 +686,11 @@ function renderCart() {
         const subtotal =
             product.price * item.quantity;
 
-
         total += subtotal;
 
 
         const cartItem =
             document.createElement("div");
-
 
         cartItem.className = "cart-item";
 
@@ -587,7 +707,6 @@ function renderCart() {
 
             </div>
 
-
             <div>
 
                 <div class="cart-item-name">
@@ -597,7 +716,6 @@ function renderCart() {
                 <div class="cart-item-price">
                     ${formatPrice(product.price)}
                 </div>
-
 
                 <div class="quantity-control">
 
@@ -623,12 +741,10 @@ function renderCart() {
 
             </div>
 
-
             <button
                 class="remove-item"
                 data-action="remove"
                 data-id="${product.id}"
-                aria-label="Supprimer ${product.name}"
             >
                 🗑️
             </button>
@@ -641,132 +757,52 @@ function renderCart() {
     });
 
 
-    cartTotal.textContent = formatPrice(total);
+    cartTotal.textContent =
+        formatPrice(total);
 
 
     document
         .querySelectorAll("[data-action]")
         .forEach(button => {
 
-            button.addEventListener("click", () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                const id =
-                    Number(button.dataset.id);
+                    const id =
+                        Number(button.dataset.id);
 
-                const action =
-                    button.dataset.action;
+                    const action =
+                        button.dataset.action;
 
 
-                if (action === "increase") {
+                    if (action === "increase") {
 
-                    changeQuantity(id, 1);
+                        changeQuantity(id, 1);
+
+                    }
+
+
+                    if (action === "decrease") {
+
+                        changeQuantity(id, -1);
+
+                    }
+
+
+                    if (action === "remove") {
+
+                        removeFromCart(id);
+
+                    }
 
                 }
-
-
-                if (action === "decrease") {
-
-                    changeQuantity(id, -1);
-
-                }
-
-
-                if (action === "remove") {
-
-                    removeFromCart(id);
-
-                }
-
-            });
+            );
 
         });
 
 }
 
-
-/* =========================================================
-   CHANGER QUANTITÉ
-   ========================================================= */
-
-function changeQuantity(productId, amount) {
-
-    const item =
-        cart.find(item => item.id === productId);
-
-
-    if (!item) return;
-
-
-    item.quantity += amount;
-
-
-    if (item.quantity <= 0) {
-
-        cart = cart.filter(
-            item => item.id !== productId
-        );
-
-    }
-
-
-    saveCart();
-
-    updateCartUI();
-
-}
-
-
-/* =========================================================
-   SUPPRIMER
-   ========================================================= */
-
-function removeFromCart(productId) {
-
-    cart = cart.filter(
-        item => item.id !== productId
-    );
-
-
-    saveCart();
-
-    updateCartUI();
-
-    showToast("Produit supprimé du panier");
-
-}
-
-
-/* =========================================================
-   VIDER PANIER
-   ========================================================= */
-
-function clearCart() {
-
-    if (cart.length === 0) return;
-
-
-    const confirmed =
-        confirm("Voulez-vous vraiment vider le panier ?");
-
-
-    if (!confirmed) return;
-
-
-    cart = [];
-
-    saveCart();
-
-    updateCartUI();
-
-    showToast("Panier vidé");
-
-
-}
-
-
-/* =========================================================
-   UPDATE PANIER
-   ========================================================= */
 
 function updateCartUI() {
 
@@ -786,6 +822,49 @@ function updateCartUI() {
 
 
 /* =========================================================
+   PANIER DRAWER
+   ========================================================= */
+
+function openCart() {
+
+    cartDrawer.classList.add("open");
+    cartOverlay.classList.add("active");
+
+}
+
+
+function closeCart() {
+
+    cartDrawer.classList.remove("open");
+    cartOverlay.classList.remove("active");
+
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+function showToast(message) {
+
+    if (!toast) return;
+
+
+    toast.textContent = message;
+
+    toast.classList.add("show");
+
+
+    setTimeout(() => {
+
+        toast.classList.remove("show");
+
+    }, 2500);
+
+}
+
+
+/* =========================================================
    WHATSAPP
    ========================================================= */
 
@@ -797,7 +876,7 @@ function createWhatsAppLink(message) {
     ) {
 
         alert(
-            "Configure d'abord ton numéro WhatsApp dans script.js."
+            "Configure ton numéro WhatsApp dans script.js."
         );
 
         return null;
@@ -805,271 +884,66 @@ function createWhatsAppLink(message) {
     }
 
 
-    return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-}
-
-
-/* =========================================================
-   COMMANDER PANIER
-   ========================================================= */
-
-function checkoutWhatsApp() {
-
-    if (cart.length === 0) {
-
-        alert("Votre panier est vide.");
-
-        return;
-
-    }
-
-
-    let message =
-        "Bonjour WENDK SHOP 👋\n\n" +
-        "Je souhaite commander les produits suivants :\n\n";
-
-
-    let total = 0;
-
-
-    cart.forEach(item => {
-
-        const product = getCartProduct(item);
-
-        if (!product) return;
-
-
-        const subtotal =
-            product.price * item.quantity;
-
-
-        total += subtotal;
-
-
-        message +=
-            `📱 ${product.name}\n` +
-            `Quantité : ${item.quantity}\n` +
-            `Prix : ${formatPrice(subtotal)}\n\n`;
-
-    });
-
-
-    message +=
-        "━━━━━━━━━━━━━━\n" +
-        `💰 TOTAL : ${formatPrice(total)}\n\n` +
-        "📍 Ville / quartier : \n" +
-        "📞 Nom du client : \n" +
-        "🚚 Mode de livraison : \n\n" +
-        "Merci de me confirmer la disponibilité. 🙏";
-
-
-    const link =
-        createWhatsAppLink(message);
-
-
-    if (link) {
-
-        window.open(
-            link,
-            "_blank"
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   WHATSAPP GÉNÉRAL
-   ========================================================= */
-
-function setupWhatsAppLinks() { async function checkoutWhatsApp() {
-
-    if (cart.length === 0) {
-        alert("Votre panier est vide.");
-        return;
-    }
-
-    let message =
-        "Bonjour WENDK SHOP 👋\n\n" +
-        "Je souhaite commander les produits suivants :\n\n";
-
-    let total = 0;
-    const orderItems = [];
-
-    cart.forEach(item => {
-
-        const product = getCartProduct(item);
-
-        if (!product) return;
-
-        const subtotal =
-            product.price * item.quantity;
-
-        total += subtotal;
-
-        orderItems.push({
-            id: product.id,
-            name: product.name,
-            quantity: item.quantity,
-            price: product.price,
-            subtotal: subtotal
-        });
-
-        message +=
-            `📱 ${product.name}\n` +
-            `Quantité : ${item.quantity}\n` +
-            `Prix : ${formatPrice(subtotal)}\n\n`;
-    });
-
-    message +=
-        "━━━━━━━━━━━━━━\n" +
-        `💰 TOTAL : ${formatPrice(total)}\n\n` +
-        "📍 Ville / quartier : \n" +
-        "📞 Nom du client : \n" +
-        "🚚 Mode de livraison : \n\n" +
-        "Merci de me confirmer la disponibilité. 🙏";
-
-    /* =====================================================
-       ENREGISTRER LA COMMANDE DANS SUPABASE
-       ===================================================== */
-
-    const order = {
-        customer_name: "",
-        customer_phone: "",
-        address: "",
-        items: orderItems,
-        total: total
-    };
-
-    await saveOrderToSupabase(order);
-
-    /* =====================================================
-       OUVRIR WHATSAPP
-       ===================================================== */
-
-    const whatsappURL =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-    window.open(whatsappURL, "_blank");
-} }
-
-
-/* =========================================================
-   OUVRIR PANIER
-   ========================================================= */
-
-function openCart() {
-
-    cartDrawer.classList.add("active");
-
-    cartOverlay.classList.add("active");
-
-    document.body.style.overflow = "hidden";
-
-}
-
-
-/* =========================================================
-   FERMER PANIER
-   ========================================================= */
-
-function closeCart() {
-
-    cartDrawer.classList.remove("active");
-
-    cartOverlay.classList.remove("active");
-
-    document.body.style.overflow = "";
-
-}
-
-
-/* =========================================================
-   TOAST
-   ========================================================= */
-
-let toastTimeout;
-
-
-function showToast(message) {
-
-    toast.textContent = message;
-
-    toast.classList.add("show");
-
-
-    clearTimeout(toastTimeout);
-
-
-    toastTimeout = setTimeout(() => {
-
-        toast.classList.remove("show");
-
-    }, 2500);
-
-}
-
-
-/* =========================================================
-   FILTRAGE
-   ========================================================= */
-
-function setupFilters() {
-
-    document
-        .querySelectorAll(".category-btn")
-        .forEach(button => {
-
-            button.addEventListener("click", () => {
-
-                document
-                    .querySelectorAll(".category-btn")
-                    .forEach(btn =>
-                        btn.classList.remove("active")
-                    );
-
-
-                button.classList.add("active");
-
-
-                currentCategory =
-                    button.dataset.category;
-
-
-                renderProducts();
-
-            });
-
-        });
-
-
-    searchInput.addEventListener(
-        "input",
-        event => {
-
-            searchTerm =
-                event.target.value.trim();
-
-
-            renderProducts();
-
-        }
+    return (
+        `https://wa.me/${WHATSAPP_NUMBER}` +
+        `?text=${encodeURIComponent(message)}`
     );
 
-
-    document
-        .getElementById("resetFilters")
-        .addEventListener("click", () => {
-
-            currentCategory = "all";
-
-            searchTerm = "";
-
-            searchInput.value = "";
+}
 
 
-            document
-                .querySelectorAll(".category-btn")
-                .forEach(b
+/* =========================================================
+   FORMULAIRE CLIENT
+   ========================================================= */
+
+function createCheckoutModal() {
+
+    if (
+        document.getElementById(
+            "checkoutModal"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const modal =
+        document.createElement("div");
+
+    modal.id = "checkoutModal";
+
+    modal.innerHTML = `
+
+        <div
+            class="checkout-modal-overlay"
+            id="checkoutModalOverlay"
+        >
+
+            <div
+                class="checkout-modal"
+                role="dialog"
+                aria-modal="true"
+            >
+
+                <button
+                    type="button"
+                    id="closeCheckoutModal"
+                    class="checkout-modal-close"
+                >
+                    ×
+                </button>
+
+                <div class="checkout-modal-header">
+
+                    <span class="section-label">
+                        FINALISER LA COMMANDE
+                    </span>
+
+                    <h2>
+                        Vos informations
+                    </h2>
+
+                    <p>
+        
