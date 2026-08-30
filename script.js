@@ -1,162 +1,831 @@
-// WENDK SHOP - MVP e-commerce
-// Remplacez WHATSAPP_NUMBER par votre numéro au format international sans le +.
-// Exemple Burkina Faso : 22670000000
-const WHATSAPP_NUMBER = "22670000000";
+/* ==========================================
+   WENDK-SHOP
+   SCRIPT PRINCIPAL
+========================================== */
 
-const categories = [
-  {name:"iPhone", icon:"🍎"},
-  {name:"Samsung", icon:"📱"},
-  {name:"Tecno", icon:"🔥"},
-  {name:"Google Pixel", icon:"🔵"},
-  {name:"Xiaomi", icon:"🟠"},
-  {name:"Huawei", icon:"🔷"},
-  {name:"Accessoires", icon:"🎧"},
-  {name:"Montres", icon:"⌚"},
-  {name:"Tablettes", icon:"💻"},
-  {name:"TV", icon:"📺"}
-];
 
-// Prix et stocks ci-dessous sont des DONNÉES DE DÉMONSTRATION.
+/* ==========================================
+   CONFIGURATION
+========================================== */
+
+// IMPORTANT : remplace ce numéro par ton numéro WhatsApp.
+// Format international sans + ni espaces.
+const WHATSAPP_NUMBER = "22607309472";
+
+
+/* ==========================================
+   PRODUITS
+========================================== */
+
 const products = [
-  {id:1,name:"iPhone 13",brand:"Apple",category:"iPhone",price:250000,oldPrice:0,stock:4,icon:"📱",featured:true,newest:true,desc:"Smartphone Apple de démonstration. Remplacez les informations par votre stock réel.",specs:{Stockage:"128 Go",RAM:"4 Go",État:"Neuf"}},
-  {id:2,name:"iPhone 15",brand:"Apple",category:"iPhone",price:399000,oldPrice:425000,stock:3,icon:"📱",featured:true,newest:true,desc:"Produit de démonstration pour votre catalogue.",specs:{Stockage:"128 Go",RAM:"6 Go",État:"Neuf"}},
-  {id:3,name:"Samsung Galaxy A15",brand:"Samsung",category:"Samsung",price:95000,oldPrice:105000,stock:8,icon:"📱",featured:true,newest:false,desc:"Produit de démonstration. Vérifiez le prix et la disponibilité avant publication.",specs:{Stockage:"128 Go",RAM:"4 Go",État:"Neuf"}},
-  {id:4,name:"Samsung Galaxy S23",brand:"Samsung",category:"Samsung",price:275000,oldPrice:0,stock:3,icon:"📱",featured:true,newest:true,desc:"Produit de démonstration.",specs:{Stockage:"256 Go",RAM:"8 Go",État:"Neuf"}},
-  {id:5,name:"Google Pixel 7",brand:"Google",category:"Google Pixel",price:185000,oldPrice:0,stock:5,icon:"📱",featured:true,newest:false,desc:"Produit de démonstration.",specs:{Stockage:"128 Go",RAM:"8 Go",État:"Neuf"}},
-  {id:6,name:"Tecno Camon",brand:"Tecno",category:"Tecno",price:105000,oldPrice:115000,stock:7,icon:"📱",featured:true,newest:true,desc:"Produit de démonstration.",specs:{Stockage:"256 Go",RAM:"8 Go",État:"Neuf"}},
-  {id:7,name:"Redmi Note",brand:"Xiaomi",category:"Xiaomi",price:90000,oldPrice:0,stock:10,icon:"📱",featured:false,newest:false,desc:"Produit de démonstration.",specs:{Stockage:"128 Go",RAM:"6 Go",État:"Neuf"}},
-  {id:8,name:"AirPods",brand:"Apple",category:"Accessoires",price:45000,oldPrice:50000,stock:12,icon:"🎧",featured:true,newest:true,desc:"Accessoire de démonstration.",specs:{Type:"Écouteurs",État:"Neuf"}},
-  {id:9,name:"Power Bank 20 000 mAh",brand:"WENDK",category:"Accessoires",price:15000,oldPrice:0,stock:15,icon:"🔋",featured:false,newest:true,desc:"Accessoire de démonstration.",specs:{Capacité:"20 000 mAh",État:"Neuf"}},
-  {id:10,name:"Smart Watch",brand:"WENDK",category:"Montres",price:25000,oldPrice:30000,stock:6,icon:"⌚",featured:false,newest:true,desc:"Produit de démonstration.",specs:{Écran:"Tactile",État:"Neuf"}}
+
+  {
+    id: 1,
+    name: "iPhone 17",
+    category: "iPhone",
+    price: 650000,
+    description: "Smartphone Apple nouvelle génération.",
+    icon: "🍎",
+    badge: "NOUVEAU"
+  },
+
+  {
+    id: 2,
+    name: "iPhone 16",
+    category: "iPhone",
+    price: 550000,
+    description: "iPhone performant avec excellent appareil photo.",
+    icon: "🍎",
+    badge: "POPULAIRE"
+  },
+
+  {
+    id: 3,
+    name: "iPhone 15",
+    category: "iPhone",
+    price: 450000,
+    description: "Design premium et performances exceptionnelles.",
+    icon: "🍎",
+    badge: "PROMO"
+  },
+
+  {
+    id: 4,
+    name: "Samsung Galaxy S25",
+    category: "Samsung",
+    price: 500000,
+    description: "Galaxy S25 avec performances haut de gamme.",
+    icon: "📱",
+    badge: "NOUVEAU"
+  },
+
+  {
+    id: 5,
+    name: "Samsung Galaxy A56",
+    category: "Samsung",
+    price: 235000,
+    description: "Smartphone Samsung moderne et performant.",
+    icon: "📱",
+    badge: ""
+  },
+
+  {
+    id: 6,
+    name: "Samsung Galaxy A36",
+    category: "Samsung",
+    price: 180000,
+    description: "Excellent rapport qualité-prix.",
+    icon: "📱",
+    badge: "PROMO"
+  },
+
+  {
+    id: 7,
+    name: "Redmi Note 14",
+    category: "Redmi",
+    price: 135000,
+    description: "Grand écran et excellente autonomie.",
+    icon: "📱",
+    badge: "POPULAIRE"
+  },
+
+  {
+    id: 8,
+    name: "Redmi Note 14 Pro",
+    category: "Redmi",
+    price: 175000,
+    description: "Version Pro avec performances supérieures.",
+    icon: "📱",
+    badge: ""
+  },
+
+  {
+    id: 9,
+    name: "Tecno Camon 30",
+    category: "Tecno",
+    price: 145000,
+    description: "Excellent smartphone pour la photographie.",
+    icon: "📱",
+    badge: "PROMO"
+  },
+
+  {
+    id: 10,
+    name: "Tecno Spark 30",
+    category: "Tecno",
+    price: 95000,
+    description: "Smartphone abordable et performant.",
+    icon: "📱",
+    badge: ""
+  },
+
+  {
+    id: 11,
+    name: "Power Bank 20 000 mAh",
+    category: "Accessoires",
+    price: 15000,
+    description: "Grande capacité pour recharger vos appareils.",
+    icon: "🔋",
+    badge: "POPULAIRE"
+  },
+
+  {
+    id: 12,
+    name: "AirPods Pro",
+    category: "Accessoires",
+    price: 35000,
+    description: "Écouteurs sans fil avec boîtier de recharge.",
+    icon: "🎧",
+    badge: "PROMO"
+  },
+
+  {
+    id: 13,
+    name: "Apple Watch",
+    category: "Accessoires",
+    price: 75000,
+    description: "Montre connectée élégante et pratique.",
+    icon: "⌚",
+    badge: ""
+  },
+
+  {
+    id: 14,
+    name: "Chargeur rapide",
+    category: "Accessoires",
+    price: 10000,
+    description: "Chargeur rapide pour smartphones.",
+    icon: "🔌",
+    badge: ""
+  }
+
 ];
 
-let cart = JSON.parse(localStorage.getItem("wendk_cart") || "[]");
-let currentProducts = [...products];
 
-function formatPrice(value){ return new Intl.NumberFormat("fr-FR").format(value) + " FCFA"; }
-function saveCart(){ localStorage.setItem("wendk_cart", JSON.stringify(cart)); updateCartUI(); }
-function updateCartUI(){
-  const count = cart.reduce((sum,item)=>sum+item.qty,0);
-  document.getElementById("cartCount").textContent=count;
-  document.getElementById("cartCountMobile").textContent=count;
+/* ==========================================
+   VARIABLES
+========================================== */
+
+let cart = [];
+
+let currentCategory = "Tous";
+
+let searchTerm = "";
+
+
+/* ==========================================
+   ELEMENTS HTML
+========================================== */
+
+const productsGrid = document.getElementById("productsGrid");
+
+const noProducts = document.getElementById("noProducts");
+
+const searchInput = document.getElementById("searchInput");
+
+const cartElement = document.getElementById("cart");
+
+const cartOverlay = document.getElementById("cartOverlay");
+
+const cartItems = document.getElementById("cartItems");
+
+const cartCount = document.getElementById("cartCount");
+
+const cartTotal = document.getElementById("cartTotal");
+
+const toast = document.getElementById("toast");
+
+
+/* ==========================================
+   FORMATAGE PRIX
+========================================== */
+
+function formatPrice(price) {
+
+  return new Intl.NumberFormat("fr-FR").format(price) + " FCFA";
+
 }
-function showToast(message){
-  const t=document.getElementById("toast"); t.textContent=message; t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),2200);
-}
-function renderCategories(){
-  document.getElementById("categoryGrid").innerHTML=categories.map(c=>`
-    <div class="category" onclick="filterCategory('${c.name}')">
-      <div class="icon">${c.icon}</div><strong>${c.name}</strong>
-    </div>`).join("");
-}
-function renderProducts(list=currentProducts){
-  const grid=document.getElementById("productGrid");
-  document.getElementById("emptyState").classList.toggle("hidden",list.length>0);
-  grid.innerHTML=list.map(p=>`
-    <article class="product-card">
-      ${p.oldPrice ? '<span class="badge">PROMO</span>' : ''}
-      <div class="product-image" onclick="openProduct(${p.id})">${p.icon}</div>
+
+
+/* ==========================================
+   AFFICHAGE PRODUITS
+========================================== */
+
+function displayProducts() {
+
+  const filteredProducts = products.filter(product => {
+
+    const matchesCategory =
+      currentCategory === "Tous" ||
+      product.category === currentCategory;
+
+    const search = searchTerm.toLowerCase();
+
+    const matchesSearch =
+      product.name.toLowerCase().includes(search) ||
+      product.category.toLowerCase().includes(search) ||
+      product.description.toLowerCase().includes(search);
+
+    return matchesCategory && matchesSearch;
+
+  });
+
+
+  productsGrid.innerHTML = "";
+
+
+  if (filteredProducts.length === 0) {
+
+    noProducts.style.display = "block";
+
+    return;
+
+  }
+
+
+  noProducts.style.display = "none";
+
+
+  filteredProducts.forEach(product => {
+
+    const card = document.createElement("article");
+
+    card.className = "product-card";
+
+
+    card.innerHTML = `
+
+      <div class="product-image">
+
+        ${
+          product.badge
+            ? `<span class="product-badge">${product.badge}</span>`
+            : ""
+        }
+
+        <span>${product.icon}</span>
+
+      </div>
+
       <div class="product-info">
-        <span class="brand">${p.brand}</span>
-        <h3>${p.name}</h3>
-        <div><span class="price">${formatPrice(p.price)}</span>${p.oldPrice?`<span class="old-price">${formatPrice(p.oldPrice)}</span>`:""}</div>
-        <div class="stock">${p.stock>0 ? "✓ En stock" : "Rupture de stock"}</div>
-        <div class="product-actions">
-          <button class="details" onclick="openProduct(${p.id})">Détails</button>
-          <button class="add" ${p.stock<=0?"disabled":""} onclick="addToCart(${p.id})">Ajouter</button>
+
+        <div class="product-category">
+          ${product.category}
         </div>
+
+        <h3 class="product-name">
+          ${product.name}
+        </h3>
+
+        <p class="product-description">
+          ${product.description}
+        </p>
+
+        <div class="product-bottom">
+
+          <strong class="product-price">
+            ${formatPrice(product.price)}
+          </strong>
+
+          <button
+            class="add-cart"
+            onclick="addToCart(${product.id})"
+          >
+            + Panier
+          </button>
+
+        </div>
+
       </div>
-    </article>`).join("");
+
+    `;
+
+
+    productsGrid.appendChild(card);
+
+  });
+
 }
-function filterCategory(category){
-  currentProducts = category==="Tous" ? [...products] : products.filter(p=>p.category===category);
-  renderProducts(currentProducts);
-  document.getElementById("products").scrollIntoView({behavior:"smooth"});
-}
-function searchProducts(){
-  const q=document.getElementById("searchInput").value.trim().toLowerCase();
-  currentProducts=products.filter(p=>
-    [p.name,p.brand,p.category,p.desc].some(x=>x.toLowerCase().includes(q))
+
+
+/* ==========================================
+   AJOUTER AU PANIER
+========================================== */
+
+function addToCart(productId) {
+
+  const product = products.find(
+    item => item.id === productId
   );
-  renderProducts(currentProducts);
-  document.getElementById("products").scrollIntoView({behavior:"smooth"});
+
+  if (!product) return;
+
+
+  const existingItem = cart.find(
+    item => item.id === productId
+  );
+
+
+  if (existingItem) {
+
+    existingItem.quantity++;
+
+  } else {
+
+    cart.push({
+      ...product,
+      quantity: 1
+    });
+
+  }
+
+
+  saveCart();
+
+  updateCart();
+
+  showToast(`${product.name} ajouté au panier`);
+
 }
-document.getElementById("searchInput").addEventListener("keydown",e=>{if(e.key==="Enter")searchProducts()});
-function sortProducts(){
-  const value=document.getElementById("sortSelect").value;
-  currentProducts=[...currentProducts];
-  if(value==="priceAsc") currentProducts.sort((a,b)=>a.price-b.price);
-  if(value==="priceDesc") currentProducts.sort((a,b)=>b.price-a.price);
-  if(value==="newest") currentProducts.sort((a,b)=>Number(b.newest)-Number(a.newest));
-  if(value==="featured") currentProducts.sort((a,b)=>Number(b.featured)-Number(a.featured));
-  renderProducts(currentProducts);
+
+
+/* ==========================================
+   MODIFIER QUANTITE
+========================================== */
+
+function changeQuantity(productId, amount) {
+
+  const item = cart.find(
+    product => product.id === productId
+  );
+
+  if (!item) return;
+
+
+  item.quantity += amount;
+
+
+  if (item.quantity <= 0) {
+
+    cart = cart.filter(
+      product => product.id !== productId
+    );
+
+  }
+
+
+  saveCart();
+
+  updateCart();
+
 }
-function addToCart(id){
-  const p=products.find(x=>x.id===id); if(!p || p.stock<=0)return;
-  const existing=cart.find(x=>x.id===id);
-  if(existing){ if(existing.qty<p.stock) existing.qty++; else return showToast("Stock maximum atteint."); }
-  else cart.push({id:p.id,qty:1});
-  saveCart(); showToast(`${p.name} ajouté au panier ✓`);
+
+
+/* ==========================================
+   SUPPRIMER PRODUIT
+========================================== */
+
+function removeFromCart(productId) {
+
+  cart = cart.filter(
+    product => product.id !== productId
+  );
+
+
+  saveCart();
+
+  updateCart();
+
 }
-function changeQty(id,delta){
-  const item=cart.find(x=>x.id===id), p=products.find(x=>x.id===id);
-  if(!item)return;
-  item.qty+=delta;
-  if(item.qty>p.stock)item.qty=p.stock;
-  if(item.qty<=0)cart=cart.filter(x=>x.id!==id);
-  saveCart(); renderCart();
-}
-function removeFromCart(id){cart=cart.filter(x=>x.id!==id);saveCart();renderCart()}
-function clearCart(){cart=[];saveCart();renderCart();showToast("Panier vidé.");}
-function cartTotal(){return cart.reduce((sum,item)=>{const p=products.find(x=>x.id===item.id);return sum+(p?p.price*item.qty:0)},0)}
-function renderCart(){
-  const el=document.getElementById("cartItems");
-  if(!cart.length){el.innerHTML='<div class="empty">Votre panier est vide 🛒</div>';document.getElementById("cartTotal").textContent="0 FCFA";return;}
-  el.innerHTML=cart.map(item=>{
-    const p=products.find(x=>x.id===item.id);
-    return `<div class="cart-row"><div class="cart-thumb">${p.icon}</div><div><h4>${p.name}</h4><p>${formatPrice(p.price)}</p><div class="qty"><button onclick="changeQty(${p.id},-1)">−</button><b>${item.qty}</b><button onclick="changeQty(${p.id},1)">+</button></div></div><div><b>${formatPrice(p.price*item.qty)}</b><br><button class="remove" onclick="removeFromCart(${p.id})">Supprimer</button></div></div>`;
-  }).join("");
-  document.getElementById("cartTotal").textContent=formatPrice(cartTotal());
-}
-function openCart(){document.getElementById("cartOverlay").classList.remove("hidden");renderCart();}
-function closeCart(e){if(!e || e.target.id==="cartOverlay")document.getElementById("cartOverlay").classList.add("hidden")}
-function openProduct(id){
-  const p=products.find(x=>x.id===id); if(!p)return;
-  document.getElementById("modalContent").innerHTML=`
-    <div class="modal-product">
-      <div class="modal-img">${p.icon}</div>
-      <div>
-        <span class="brand">${p.brand} · ${p.category}</span>
-        <h2>${p.name}</h2>
-        <div><span class="price">${formatPrice(p.price)}</span>${p.oldPrice?` <span class="old-price">${formatPrice(p.oldPrice)}</span>`:""}</div>
-        <p class="modal-desc">${p.desc}</p>
-        <div class="specs">${Object.entries(p.specs).map(([k,v])=>`<div><b>${k}</b><br>${v}</div>`).join("")}</div>
-        <p class="stock">${p.stock>0?"✓ Disponible":"Rupture de stock"}</p>
-        <div class="hero-actions">
-          <button class="btn primary" onclick="addToCart(${p.id});closeProduct()">🛒 Ajouter au panier</button>
-          <button class="btn secondary" onclick="productWhatsApp(${p.id})">💬 WhatsApp</button>
-        </div>
+
+
+/* ==========================================
+   AFFICHER PANIER
+========================================== */
+
+function updateCart() {
+
+  const totalQuantity = cart.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
+
+
+  const totalPrice = cart.reduce(
+    (total, item) =>
+      total + item.price * item.quantity,
+    0
+  );
+
+
+  cartCount.textContent = totalQuantity;
+
+  cartTotal.textContent = formatPrice(totalPrice);
+
+
+  if (cart.length === 0) {
+
+    cartItems.innerHTML = `
+      <div class="empty-cart">
+        Votre panier est vide.
       </div>
-    </div>`;
-  document.getElementById("productModal").classList.remove("hidden");
+    `;
+
+    return;
+
+  }
+
+
+  cartItems.innerHTML = "";
+
+
+  cart.forEach(item => {
+
+    const element = document.createElement("div");
+
+    element.className = "cart-item";
+
+
+    element.innerHTML = `
+
+      <div class="cart-item-image">
+        ${item.icon}
+      </div>
+
+      <div>
+
+        <h4>${item.name}</h4>
+
+        <p>
+          ${formatPrice(item.price)}
+        </p>
+
+        <div class="quantity">
+
+          <button
+            onclick="changeQuantity(${item.id}, -1)"
+          >
+            −
+          </button>
+
+          <strong>
+            ${item.quantity}
+          </strong>
+
+          <button
+            onclick="changeQuantity(${item.id}, 1)"
+          >
+            +
+          </button>
+
+        </div>
+
+      </div>
+
+      <button
+        class="remove-item"
+        onclick="removeFromCart(${item.id})"
+      >
+        🗑️
+      </button>
+
+    `;
+
+
+    cartItems.appendChild(element);
+
+  });
+
 }
-function closeProduct(e){if(!e || e.target.id==="productModal")document.getElementById("productModal").classList.add("hidden")}
-function whatsappUrl(text){return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`}
-function contactWhatsApp(){
-  window.open(whatsappUrl("Bonjour WENDK SHOP 👋\nJe souhaite avoir des informations sur vos produits."),"_blank");
+
+
+/* ==========================================
+   OUVRIR PANIER
+========================================== */
+
+function openCart() {
+
+  cartElement.classList.add("active");
+
+  cartOverlay.classList.add("active");
+
+  document.body.style.overflow = "hidden";
+
 }
-function productWhatsApp(id){
-  const p=products.find(x=>x.id===id);
-  window.open(whatsappUrl(`Bonjour WENDK SHOP 👋\nJe suis intéressé(e) par :\n\nProduit : ${p.name}\nPrix affiché : ${formatPrice(p.price)}\n\nPouvez-vous me confirmer la disponibilité ?`),"_blank");
+
+
+/* ==========================================
+   FERMER PANIER
+========================================== */
+
+function closeCart() {
+
+  cartElement.classList.remove("active");
+
+  cartOverlay.classList.remove("active");
+
+  document.body.style.overflow = "";
+
 }
-function checkoutWhatsApp(){
-  if(!cart.length)return showToast("Votre panier est vide.");
-  let text="Bonjour WENDK SHOP 👋\n\nJe souhaite passer une commande :\n\n";
-  cart.forEach(item=>{const p=products.find(x=>x.id===item.id);text+=`• ${p.name} x${item.qty} — ${formatPrice(p.price*item.qty)}\n`;});
-  text+=`\nTotal produits : ${formatPrice(cartTotal())}\n\nNom :\nTéléphone :\nVille :\nQuartier :\nAdresse :\nMode de livraison :\nMode de paiement :`;
-  window.open(whatsappUrl(text),"_blank");
+
+
+/* ==========================================
+   VIDER PANIER
+========================================== */
+
+function clearCart() {
+
+  if (cart.length === 0) return;
+
+
+  const confirmation = confirm(
+    "Voulez-vous vraiment vider votre panier ?"
+  );
+
+
+  if (!confirmation) return;
+
+
+  cart = [];
+
+  saveCart();
+
+  updateCart();
+
+  showToast("Panier vidé");
+
 }
-function showHome(){window.scrollTo({top:0,behavior:"smooth"})}
-document.getElementById("year").textContent=new Date().getFullYear();
-renderCategories();renderProducts();updateCartUI();
+
+
+/* ==========================================
+   COMMANDE WHATSAPP
+========================================== */
+
+function checkoutWhatsApp() {
+
+  if (cart.length === 0) {
+
+    showToast("Votre panier est vide");
+
+    return;
+
+  }
+
+
+  let message =
+    "Bonjour WENDK-SHOP 👋\n\n" +
+    "Je souhaite commander :\n\n";
+
+
+  cart.forEach(item => {
+
+    message +=
+      `• ${item.name} x${item.quantity} — ` +
+      `${formatPrice(item.price * item.quantity)}\n`;
+
+  });
+
+
+  const total = cart.reduce(
+    (sum, item) =>
+      sum + item.price * item.quantity,
+    0
+  );
+
+
+  message +=
+    `\n💰 Total : ${formatPrice(total)}\n\n` +
+    "📍 Ma localisation : " +
+    "________________\n\n" +
+    "Merci de me confirmer la disponibilité.";
+
+
+  const whatsappURL =
+    `https://wa.me/${WHATSAPP_NUMBER}` +
+    `?text=${encodeURIComponent(message)}`;
+
+
+  window.open(
+    whatsappURL,
+    "_blank"
+  );
+
+}
+
+
+/* ==========================================
+   RECHERCHE
+========================================== */
+
+searchInput.addEventListener(
+  "input",
+  function () {
+
+    searchTerm = this.value;
+
+    displayProducts();
+
+  }
+);
+
+
+/* ==========================================
+   CATEGORIES
+========================================== */
+
+document.querySelectorAll(".category").forEach(button => {
+
+  button.addEventListener("click", function () {
+
+    document
+      .querySelectorAll(".category")
+      .forEach(btn => {
+        btn.classList.remove("active");
+      });
+
+
+    this.classList.add("active");
+
+
+    currentCategory =
+      this.dataset.category;
+
+
+    displayProducts();
+
+  });
+
+});
+
+
+/* ==========================================
+   EVENEMENTS PANIER
+========================================== */
+
+document
+  .getElementById("openCart")
+  .addEventListener(
+    "click",
+    openCart
+  );
+
+
+document
+  .getElementById("closeCart")
+  .addEventListener(
+    "click",
+    closeCart
+  );
+
+
+cartOverlay.addEventListener(
+  "click",
+  closeCart
+);
+
+
+document
+  .getElementById("clearCart")
+  .addEventListener(
+    "click",
+    clearCart
+);
+
+
+document
+  .getElementById("checkoutButton")
+  .addEventListener(
+    "click",
+    checkoutWhatsApp
+);
+
+
+/* ==========================================
+   MENU MOBILE
+========================================== */
+
+const menuButton =
+  document.getElementById("menuButton");
+
+const nav =
+  document.querySelector(".nav");
+
+
+menuButton.addEventListener(
+  "click",
+  function () {
+
+    if (nav.style.display === "flex") {
+
+      nav.style.display = "";
+
+    } else {
+
+      nav.style.display = "flex";
+
+      nav.style.position = "absolute";
+
+      nav.style.top = "72px";
+
+      nav.style.left = "0";
+
+      nav.style.right = "0";
+
+      nav.style.padding = "20px";
+
+      nav.style.background = "white";
+
+      nav.style.flexDirection = "column";
+
+      nav.style.borderBottom =
+        "1px solid #e5e7eb";
+
+    }
+
+  }
+);
+
+
+/* ==========================================
+   TOAST
+========================================== */
+
+let toastTimeout;
+
+
+function showToast(message) {
+
+  toast.textContent = message;
+
+  toast.classList.add("show");
+
+
+  clearTimeout(toastTimeout);
+
+
+  toastTimeout = setTimeout(
+    () => {
+      toast.classList.remove("show");
+    },
+    2500
+  );
+
+}
+
+
+/* ==========================================
+   LOCAL STORAGE
+========================================== */
+
+function saveCart() {
+
+  localStorage.setItem(
+    "wendkShopCart",
+    JSON.stringify(cart)
+  );
+
+}
+
+
+function loadCart() {
+
+  const savedCart =
+    localStorage.getItem(
+      "wendkShopCart"
+    );
+
+
+  if (!savedCart) return;
+
+
+  try {
+
+    cart = JSON.parse(savedCart);
+
+  } catch (error) {
+
+    cart = [];
+
+  }
+
+}
+
+
+/* ==========================================
+   ANNEE FOOTER
+========================================== */
+
+document.getElementById("year")
+  .textContent =
+  new Date().getFullYear();
+
+
+/* ==========================================
+   INITIALISATION
+========================================== */
+
+loadCart();
+
+displayProducts();
+
+updateCart();
