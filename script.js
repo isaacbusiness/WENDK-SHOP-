@@ -3057,3 +3057,215 @@ if (
 /* =========================================================
    FIN DU SCRIPT.JS
    ========================================================= */
+/* =========================================================
+   WENDK SHOP — CORRECTION FORCÉE DU PANIER
+   ========================================================= */
+
+(function () {
+
+    function forceCartFix() {
+
+        const cartButton =
+            document.getElementById("openCartBtn");
+
+        const cartDrawer =
+            document.getElementById("cartDrawer");
+
+        const cartOverlay =
+            document.getElementById("cartOverlay");
+
+        const closeButton =
+            document.getElementById("closeCartBtn");
+
+        if (!cartButton || !cartDrawer) {
+
+            console.error(
+                "❌ Panier introuvable dans index.html"
+            );
+
+            return;
+
+        }
+
+
+        /* État initial propre */
+
+        cartDrawer.style.zIndex = "99999";
+        cartDrawer.style.position = "fixed";
+
+        if (cartOverlay) {
+
+            cartOverlay.style.zIndex = "99998";
+
+        }
+
+
+        /* Ouverture forcée */
+
+        cartButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+
+                renderCart();
+
+
+                cartDrawer.classList.add("open");
+
+
+                cartDrawer.style.transform =
+                    "translateX(0)";
+
+                cartDrawer.style.visibility =
+                    "visible";
+
+                cartDrawer.style.display =
+                    "block";
+
+
+                if (cartOverlay) {
+
+                    cartOverlay.classList.add(
+                        "active"
+                    );
+
+                    cartOverlay.style.display =
+                        "block";
+
+                    cartOverlay.style.visibility =
+                        "visible";
+
+                    cartOverlay.style.pointerEvents =
+                        "auto";
+
+                }
+
+
+                document.body.classList.add(
+                    "cart-open"
+                );
+
+            },
+            true
+        );
+
+
+        /* Fermeture */
+
+        function forceCloseCart() {
+
+            cartDrawer.classList.remove(
+                "open"
+            );
+
+
+            cartDrawer.style.transform =
+                "translateX(100%)";
+
+            cartDrawer.style.visibility =
+                "hidden";
+
+
+            if (cartOverlay) {
+
+                cartOverlay.classList.remove(
+                    "active"
+                );
+
+                cartOverlay.style.display =
+                    "none";
+
+                cartOverlay.style.pointerEvents =
+                    "none";
+
+            }
+
+
+            document.body.classList.remove(
+                "cart-open"
+            );
+
+        }
+
+
+        if (closeButton) {
+
+            closeButton.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    forceCloseCart();
+
+                },
+                true
+            );
+
+        }
+
+
+        if (cartOverlay) {
+
+            cartOverlay.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    forceCloseCart();
+
+                },
+                true
+            );
+
+        }
+
+
+        /* ESC pour fermer */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key === "Escape"
+                ) {
+
+                    forceCloseCart();
+
+                }
+
+            }
+        );
+
+
+        console.log(
+            "✅ Correction forcée du panier activée."
+        );
+
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            forceCartFix
+        );
+
+    } else {
+
+        forceCartFix();
+
+    }
+
+})();
