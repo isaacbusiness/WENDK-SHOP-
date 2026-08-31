@@ -1490,3 +1490,222 @@ img {
 .cart-footer.hidden {
     display: none !important;
            }
+/* =========================================================
+   WENDK SHOP — CORRECTION PANIER
+   ========================================================= */
+
+.cart-overlay {
+    display: none !important;
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.45) !important;
+    z-index: 9998 !important;
+}
+
+.cart-overlay.active {
+    display: block !important;
+}
+
+
+.cart-drawer {
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: min(420px, 92vw) !important;
+    height: 100vh !important;
+
+    background: #ffffff !important;
+
+    z-index: 9999 !important;
+
+    overflow-y: auto !important;
+
+    transform: translateX(100%) !important;
+
+    transition: transform 0.25s ease !important;
+
+    visibility: hidden !important;
+}
+
+
+.cart-drawer.open {
+    transform: translateX(0) !important;
+
+    visibility: visible !important;
+}
+
+
+.cart-header {
+    position: sticky !important;
+    top: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+
+    padding: 20px !important;
+
+    background: #ffffff !important;
+
+    z-index: 2 !important;
+
+    border-bottom: 1px solid #eeeeee !important;
+}
+
+
+.cart-close {
+    display: flex !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 42px !important;
+    height: 42px !important;
+
+    border: none !important;
+    border-radius: 50% !important;
+
+    background: #f1f1f1 !important;
+
+    font-size: 28px !important;
+
+    cursor: pointer !important;
+}
+
+
+.cart-items {
+    padding: 15px !important;
+}
+
+
+.cart-item {
+    display: grid !important;
+
+    grid-template-columns: 70px 1fr auto !important;
+
+    gap: 12px !important;
+
+    align-items: center !important;
+
+    padding: 12px 0 !important;
+
+    border-bottom: 1px solid #eeeeee !important;
+}
+
+
+.cart-item-image img {
+    width: 70px !important;
+    height: 70px !important;
+
+    object-fit: cover !important;
+
+    border-radius: 10px !important;
+}
+
+
+.quantity-control {
+    display: flex !important;
+
+    align-items: center !important;
+
+    gap: 8px !important;
+
+    margin-top: 8px !important;
+}
+
+
+.quantity-control button {
+    width: 32px !important;
+    height: 32px !important;
+
+    border: 1px solid #dddddd !important;
+
+    border-radius: 6px !important;
+
+    background: #ffffff !important;
+
+    cursor: pointer !important;
+}
+
+
+.remove-item {
+    border: none !important;
+
+    background: transparent !important;
+
+    cursor: pointer !important;
+
+    font-size: 18px !important;
+}
+
+
+.cart-footer {
+    padding: 20px !important;
+
+    border-top: 1px solid #eeeeee !important;
+
+    background: #ffffff !important;
+}
+
+
+.cart-footer.hidden {
+    display: none !important;
+}
+
+
+.empty-cart {
+    padding: 40px 20px !important;
+
+    text-align: center !important;
+}
+
+
+.empty-cart.hidden {
+    display: none !important;
+}
+
+
+.cart-total-row {
+    display: flex !important;
+
+    justify-content: space-between !important;
+
+    align-items: center !important;
+
+    margin-bottom: 15px !important;
+
+    font-size: 18px !important;
+}
+
+
+.checkout-btn {
+    width: 100% !important;
+
+    margin-bottom: 10px !important;
+}
+
+
+.clear-cart-btn {
+    width: 100% !important;
+
+    padding: 10px !important;
+
+    border: none !important;
+
+    background: transparent !important;
+
+    cursor: pointer !important;
+}
+
+
+/* Bloquer le défilement uniquement quand
+   le panier est réellement ouvert */
+
+body.cart-open {
+    overflow: hidden !important;
+}
+
+
+/* =========================================================
+   FIN CORRECTION PANIER
+   ========================================================= */
