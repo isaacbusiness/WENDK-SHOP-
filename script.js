@@ -1040,4 +1040,702 @@ function closeProductDetails() {
 
 /* =========================================================
    FIN DU BLOC 2
+   ========================================================= *//* =========================================================
+   WENDK SHOP
+   SCRIPT.JS — BLOC 3/5
+   PANIER + QUANTITÉS + AFFICHAGE
+   ========================================================= */
+
+
+/* =========================================================
+   SAUVEGARDER LE PANIER
+   ========================================================= */
+
+function saveCart() {
+
+    localStorage.setItem(
+        "wendkShopCart",
+        JSON.stringify(cart)
+    );
+
+}
+
+
+/* =========================================================
+   RÉCUPÉRER UN PRODUIT
+   ========================================================= */
+
+function getCartProduct(productId) {
+
+    return products.find(
+        product =>
+            Number(product.id) ===
+            Number(productId)
+    );
+
+}
+
+
+/* =========================================================
+   CALCULER LE TOTAL
+   ========================================================= */
+
+function getCartTotal() {
+
+    return cart.reduce(
+        (total, item) => {
+
+            const product =
+                getCartProduct(item.id);
+
+
+            if (!product) {
+
+                return total;
+
+            }
+
+
+            return (
+                total +
+                (
+                    Number(product.price) *
+                    Number(item.quantity)
+                )
+            );
+
+        },
+        0
+    );
+
+}
+
+
+/* =========================================================
+   NOMBRE TOTAL D'ARTICLES
+   ========================================================= */
+
+function getCartCount() {
+
+    return cart.reduce(
+        (total, item) => {
+
+            return (
+                total +
+                Number(item.quantity)
+            );
+
+        },
+        0
+    );
+
+}
+
+
+/* =========================================================
+   AJOUTER AU PANIER
+   ========================================================= */
+
+function addToCart(productId) {
+
+    const product =
+        getCartProduct(productId);
+
+
+    if (!product) {
+
+        console.error(
+            "Produit introuvable :",
+            productId
+        );
+
+        return;
+
+    }
+
+
+    const existingItem =
+        cart.find(
+            item =>
+                Number(item.id) ===
+                Number(productId)
+        );
+
+
+    if (existingItem) {
+
+        existingItem.quantity =
+            Number(existingItem.quantity) + 1;
+
+    } else {
+
+        cart.push({
+
+            id:
+                Number(productId),
+
+            quantity:
+                1
+
+        });
+
+    }
+
+
+    saveCart();
+
+    updateCartUI();
+
+
+    showToast(
+        `${product.name} ajouté au panier ✅`
+    );
+
+}
+
+
+/* =========================================================
+   MODIFIER LA QUANTITÉ
+   ========================================================= */
+
+function changeQuantity(
+    productId,
+    amount
+) {
+
+    const item =
+        cart.find(
+            cartItem =>
+                Number(cartItem.id) ===
+                Number(productId)
+        );
+
+
+    if (!item) {
+
+        return;
+
+    }
+
+
+    item.quantity =
+        Number(item.quantity) +
+        Number(amount);
+
+
+    if (
+        item.quantity <= 0
+    ) {
+
+        cart =
+            cart.filter(
+                cartItem =>
+                    Number(cartItem.id) !==
+                    Number(productId)
+            );
+
+    }
+
+
+    saveCart();
+
+    updateCartUI();
+
+}
+
+
+/* =========================================================
+   SUPPRIMER UN PRODUIT
+   ========================================================= */
+
+function removeFromCart(productId) {
+
+    cart =
+        cart.filter(
+            item =>
+                Number(item.id) !==
+                Number(productId)
+        );
+
+
+    saveCart();
+
+    updateCartUI();
+
+
+    showToast(
+        "Produit supprimé du panier"
+    );
+
+}
+
+
+/* =========================================================
+   VIDER LE PANIER
+   ========================================================= */
+
+function clearCart() {
+
+    if (
+        cart.length === 0
+    ) {
+
+        return;
+
+    }
+
+
+    const confirmed =
+        window.confirm(
+            "Voulez-vous vraiment vider le panier ?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    cart = [];
+
+
+    saveCart();
+
+    updateCartUI();
+
+
+    showToast(
+        "Panier vidé"
+    );
+
+}
+
+
+/* =========================================================
+   AFFICHER LE PANIER
+   ========================================================= */
+
+function renderCart() {
+
+    if (!cartItems) {
+
+        console.error(
+            "❌ Élément cartItems introuvable."
+        );
+
+        return;
+
+    }
+
+
+    cartItems.innerHTML = "";
+
+
+    /*
+       Panier vide
+    */
+
+    if (
+        cart.length === 0
+    ) {
+
+        if (emptyCart) {
+
+            emptyCart.classList.remove(
+                "hidden"
+            );
+
+        }
+
+
+        if (cartFooter) {
+
+            cartFooter.classList.add(
+                "hidden"
+            );
+
+        }
+
+
+        return;
+
+    }
+
+
+    /*
+       Panier avec produits
+    */
+
+    if (emptyCart) {
+
+        emptyCart.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    if (cartFooter) {
+
+        cartFooter.classList.remove(
+            "hidden"
+        );
+
+    }
+
+
+    cart.forEach(item => {
+
+        const product =
+            getCartProduct(item.id);
+
+
+        /*
+           Si un ancien produit n'existe
+           plus, on l'ignore.
+        */
+
+        if (!product) {
+
+            return;
+
+        }
+
+
+        const quantity =
+            Number(item.quantity);
+
+
+        const subtotal =
+            Number(product.price) *
+            quantity;
+
+
+        const cartItem =
+            document.createElement(
+                "div"
+            );
+
+
+        cartItem.className =
+            "cart-item";
+
+
+        cartItem.innerHTML = `
+
+            <div class="cart-item-image">
+
+                <img
+                    src="${product.image}"
+                    alt="${product.name}"
+                    onerror="
+                        this.src='https://placehold.co/200x200/f3f4f6/111827?text=WENDK'
+                    "
+                >
+
+            </div>
+
+
+            <div class="cart-item-content">
+
+                <div class="cart-item-name">
+                    ${product.name}
+                </div>
+
+
+                <div class="cart-item-price">
+                    ${formatPrice(product.price)}
+                </div>
+
+
+                <div class="quantity-control">
+
+                    <button
+                        type="button"
+                        class="quantity-btn"
+                        data-cart-action="decrease"
+                        data-id="${product.id}"
+                    >
+                        −
+                    </button>
+
+
+                    <span class="quantity-value">
+                        ${quantity}
+                    </span>
+
+
+                    <button
+                        type="button"
+                        class="quantity-btn"
+                        data-cart-action="increase"
+                        data-id="${product.id}"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+
+                <div class="cart-item-subtotal">
+                    Sous-total :
+                    <strong>
+                        ${formatPrice(subtotal)}
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="remove-item"
+                data-cart-action="remove"
+                data-id="${product.id}"
+                aria-label="Supprimer ${product.name}"
+            >
+                🗑️
+            </button>
+
+        `;
+
+
+        cartItems.appendChild(
+            cartItem
+        );
+
+    });
+
+
+    /*
+       Total
+    */
+
+    if (cartTotal) {
+
+        cartTotal.textContent =
+            formatPrice(
+                getCartTotal()
+            );
+
+    }
+
+
+    /*
+       Événements des boutons du panier
+    */
+
+    cartItems
+        .querySelectorAll(
+            "[data-cart-action]"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                event => {
+
+                    event.preventDefault();
+
+                    event.stopPropagation();
+
+
+                    const id =
+                        Number(
+                            button.dataset.id
+                        );
+
+
+                    const action =
+                        button.dataset.cartAction;
+
+
+                    if (
+                        action ===
+                        "increase"
+                    ) {
+
+                        changeQuantity(
+                            id,
+                            1
+                        );
+
+                    }
+
+
+                    else if (
+                        action ===
+                        "decrease"
+                    ) {
+
+                        changeQuantity(
+                            id,
+                            -1
+                        );
+
+                    }
+
+
+                    else if (
+                        action ===
+                        "remove"
+                    ) {
+
+                        removeFromCart(
+                            id
+                        );
+
+                    }
+
+                }
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   ACTUALISER L'INTERFACE DU PANIER
+   ========================================================= */
+
+function updateCartUI() {
+
+    if (cartCount) {
+
+        cartCount.textContent =
+            getCartCount();
+
+    }
+
+
+    renderCart();
+
+}
+
+
+/* =========================================================
+   OUVRIR LE PANIER
+   ========================================================= */
+
+function openCart() {
+
+    if (!cartDrawer) {
+
+        console.error(
+            "❌ cartDrawer introuvable."
+        );
+
+        return;
+
+    }
+
+
+    /*
+       On affiche d'abord le panier.
+       Cela évite qu'un problème d'animation
+       laisse l'écran dans un état bloqué.
+    */
+
+    renderCart();
+
+
+    cartDrawer.classList.add(
+        "open"
+    );
+
+
+    if (cartOverlay) {
+
+        cartOverlay.classList.add(
+            "active"
+        );
+
+    }
+
+
+    document.body.classList.add(
+        "cart-open"
+    );
+
+}
+
+
+/* =========================================================
+   FERMER LE PANIER
+   ========================================================= */
+
+function closeCart() {
+
+    if (cartDrawer) {
+
+        cartDrawer.classList.remove(
+            "open"
+        );
+
+    }
+
+
+    if (cartOverlay) {
+
+        cartOverlay.classList.remove(
+            "active"
+        );
+
+    }
+
+
+    document.body.classList.remove(
+        "cart-open"
+    );
+
+}
+
+
+/* =========================================================
+   MESSAGE TOAST
+   ========================================================= */
+
+function showToast(message) {
+
+    if (!toast) {
+
+        return;
+
+    }
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        showToast.timeout
+    );
+
+
+    showToast.timeout =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2500
+        );
+
+}
+
+
+/* =========================================================
+   FIN DU BLOC 3
    ========================================================= */
