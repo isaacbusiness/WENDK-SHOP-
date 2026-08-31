@@ -1,502 +1,391 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description"
-        content="WENDK SHOP - Téléphones, smartphones et accessoires au Burkina Faso. Commandez facilement via WhatsApp.">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="WENDK SHOP - Téléphones, smartphones et accessoires au Burkina Faso."
+    >
 
     <title>WENDK SHOP | Téléphones & Accessoires</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
 </head>
+
 
 <body>
 
-<!-- ================= HEADER ================= -->
-<header class="header">
+    <!-- =====================================================
+         HEADER
+         ===================================================== -->
 
-    <div class="header-container">
+    <header class="header">
 
-        <a href="#" class="logo">
-            <span class="logo-icon">W</span>
-            <span>
-                <strong>WENDK</strong>
-                <small>SHOP</small>
-            </span>
-        </a>
-
-        <nav class="desktop-nav">
-            <a href="#accueil">Accueil</a>
-            <a href="#produits">Produits</a>
-            <a href="#categories">Catégories</a>
-            <a href="#contact">Contact</a>
-        </nav>
-
-        <button class="cart-button" id="openCartBtn" aria-label="Ouvrir le panier">
-            🛒
-            <span id="cartCount">0</span>
-        </button>
-
-    </div>
-
-</header>
-
-
-<!-- ================= HERO ================= -->
-<section class="hero" id="accueil">
-
-    <div class="hero-content">
-
-        <div class="hero-text">
-
-            <span class="hero-badge">
-                🇧🇫 Votre boutique tech au Burkina Faso
-            </span>
-
-            <h1>
-                Les meilleurs<br>
-                <span>smartphones</span> au meilleur prix.
-            </h1>
-
-            <p>
-                Découvrez notre sélection de téléphones et accessoires.
-                Commandez simplement et rapidement via WhatsApp.
-            </p>
-
-            <div class="hero-buttons">
-                <a href="#produits" class="btn btn-primary">
-                    🛍️ Voir les produits
-                </a>
-
-                <a href="#contact" class="btn btn-secondary">
-                    📞 Nous contacter
-                </a>
-            </div>
-
-        </div>
-
-        <div class="hero-visual">
-            <div class="phone-card">
-                <div class="phone-screen">
-                    <div class="camera"></div>
-                    <div class="screen-content">
-                        <span>WENDK</span>
-                        <strong>SHOP</strong>
-                        <small>TECHNOLOGY</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= AVANTAGES ================= -->
-<section class="advantages">
-
-    <div class="advantage">
-        <div class="advantage-icon">🚚</div>
-        <div>
-            <strong>Livraison</strong>
-            <span>Ouagadougou & environs</span>
-        </div>
-    </div>
-
-    <div class="advantage">
-        <div class="advantage-icon">📱</div>
-        <div>
-            <strong>Large choix</strong>
-            <span>Téléphones & accessoires</span>
-        </div>
-    </div>
-
-    <div class="advantage">
-        <div class="advantage-icon">💬</div>
-        <div>
-            <strong>Commande WhatsApp</strong>
-            <span>Simple & rapide</span>
-        </div>
-    </div>
-
-    <div class="advantage">
-        <div class="advantage-icon">✅</div>
-        <div>
-            <strong>Service fiable</strong>
-            <span>Assistance client</span>
-        </div>
-    </div>
-
-</section>
-
-
-<!-- ================= CATEGORIES ================= -->
-<section class="categories-section" id="categories">
-
-    <div class="section-header">
-
-        <span class="section-label">NOS CATÉGORIES</span>
-
-        <h2>Choisissez votre catégorie</h2>
-
-        <p>
-            Trouvez rapidement le produit que vous recherchez.
-        </p>
-
-    </div>
-
-    <div class="category-buttons">
-
-        <button class="category-btn active" data-category="all">
-            🛍️ Tous
-        </button>
-
-        <button class="category-btn" data-category="iphone">
-            🍎 iPhone
-        </button>
-
-        <button class="category-btn" data-category="samsung">
-            📱 Samsung
-        </button>
-
-        <button class="category-btn" data-category="redmi">
-            📱 Redmi
-        </button>
-
-        <button class="category-btn" data-category="tecno">
-            📱 Tecno
-        </button>
-
-        <button class="category-btn" data-category="accessoires">
-            🎧 Accessoires
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ================= PRODUITS ================= -->
-<section class="products-section" id="produits">
-
-    <div class="products-top">
-
-        <div>
-            <span class="section-label">BOUTIQUE</span>
-            <h2>Nos produits</h2>
-        </div>
-
-        <div class="search-box">
-
-            <span>🔎</span>
-
-            <input
-                type="search"
-                id="searchInput"
-                placeholder="Rechercher un produit..."
-                autocomplete="off"
-            >
-
-        </div>
-
-    </div>
-
-
-    <div id="productsGrid" class="products-grid"></div>
-
-    <div id="noProducts" class="no-products hidden">
-
-        <div>🔍</div>
-
-        <h3>Aucun produit trouvé</h3>
-
-        <p>
-            Essayez une autre recherche ou une autre catégorie.
-        </p>
-
-        <button class="btn btn-primary" id="resetFilters">
-            Voir tous les produits
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- ================= PROMOTION ================= -->
-<section class="promo-section">
-
-    <div class="promo-content">
-
-        <div>
-            <span class="promo-small">WENDK SHOP</span>
-
-            <h2>
-                Besoin d'un téléphone ?
-            </h2>
-
-            <p>
-                Contactez-nous directement sur WhatsApp pour connaître
-                les disponibilités et les prix actualisés.
-            </p>
-        </div>
-
-        <a
-            id="promoWhatsapp"
-            class="btn btn-whatsapp"
-            href="#"
-            target="_blank"
-            rel="noopener"
-        >
-            💬 Commander sur WhatsApp
-        </a>
-
-    </div>
-
-</section>
-
-
-<!-- ================= CONTACT ================= -->
-<section class="contact-section" id="contact">
-
-    <div class="section-header">
-
-        <span class="section-label">CONTACT</span>
-
-        <h2>Besoin d'aide ?</h2>
-
-        <p>
-            Notre équipe est disponible pour vous accompagner.
-        </p>
-
-    </div>
-
-    <div class="contact-grid">
-
-        <div class="contact-card">
-
-            <div class="contact-icon">💬</div>
-
-            <h3>WhatsApp</h3>
-
-            <p>
-                Commandez ou demandez les disponibilités.
-            </p>
+        <div class="container header-content">
 
             <a
-                id="contactWhatsapp"
                 href="#"
-                target="_blank"
-                rel="noopener"
-                class="contact-link"
+                class="logo"
             >
-                Nous écrire →
+                WENDK <span>SHOP</span>
             </a>
 
-        </div>
+
+            <nav class="main-nav">
+
+                <a href="#accueil">
+                    Accueil
+                </a>
+
+                <a href="#produits">
+                    Produits
+                </a>
+
+                <a href="#contact">
+                    Contact
+                </a>
+
+            </nav>
 
 
-        <div class="contact-card">
+            <button
+                type="button"
+                id="openCartBtn"
+                class="cart-button"
+                aria-label="Ouvrir le panier"
+            >
 
-            <div class="contact-icon">📍</div>
+                🛒
 
-            <h3>Localisation</h3>
-
-            <p>
-                Ouagadougou, Burkina Faso
-            </p>
-
-            <span class="contact-link">
-                🇧🇫 Burkina Faso
-            </span>
-
-        </div>
-
-
-        <div class="contact-card">
-
-            <div class="contact-icon">🚚</div>
-
-            <h3>Livraison</h3>
-
-            <p>
-                Livraison disponible à Ouagadougou et environs.
-            </p>
-
-            <span class="contact-link">
-                Livraison rapide
-            </span>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= FOOTER ================= -->
-<footer class="footer">
-
-    <div class="footer-container">
-
-        <div class="footer-brand">
-
-            <div class="logo footer-logo">
-
-                <span class="logo-icon">W</span>
-
-                <span>
-                    <strong>WENDK</strong>
-                    <small>SHOP</small>
+                <span id="cartCount">
+                    0
                 </span>
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         HERO
+         ===================================================== -->
+
+    <main>
+
+        <section
+            id="accueil"
+            class="hero"
+        >
+
+            <div class="container hero-content">
+
+                <div class="hero-text">
+
+                    <span class="section-label">
+                        WENDK SHOP
+                    </span>
+
+                    <h1>
+                        Votre smartphone,
+                        <span>votre style.</span>
+                    </h1>
+
+                    <p>
+                        Découvrez notre sélection de
+                        téléphones et accessoires au
+                        meilleur rapport qualité-prix.
+                    </p>
+
+
+                    <div class="hero-buttons">
+
+                        <a
+                            href="#produits"
+                            class="btn btn-primary"
+                        >
+                            🛍️ Voir les produits
+                        </a>
+
+
+                        <a
+                            href="#contact"
+                            class="btn btn-secondary"
+                        >
+                            💬 Nous contacter
+                        </a>
+
+                    </div>
+
+                </div>
+
+
+                <div class="hero-card">
+
+                    <div class="hero-card-icon">
+                        📱
+                    </div>
+
+                    <h3>
+                        Téléphones & Accessoires
+                    </h3>
+
+                    <p>
+                        iPhone • Samsung • Redmi
+                        • Tecno • Accessoires
+                    </p>
+
+                </div>
 
             </div>
 
-            <p>
-                Votre boutique de téléphones et accessoires
-                au Burkina Faso.
-            </p>
-
-        </div>
+        </section>
 
 
-        <div class="footer-links">
 
-            <h3>Navigation</h3>
+        <!-- =================================================
+             PRODUITS
+             ================================================= -->
 
-            <a href="#accueil">Accueil</a>
-            <a href="#produits">Produits</a>
-            <a href="#categories">Catégories</a>
-            <a href="#contact">Contact</a>
-
-        </div>
-
-
-        <div class="footer-links">
-
-            <h3>Services</h3>
-
-            <span>📱 Téléphones</span>
-            <span>🎧 Accessoires</span>
-            <span>🚚 Livraison</span>
-            <span>💬 Commande WhatsApp</span>
-
-        </div>
-
-    </div>
-
-
-    <div class="footer-bottom">
-
-        <p>
-            © <span id="currentYear"></span> WENDK SHOP.
-            Tous droits réservés.
-        </p>
-
-        <p>
-            Burkina Faso 🇧🇫
-        </p>
-
-    </div>
-
-</footer>
-
-
-<!-- ================= CART OVERLAY ================= -->
-<div class="cart-overlay" id="cartOverlay"></div>
-
-
-<!-- ================= CART DRAWER ================= -->
-<aside class="cart-drawer" id="cartDrawer">
-
-    <div class="cart-header">
-
-        <div>
-            <span class="section-label">VOTRE PANIER</span>
-            <h2>Panier</h2>
-        </div>
-
-        <button
-            class="close-cart"
-            id="closeCartBtn"
-            aria-label="Fermer le panier"
+        <section
+            id="produits"
+            class="products-section"
         >
-            ×
-        </button>
 
-    </div>
+            <div class="container">
 
+                <div class="section-header">
 
-    <div id="cartItems" class="cart-items"></div>
+                    <div>
 
+                        <span class="section-label">
+                            NOTRE CATALOGUE
+                        </span>
 
-    <div id="emptyCart" class="empty-cart">
+                        <h2>
+                            Nos produits
+                        </h2>
 
-        <div class="empty-cart-icon">🛒</div>
-
-        <h3>Votre panier est vide</h3>
-
-        <p>
-            Ajoutez des produits pour commencer votre commande.
-        </p>
-
-        <button
-            class="btn btn-primary"
-            id="continueShopping"
-        >
-            Continuer mes achats
-        </button>
-
-    </div>
+                    </div>
 
 
-    <div id="cartFooter" class="cart-footer hidden">
+                    <div class="search-box">
 
-        <div class="cart-total">
+                        <input
+                            type="search"
+                            id="searchInput"
+                            placeholder="Rechercher un produit..."
+                            autocomplete="off"
+                        >
 
-            <span>Total</span>
+                        <span>
+                            🔎
+                        </span>
 
-            <strong id="cartTotal">
-                0 FCFA
-            </strong>
+                    </div>
 
-        </div>
-
-
-        <button
-            id="checkoutBtn"
-            class="btn btn-whatsapp checkout-btn"
-        >
-            💬 Commander sur WhatsApp
-        </button>
-
-        <button
-            id="clearCartBtn"
-            class="clear-cart"
-        >
-            Vider le panier
-        </button>
-
-    </div>
-
-</aside>
+                </div>
 
 
-<!-- ================= TOAST ================= -->
-<div id="toast" class="toast">
-    Produit ajouté au panier ✅
-</div>
+
+                <!-- CATÉGORIES -->
+
+                <div class="categories">
+
+                    <button
+                        type="button"
+                        class="category-btn active"
+                        data-category="all"
+                    >
+                        Tous
+                    </button>
 
 
-<script src="script.js"></script>
+                    <button
+                        type="button"
+                        class="category-btn"
+                        data-category="iphone"
+                    >
+                        iPhone
+                    </button>
 
-</body>
-  </html>
+
+                    <button
+                        type="button"
+                        class="category-btn"
+                        data-category="samsung"
+                    >
+                        Samsung
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="category-btn"
+                        data-category="redmi"
+                    >
+                        Redmi
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="category-btn"
+                        data-category="tecno"
+                    >
+                        Tecno
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="category-btn"
+                        data-category="accessoires"
+                    >
+                        Accessoires
+                    </button>
+
+                </div>
+
+
+
+                <!-- GRILLE PRODUITS -->
+
+                <div
+                    id="productsGrid"
+                    class="products-grid"
+                ></div>
+
+
+                <!-- AUCUN PRODUIT -->
+
+                <div
+                    id="noProducts"
+                    class="no-products hidden"
+                >
+
+                    <div>
+                        🔍
+                    </div>
+
+                    <h3>
+                        Aucun produit trouvé
+                    </h3>
+
+                    <p>
+                        Essayez une autre recherche
+                        ou une autre catégorie.
+                    </p>
+
+                    <button
+                        type="button"
+                        id="resetFilters"
+                        class="btn btn-primary"
+                    >
+                        Réinitialiser
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             AVANTAGES
+             ================================================= -->
+
+        <section class="advantages-section">
+
+            <div class="container advantages-grid">
+
+                <div class="advantage-card">
+
+                    <div class="advantage-icon">
+                        🚚
+                    </div>
+
+                    <h3>
+                        Livraison
+                    </h3>
+
+                    <p>
+                        Livraison disponible
+                        à Ouagadougou.
+                    </p>
+
+                </div>
+
+
+                <div class="advantage-card">
+
+                    <div class="advantage-icon">
+                        💰
+                    </div>
+
+                    <h3>
+                        Prix compétitifs
+                    </h3>
+
+                    <p>
+                        Des prix adaptés
+                        à votre budget.
+                    </p>
+
+                </div>
+
+
+                <div class="advantage-card">
+
+                    <div class="advantage-icon">
+                        📱
+                    </div>
+
+                    <h3>
+                        Large choix
+                    </h3>
+
+                    <p>
+                        Smartphones et accessoires
+                        pour tous les besoins.
+                    </p>
+
+                </div>
+
+
+                <div class="advantage-card">
+
+                    <div class="advantage-icon">
+                        💬
+                    </div>
+
+                    <h3>
+                        Commande WhatsApp
+                    </h3>
+
+                    <p>
+                        Commandez simplement
+                        depuis WhatsApp.
+                    </p>
+
+                </div>
+
+            </div>
+
+                </section>
