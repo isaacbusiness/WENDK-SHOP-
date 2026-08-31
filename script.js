@@ -1025,4 +1025,712 @@ function closeProductDetails() {
 /* =========================================================
    FIN DU BLOC 2
    ========================================================= */
+/* =========================================================
+   WENDK SHOP
+   SCRIPT.JS — BLOC 3/5
+   PANIER COMPLET
+   ========================================================= */
+
+
+/* =========================================================
+   AJOUTER AU PANIER
+   ========================================================= */
+
+function addToCart(productId) {
+
+    const product =
+        products.find(
+            item => item.id === productId
+        );
+
+
+    if (!product) {
+
+        console.error(
+            "Produit introuvable :",
+            productId
+        );
+
+        return;
+
+    }
+
+
+    const existingItem =
+        cart.find(
+            item => item.id === productId
+        );
+
+
+    if (existingItem) {
+
+        existingItem.quantity += 1;
+
+    } else {
+
+        cart.push({
+
+            id: productId,
+
+            quantity: 1
+
+        });
+
+    }
+
+
+    saveCart();
+
+    updateCartUI();
+
+    showToast(
+        `${product.name} ajouté au panier ✅`
+    );
+
+}
+
+
+/* =========================================================
+   SAUVEGARDER LE PANIER
+   ========================================================= */
+
+function saveCart() {
+
+    try {
+
+        localStorage.setItem(
+            "wendkShopCart",
+            JSON.stringify(cart)
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Erreur sauvegarde panier :",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RÉCUPÉRER UN PRODUIT
+   ========================================================= */
+
+function getCartProduct(item) {
+
+    return products.find(
+        product =>
+            product.id === Number(item.id)
+    );
+
+}
+
+
+/* =========================================================
+   CALCULER LE TOTAL
+   ========================================================= */
+
+function getCartTotal() {
+
+    return cart.reduce(
+        (total, item) => {
+
+            const product =
+                getCartProduct(item);
+
+
+            if (!product) {
+
+                return total;
+
+            }
+
+
+            return (
+                total +
+                Number(product.price) *
+                Number(item.quantity)
+            );
+
+        },
+        0
+    );
+
+}
+
+
+/* =========================================================
+   CHANGER LA QUANTITÉ
+   ========================================================= */
+
+function changeQuantity(
+    productId,
+    amount
+) {
+
+    const item =
+        cart.find(
+            item =>
+                Number(item.id) ===
+                Number(productId)
+        );
+
+
+    if (!item) {
+
+        return;
+
+    }
+
+
+    item.quantity =
+        Number(item.quantity) +
+        Number(amount);
+
+
+    if (item.quantity <= 0) {
+
+        cart =
+            cart.filter(
+                cartItem =>
+                    Number(cartItem.id) !==
+                    Number(productId)
+            );
+
+    }
+
+
+    saveCart();
+
+    updateCartUI();
+
+}
+
+
+/* =========================================================
+   SUPPRIMER DU PANIER
+   ========================================================= */
+
+function removeFromCart(productId) {
+
+    const product =
+        getCartProduct({
+            id: productId
+        });
+
+
+    cart =
+        cart.filter(
+            item =>
+                Number(item.id) !==
+                Number(productId)
+        );
+
+
+    saveCart();
+
+    updateCartUI();
+
+
+    if (product) {
+
+        showToast(
+            `${product.name} supprimé du panier`
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   VIDER LE PANIER
+   ========================================================= */
+
+function clearCart() {
+
+    if (cart.length === 0) {
+
+        return;
+
+    }
+
+
+    const confirmed =
+        window.confirm(
+            "Voulez-vous vraiment vider le panier ?"
+        );
+
+
+    if (!confirmed) {
+
+        return;
+
+    }
+
+
+    cart = [];
+
+
+    saveCart();
+
+    updateCartUI();
+
+    showToast(
+        "Panier vidé 🛒"
+    );
+
+}
+
+
+/* =========================================================
+   AFFICHER LE PANIER
+   ========================================================= */
+
+function renderCart() {
+
+    if (!cartItems) {
+
+        console.error(
+            "❌ Élément cartItems introuvable."
+        );
+
+        return;
+
+    }
+
+
+    cartItems.innerHTML = "";
+
+
+    if (cart.length === 0) {
+
+        if (emptyCart) {
+
+            emptyCart.classList.remove(
+                "hidden"
+            );
+
+        }
+
+
+        if (cartFooter) {
+
+            cartFooter.classList.add(
+                "hidden"
+            );
+
+        }
+
+
+        return;
+
+    }
+
+
+    if (emptyCart) {
+
+        emptyCart.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    if (cartFooter) {
+
+        cartFooter.classList.remove(
+            "hidden"
+        );
+
+    }
+
+
+    cart.forEach(item => {
+
+        const product =
+            getCartProduct(item);
+
+
+        if (!product) {
+
+            return;
+
+        }
+
+
+        const quantity =
+            Number(item.quantity) || 1;
+
+
+        const subtotal =
+            Number(product.price) *
+            quantity;
+
+
+        const cartItem =
+            document.createElement(
+                "div"
+            );
+
+
+        cartItem.className =
+            "cart-item";
+
+
+        cartItem.innerHTML = `
+
+            <div class="cart-item-image">
+
+                <img
+                    src="${product.image}"
+                    alt="${product.name}"
+                    onerror="
+                        this.src='https://placehold.co/200x200/f3f4f6/111827?text=WENDK'
+                    "
+                >
+
+            </div>
+
+
+            <div class="cart-item-details">
+
+                <div class="cart-item-name">
+                    ${product.name}
+                </div>
+
+
+                <div class="cart-item-price">
+                    ${formatPrice(
+                        product.price
+                    )}
+                </div>
+
+
+                <div class="cart-item-subtotal">
+                    Sous-total :
+                    <strong>
+                        ${formatPrice(
+                            subtotal
+                        )}
+                    </strong>
+                </div>
+
+
+                <div class="quantity-control">
+
+                    <button
+                        type="button"
+                        data-action="decrease"
+                        data-id="${product.id}"
+                    >
+                        −
+                    </button>
+
+
+                    <span>
+                        ${quantity}
+                    </span>
+
+
+                    <button
+                        type="button"
+                        data-action="increase"
+                        data-id="${product.id}"
+                    >
+                        +
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="remove-item"
+                data-action="remove"
+                data-id="${product.id}"
+                aria-label="Supprimer ${product.name}"
+            >
+                🗑️
+            </button>
+
+        `;
+
+
+        cartItems.appendChild(
+            cartItem
+        );
+
+    });
+
+
+    const total =
+        getCartTotal();
+
+
+    if (cartTotal) {
+
+        cartTotal.textContent =
+            formatPrice(total);
+
+    }
+
+
+    /*
+       Événements des boutons
+       du panier.
+    */
+
+    cartItems
+        .querySelectorAll(
+            "[data-action]"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                event => {
+
+                    event.preventDefault();
+
+                    event.stopPropagation();
+
+
+                    const id =
+                        Number(
+                            button.dataset.id
+                        );
+
+
+                    const action =
+                        button.dataset.action;
+
+
+                    if (
+                        action ===
+                        "increase"
+                    ) {
+
+                        changeQuantity(
+                            id,
+                            1
+                        );
+
+                    }
+
+
+                    else if (
+                        action ===
+                        "decrease"
+                    ) {
+
+                        changeQuantity(
+                            id,
+                            -1
+                        );
+
+                    }
+
+
+                    else if (
+                        action ===
+                        "remove"
+                    ) {
+
+                        removeFromCart(
+                            id
+                        );
+
+                    }
+
+                }
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   METTRE À JOUR L'INTERFACE DU PANIER
+   ========================================================= */
+
+function updateCartUI() {
+
+    if (!Array.isArray(cart)) {
+
+        cart = [];
+
+    }
+
+
+    /*
+       Nettoyer les quantités
+       incorrectes.
+    */
+
+    cart =
+        cart.filter(item => {
+
+            return (
+                item &&
+                Number(item.id) &&
+                Number(item.quantity) > 0
+            );
+
+        });
+
+
+    const count =
+        cart.reduce(
+            (total, item) => {
+
+                return (
+                    total +
+                    Number(item.quantity)
+                );
+
+            },
+            0
+        );
+
+
+    if (cartCount) {
+
+        cartCount.textContent =
+            count;
+
+    }
+
+
+    renderCart();
+
+}
+
+
+/* =========================================================
+   OUVRIR LE PANIER
+   ========================================================= */
+
+function openCart() {
+
+    /*
+       On s'assure que le panier
+       est correctement rendu avant
+       de l'afficher.
+    */
+
+    updateCartUI();
+
+
+    if (cartDrawer) {
+
+        cartDrawer.classList.add(
+            "open"
+        );
+
+    }
+
+
+    if (cartOverlay) {
+
+        cartOverlay.classList.add(
+            "active"
+        );
+
+    }
+
+
+    /*
+       Bloquer le défilement de la page
+       uniquement lorsque le panier
+       est réellement ouvert.
+    */
+
+    document.body.style.overflow =
+        "hidden";
+
+}
+
+
+/* =========================================================
+   FERMER LE PANIER
+   ========================================================= */
+
+function closeCart() {
+
+    if (cartDrawer) {
+
+        cartDrawer.classList.remove(
+            "open"
+        );
+
+    }
+
+
+    if (cartOverlay) {
+
+        cartOverlay.classList.remove(
+            "active"
+        );
+
+    }
+
+
+    document.body.style.overflow =
+        "";
+
+}
+
+
+/* =========================================================
+   TOAST
+   ========================================================= */
+
+function showToast(message) {
+
+    if (!toast) {
+
+        return;
+
+    }
+
+
+    toast.textContent =
+        message;
+
+
+    toast.classList.add(
+        "show"
+    );
+
+
+    clearTimeout(
+        window.wendkToastTimer
+    );
+
+
+    window.wendkToastTimer =
+        setTimeout(
+            () => {
+
+                toast.classList.remove(
+                    "show"
+                );
+
+            },
+            2500
+        );
+
+}
+
+
+/* =========================================================
+   FIN DU BLOC 3
+   ========================================================= */
 
