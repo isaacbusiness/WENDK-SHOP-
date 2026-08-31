@@ -389,3 +389,318 @@
             </div>
 
                 </section>
+        
+        <!-- =================================================
+             PANIER
+             ================================================= -->
+
+        <aside
+            id="cartDrawer"
+            class="cart-drawer"
+            aria-label="Panier"
+        >
+
+            <!-- EN-TÊTE DU PANIER -->
+
+            <div class="cart-header">
+
+                <div>
+
+                    <span class="section-label">
+                        WENDK SHOP
+                    </span>
+
+                    <h2>
+                        🛒 Mon panier
+                    </h2>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="closeCartBtn"
+                    class="cart-close"
+                    aria-label="Fermer le panier"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+
+            <!-- CONTENU DU PANIER -->
+
+            <div
+                id="cartItems"
+                class="cart-items"
+            ></div>
+
+
+
+            <!-- PANIER VIDE -->
+
+            <div
+                id="emptyCart"
+                class="empty-cart"
+            >
+
+                <div class="empty-cart-icon">
+                    🛒
+                </div>
+
+                <h3>
+                    Votre panier est vide
+                </h3>
+
+                <p>
+                    Ajoutez des produits pour
+                    commencer votre commande.
+                </p>
+
+
+                <button
+                    type="button"
+                    id="continueShopping"
+                    class="btn btn-primary"
+                >
+                    Continuer mes achats
+                </button>
+
+            </div>
+
+
+
+            <!-- PIED DU PANIER -->
+
+            <div
+                id="cartFooter"
+                class="cart-footer hidden"
+            >
+
+                <div class="cart-total-row">
+
+                    <span>
+                        Total
+                    </span>
+
+                    <strong id="cartTotal">
+                        0 FCFA
+                    </strong>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    id="checkoutBtn"
+                    class="btn btn-whatsapp checkout-btn"
+                >
+                    💬 Passer la commande
+                </button>
+
+
+                <button
+                    type="button"
+                    id="clearCartBtn"
+                    class="clear-cart-btn"
+                >
+                    🗑️ Vider le panier
+                </button>
+
+            </div>
+
+        </aside>
+
+
+
+        <!-- =================================================
+             OVERLAY DU PANIER
+             ================================================= -->
+
+        <div
+            id="cartOverlay"
+            class="cart-overlay"
+        ></div>
+
+
+
+        <!-- =================================================
+             SECTION CONTACT
+             ================================================= -->
+
+        <section
+            id="contact"
+            class="contact-section"
+        >
+
+            <div class="container contact-content">
+
+                <div class="contact-text">
+
+                    <span class="section-label">
+                        CONTACT
+                    </span>
+
+                    <h2>
+                        Besoin d'un téléphone ?
+                    </h2>
+
+                    <p>
+                        Contactez WENDK SHOP sur WhatsApp
+                        pour connaître la disponibilité,
+                        demander des informations ou
+                        passer une commande.
+                    </p>
+
+                </div>
+
+
+                <div class="contact-actions">
+
+                    <a
+                        href="#"
+                        id="contactWhatsapp"
+                        class="btn btn-whatsapp"
+                        target="_blank"
+                        rel="noopener"
+                    >
+                        💬 WhatsApp
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             PROMOTION WHATSAPP
+             ================================================= -->
+
+        <section class="promo-section">
+
+            <div class="container promo-content">
+
+                <div>
+
+                    <span class="section-label">
+                        WENDK SHOP
+                    </span>
+
+                    <h2>
+                        Une question ?
+                    </h2>
+
+                    <p>
+                        Notre équipe est disponible
+                        sur WhatsApp pour vous répondre.
+                    </p>
+
+                </div>
+
+
+                <a
+                    href="#"
+                    id="promoWhatsapp"
+                    class="btn btn-whatsapp"
+                    target="_blank"
+                    rel="noopener"
+                >
+                    💬 Écrire sur WhatsApp
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- =====================================================
+         FOOTER
+         ===================================================== -->
+
+    <footer class="footer">
+
+        <div class="container footer-content">
+
+            <div class="footer-brand">
+
+                <a
+                    href="#"
+                    class="logo"
+                >
+                    WENDK <span>SHOP</span>
+                </a>
+
+                <p>
+                    Téléphones & accessoires
+                    au Burkina Faso.
+                </p>
+
+            </div>
+
+
+            <div class="footer-links">
+
+                <a href="#accueil">
+                    Accueil
+                </a>
+
+                <a href="#produits">
+                    Produits
+                </a>
+
+                <a href="#contact">
+                    Contact
+                </a>
+
+            </div>
+
+
+            <div class="footer-copy">
+
+                ©
+                <span id="currentYear">
+                    2026
+                </span>
+
+                WENDK SHOP.
+                Tous droits réservés.
+
+            </div>
+
+        </div>
+
+    </footer>
+
+
+
+    <!-- =====================================================
+         TOAST
+         ===================================================== -->
+
+    <div
+        id="toast"
+        class="toast"
+        role="status"
+        aria-live="polite"
+    ></div>
+
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+         ===================================================== -->
+
+    <script src="script.js"></script>
+
+</body>
+
+    </html>
+    
