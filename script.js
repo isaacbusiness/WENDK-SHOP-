@@ -378,3 +378,651 @@ let selectedProduct = null;
 /* =========================================================
    FIN DU BLOC 1
    ========================================================= */
+/* =========================================================
+   WENDK SHOP
+   SCRIPT.JS — BLOC 2/5
+   AFFICHAGE PRODUITS + DÉTAILS
+   ========================================================= */
+
+
+/* =========================================================
+   DOM
+   ========================================================= */
+
+const productsGrid =
+    document.getElementById("productsGrid");
+
+const noProducts =
+    document.getElementById("noProducts");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const cartCount =
+    document.getElementById("cartCount");
+
+const cartDrawer =
+    document.getElementById("cartDrawer");
+
+const cartOverlay =
+    document.getElementById("cartOverlay");
+
+const cartItems =
+    document.getElementById("cartItems");
+
+const cartTotal =
+    document.getElementById("cartTotal");
+
+const emptyCart =
+    document.getElementById("emptyCart");
+
+const cartFooter =
+    document.getElementById("cartFooter");
+
+const toast =
+    document.getElementById("toast");
+
+const checkoutBtn =
+    document.getElementById("checkoutBtn");
+
+const openCartBtn =
+    document.getElementById("openCartBtn");
+
+const closeCartBtn =
+    document.getElementById("closeCartBtn");
+
+const clearCartBtn =
+    document.getElementById("clearCartBtn");
+
+const continueShopping =
+    document.getElementById("continueShopping");
+
+const resetFilters =
+    document.getElementById("resetFilters");
+
+const promoWhatsapp =
+    document.getElementById("promoWhatsapp");
+
+const contactWhatsapp =
+    document.getElementById("contactWhatsapp");
+
+const currentYear =
+    document.getElementById("currentYear");
+
+
+/* =========================================================
+   FORMAT PRIX
+   ========================================================= */
+
+function formatPrice(price) {
+
+    return new Intl.NumberFormat("fr-FR")
+        .format(Number(price) || 0)
+        + " FCFA";
+
+}
+
+
+/* =========================================================
+   NOM DES CATÉGORIES
+   ========================================================= */
+
+function getCategoryName(category) {
+
+    const categories = {
+
+        iphone: "iPhone",
+
+        samsung: "Samsung",
+
+        redmi: "Redmi",
+
+        tecno: "Tecno",
+
+        accessoires: "Accessoires"
+
+    };
+
+    return categories[category] || "Produit";
+
+}
+
+
+/* =========================================================
+   AFFICHER LES PRODUITS
+   ========================================================= */
+
+function renderProducts() {
+
+    if (!productsGrid) {
+
+        console.error(
+            "❌ productsGrid introuvable."
+        );
+
+        return;
+
+    }
+
+
+    const filteredProducts =
+        products.filter(product => {
+
+            const categoryMatch =
+                currentCategory === "all" ||
+                product.category === currentCategory;
+
+
+            const searchText =
+                (
+                    product.name +
+                    " " +
+                    product.description
+                ).toLowerCase();
+
+
+            const searchMatch =
+                searchText.includes(
+                    searchTerm.toLowerCase()
+                );
+
+
+            return (
+                categoryMatch &&
+                searchMatch
+            );
+
+        });
+
+
+    productsGrid.innerHTML = "";
+
+
+    if (
+        filteredProducts.length === 0
+    ) {
+
+        if (noProducts) {
+
+            noProducts.classList.remove(
+                "hidden"
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    if (noProducts) {
+
+        noProducts.classList.add(
+            "hidden"
+        );
+
+    }
+
+
+    filteredProducts.forEach(
+        product => {
+
+            const card =
+                document.createElement(
+                    "article"
+                );
+
+
+            card.className =
+                "product-card";
+
+
+            card.innerHTML = `
+
+                <div class="product-image">
+
+                    <img
+                        src="${product.image}"
+                        alt="${product.name}"
+                        loading="lazy"
+                        onerror="
+                            this.src='https://placehold.co/800x800/f3f4f6/111827?text=WENDK+SHOP'
+                        "
+                    >
+
+                    <span class="product-badge">
+                        ${product.badge}
+                    </span>
+
+                </div>
+
+
+                <div class="product-info">
+
+                    <span class="product-category">
+                        ${getCategoryName(
+                            product.category
+                        )}
+                    </span>
+
+
+                    <h3 class="product-name">
+                        ${product.name}
+                    </h3>
+
+
+                    <p class="product-description">
+                        ${product.description}
+                    </p>
+
+
+                    <div class="product-bottom">
+
+                        <strong class="product-price">
+                            ${formatPrice(
+                                product.price
+                            )}
+                        </strong>
+
+
+                        <div class="product-actions">
+
+                            <button
+                                class="details-btn"
+                                data-details-id="${product.id}"
+                            >
+                                👁️ Détails
+                            </button>
+
+
+                            <button
+                                class="add-cart"
+                                data-id="${product.id}"
+                                aria-label="Ajouter ${product.name} au panier"
+                            >
+                                🛒
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+
+            productsGrid.appendChild(card);
+
+        }
+    );
+
+
+    /*
+       Boutons Ajouter au panier
+    */
+
+    document
+        .querySelectorAll(".add-cart")
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const id =
+                        Number(
+                            button.dataset.id
+                        );
+
+                    addToCart(id);
+
+                }
+            );
+
+        });
+
+
+    /*
+       Boutons Détails
+    */
+
+    document
+        .querySelectorAll(
+            "[data-details-id]"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const id =
+                        Number(
+                            button.dataset.detailsId
+                        );
+
+                    openProductDetails(id);
+
+                }
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   MODALE DÉTAILS PRODUIT
+   ========================================================= */
+
+function createProductDetailsModal() {
+
+    if (
+        document.getElementById(
+            "productDetailsModal"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const modal =
+        document.createElement("div");
+
+
+    modal.id =
+        "productDetailsModal";
+
+
+    modal.innerHTML = `
+
+        <div
+            class="product-details-overlay"
+            id="productDetailsOverlay"
+        >
+
+            <div
+                class="product-details-modal"
+                role="dialog"
+                aria-modal="true"
+            >
+
+                <button
+                    type="button"
+                    class="product-details-close"
+                    id="closeProductDetailsBtn"
+                    aria-label="Fermer"
+                >
+                    ×
+                </button>
+
+
+                <div
+                    id="productDetailsContent"
+                    class="product-details-content"
+                ></div>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(modal);
+
+
+    const overlay =
+        document.getElementById(
+            "productDetailsOverlay"
+        );
+
+
+    const closeButton =
+        document.getElementById(
+            "closeProductDetailsBtn"
+        );
+
+
+    if (closeButton) {
+
+        closeButton.addEventListener(
+            "click",
+            closeProductDetails
+        );
+
+    }
+
+
+    if (overlay) {
+
+        overlay.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target === overlay
+                ) {
+
+                    closeProductDetails();
+
+                }
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   OUVRIR DÉTAILS
+   ========================================================= */
+
+function openProductDetails(productId) {
+
+    const product =
+        products.find(
+            item =>
+                item.id === productId
+        );
+
+
+    if (!product) {
+
+        return;
+
+    }
+
+
+    selectedProduct =
+        product;
+
+
+    createProductDetailsModal();
+
+
+    const modal =
+        document.getElementById(
+            "productDetailsModal"
+        );
+
+
+    const content =
+        document.getElementById(
+            "productDetailsContent"
+        );
+
+
+    if (!modal || !content) {
+
+        return;
+
+    }
+
+
+    let specsHTML = "";
+
+
+    if (
+        product.specs &&
+        typeof product.specs === "object"
+    ) {
+
+        specsHTML = Object.entries(
+            product.specs
+        )
+            .map(
+                ([key, value]) => `
+
+                    <div class="spec-row">
+
+                        <span>
+                            ${key}
+                        </span>
+
+                        <strong>
+                            ${value}
+                        </strong>
+
+                    </div>
+
+                `
+            )
+            .join("");
+
+    }
+
+
+    content.innerHTML = `
+
+        <div class="product-details-image">
+
+            <img
+                src="${product.image}"
+                alt="${product.name}"
+                onerror="
+                    this.src='https://placehold.co/800x800/f3f4f6/111827?text=WENDK+SHOP'
+                "
+            >
+
+        </div>
+
+
+        <div class="product-details-info">
+
+            <span class="product-category">
+                ${getCategoryName(
+                    product.category
+                )}
+            </span>
+
+
+            <h2>
+                ${product.name}
+            </h2>
+
+
+            <div class="product-details-price">
+                ${formatPrice(
+                    product.price
+                )}
+            </div>
+
+
+            <p>
+                ${product.description}
+            </p>
+
+
+            ${
+                specsHTML
+                ? `
+                    <h3>
+                        📋 Fiche technique
+                    </h3>
+
+                    <div class="specifications">
+                        ${specsHTML}
+                    </div>
+                `
+                : ""
+            }
+
+
+            <button
+                class="btn btn-whatsapp"
+                id="detailsAddCartBtn"
+            >
+                🛒 Ajouter au panier
+            </button>
+
+        </div>
+
+    `;
+
+
+    modal.classList.add("open");
+
+
+    const addButton =
+        document.getElementById(
+            "detailsAddCartBtn"
+        );
+
+
+    if (addButton) {
+
+        addButton.addEventListener(
+            "click",
+            () => {
+
+                addToCart(product.id);
+
+                closeProductDetails();
+
+                openCart();
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FERMER DÉTAILS
+   ========================================================= */
+
+function closeProductDetails() {
+
+    const modal =
+        document.getElementById(
+            "productDetailsModal"
+        );
+
+
+    if (modal) {
+
+        modal.classList.remove(
+            "open"
+        );
+
+    }
+
+
+    selectedProduct =
+        null;
+
+}
+
+
+/* =========================================================
+   FIN DU BLOC 2
+   ========================================================= */
+
