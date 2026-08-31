@@ -2676,4 +2676,420 @@ async function handleCheckoutSubmit(event) {
 /* =========================================================
    FIN DU BLOC 4
    ========================================================= */
+/* =========================================================
+   WENDK SHOP
+   SCRIPT.JS — BLOC 5/5
+   INITIALISATION FINALE
+   ========================================================= */
+
+
+/* =========================================================
+   CATÉGORIES
+   ========================================================= */
+
+function setupCategories() {
+
+    const buttons =
+        document.querySelectorAll(
+            ".category-btn"
+        );
+
+
+    buttons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                buttons.forEach(btn => {
+
+                    btn.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                currentCategory =
+                    button.dataset.category ||
+                    "all";
+
+
+                renderProducts();
+
+            }
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   RECHERCHE
+   ========================================================= */
+
+function setupSearch() {
+
+    if (!searchInput) return;
+
+
+    searchInput.addEventListener(
+        "input",
+        event => {
+
+            searchTerm =
+                event.target.value.trim();
+
+
+            renderProducts();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RESET FILTRES
+   ========================================================= */
+
+function setupResetFilters() {
+
+    if (!resetFilters) return;
+
+
+    resetFilters.addEventListener(
+        "click",
+        () => {
+
+            currentCategory =
+                "all";
+
+            searchTerm =
+                "";
+
+
+            if (searchInput) {
+
+                searchInput.value =
+                    "";
+
+            }
+
+
+            document
+                .querySelectorAll(
+                    ".category-btn"
+                )
+                .forEach(button => {
+
+                    button.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+            const allButton =
+                document.querySelector(
+                    '.category-btn[data-category="all"]'
+                );
+
+
+            if (allButton) {
+
+                allButton.classList.add(
+                    "active"
+                );
+
+            }
+
+
+            renderProducts();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   BOUTONS PANIER
+   ========================================================= */
+
+function setupCartButtons() {
+
+    if (openCartBtn) {
+
+        openCartBtn.addEventListener(
+            "click",
+            () => {
+
+                updateCartUI();
+
+                openCart();
+
+            }
+        );
+
+    }
+
+
+    if (closeCartBtn) {
+
+        closeCartBtn.addEventListener(
+            "click",
+            () => {
+
+                closeCart();
+
+            }
+        );
+
+    }
+
+
+    if (cartOverlay) {
+
+        cartOverlay.addEventListener(
+            "click",
+            () => {
+
+                closeCart();
+
+            }
+        );
+
+    }
+
+
+    if (continueShopping) {
+
+        continueShopping.addEventListener(
+            "click",
+            () => {
+
+                closeCart();
+
+            }
+        );
+
+    }
+
+
+    if (clearCartBtn) {
+
+        clearCartBtn.addEventListener(
+            "click",
+            () => {
+
+                clearCart();
+
+            }
+        );
+
+    }
+
+
+    /*
+       IMPORTANT :
+       Le bouton Commander WhatsApp
+       ouvre maintenant le formulaire
+       client au lieu d'ouvrir WhatsApp
+       directement.
+    */
+
+    if (checkoutBtn) {
+
+        checkoutBtn.addEventListener(
+            "click",
+            () => {
+
+                openCheckoutModal();
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   LIENS WHATSAPP
+   ========================================================= */
+
+function setupWhatsAppLinks() {
+
+    const generalMessage =
+        "Bonjour WENDK SHOP 👋\n\n" +
+        "Je souhaite avoir des informations " +
+        "sur vos téléphones et accessoires.";
+
+
+    const link =
+        createWhatsAppLink(
+            generalMessage
+        );
+
+
+    if (link) {
+
+        if (promoWhatsapp) {
+
+            promoWhatsapp.href =
+                link;
+
+        }
+
+
+        if (contactWhatsapp) {
+
+            contactWhatsapp.href =
+                link;
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   ANNÉE FOOTER
+   ========================================================= */
+
+function setupCurrentYear() {
+
+    if (!currentYear) return;
+
+
+    currentYear.textContent =
+        new Date().getFullYear();
+
+}
+
+
+/* =========================================================
+   FERMER AVEC ÉCHAP
+   ========================================================= */
+
+function setupEscapeKey() {
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closeCart();
+
+                closeProductDetails();
+
+                closeCheckoutModal();
+
+            }
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   INITIALISATION
+   ========================================================= */
+
+async function initWendkShop() {
+
+    console.log(
+        "🚀 WENDK SHOP démarrage..."
+    );
+
+
+    /*
+       Affichage immédiat des produits
+       locaux.
+    */
+
+    renderProducts();
+
+    updateCartUI();
+
+
+    /*
+       Connexion des boutons
+    */
+
+    setupCategories();
+
+    setupSearch();
+
+    setupResetFilters();
+
+    setupCartButtons();
+
+    setupWhatsAppLinks();
+
+    setupCurrentYear();
+
+    setupEscapeKey();
+
+
+    /*
+       Charger ensuite les produits
+       depuis Supabase.
+    */
+
+    await loadProductsFromSupabase();
+
+
+    /*
+       Réafficher les produits après
+       chargement Supabase.
+    */
+
+    renderProducts();
+
+    updateCartUI();
+
+
+    console.log(
+        "✅ WENDK SHOP est prêt."
+    );
+
+}
+
+
+/* =========================================================
+   DÉMARRAGE
+   ========================================================= */
+
+if (
+    document.readyState === "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initWendkShop
+    );
+
+} else {
+
+    initWendkShop();
+
+}
+
+
+/* =========================================================
+   FIN DU SCRIPT.JS
+   ========================================================= */
 
