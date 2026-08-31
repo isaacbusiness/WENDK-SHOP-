@@ -3414,3 +3414,578 @@ if (
     }
 
 })();
+/* =========================================================
+   WENDK SHOP — RESET COMPLET DU BOUTON COMMANDE
+   ========================================================= */
+
+(function () {
+
+    function resetCheckoutButton() {
+
+        const oldButton =
+            document.getElementById("checkoutBtn");
+
+        if (!oldButton) {
+
+            console.error(
+                "❌ checkoutBtn introuvable."
+            );
+
+            return;
+
+        }
+
+
+        /*
+           On clone le bouton.
+
+           Cela supprime TOUS les anciens
+           addEventListener attachés dessus.
+        */
+
+        const newButton =
+            oldButton.cloneNode(true);
+
+
+        oldButton.parentNode.replaceChild(
+            newButton,
+            oldButton
+        );
+
+
+        /*
+           Nouveau comportement unique
+        */
+
+        newButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+
+                console.log(
+                    "🛒 Bouton Commander cliqué"
+                );
+
+
+                if (
+                    !Array.isArray(cart) ||
+                    cart.length === 0
+                ) {
+
+                    alert(
+                        "Votre panier est vide."
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                   Fermer le panier
+                */
+
+                if (
+                    typeof closeCart ===
+                    "function"
+                ) {
+
+                    closeCart();
+
+                }
+
+
+                /*
+                   Supprimer une ancienne
+                   fenêtre de commande
+                */
+
+                const oldModal =
+                    document.getElementById(
+                        "checkoutModal"
+                    );
+
+
+                if (oldModal) {
+
+                    oldModal.remove();
+
+                }
+
+
+                /*
+                   Créer directement le formulaire
+                   sans utiliser l'ancien
+                   createCheckoutModal().
+                */
+
+                const modal =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                modal.id =
+                    "checkoutModal";
+
+
+                modal.innerHTML = `
+
+                    <div
+                        style="
+                            position:fixed;
+                            inset:0;
+                            z-index:100000;
+                            background:rgba(0,0,0,.65);
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            padding:20px;
+                            overflow-y:auto;
+                        "
+                        id="newCheckoutOverlay"
+                    >
+
+                        <div
+                            style="
+                                width:100%;
+                                max-width:500px;
+                                max-height:90vh;
+                                overflow-y:auto;
+                                background:#fff;
+                                border-radius:18px;
+                                padding:24px;
+                                position:relative;
+                                box-sizing:border-box;
+                            "
+                        >
+
+                            <button
+                                type="button"
+                                id="newCloseCheckout"
+                                style="
+                                    position:absolute;
+                                    top:12px;
+                                    right:15px;
+                                    border:0;
+                                    background:#f1f1f1;
+                                    border-radius:50%;
+                                    width:38px;
+                                    height:38px;
+                                    font-size:24px;
+                                    cursor:pointer;
+                                "
+                            >
+                                ×
+                            </button>
+
+
+                            <h2
+                                style="
+                                    margin-top:0;
+                                "
+                            >
+                                🛍️ Finaliser la commande
+                            </h2>
+
+
+                            <p>
+                                Entrez vos informations
+                                pour confirmer votre commande.
+                            </p>
+
+
+                            <form
+                                id="newCheckoutForm"
+                            >
+
+                                <label>
+                                    Nom complet
+                                </label>
+
+                                <input
+                                    id="newCustomerName"
+                                    type="text"
+                                    placeholder="Votre nom complet"
+                                    required
+                                    style="
+                                        width:100%;
+                                        padding:13px;
+                                        margin:7px 0 15px;
+                                        box-sizing:border-box;
+                                        border:1px solid #ddd;
+                                        border-radius:8px;
+                                    "
+                                >
+
+
+                                <label>
+                                    Téléphone
+                                </label>
+
+                                <input
+                                    id="newCustomerPhone"
+                                    type="tel"
+                                    placeholder="Ex : 70 00 00 00"
+                                    required
+                                    style="
+                                        width:100%;
+                                        padding:13px;
+                                        margin:7px 0 15px;
+                                        box-sizing:border-box;
+                                        border:1px solid #ddd;
+                                        border-radius:8px;
+                                    "
+                                >
+
+
+                                <label>
+                                    Adresse
+                                </label>
+
+                                <textarea
+                                    id="newCustomerAddress"
+                                    placeholder="Quartier, secteur, ville..."
+                                    rows="3"
+                                    required
+                                    style="
+                                        width:100%;
+                                        padding:13px;
+                                        margin:7px 0 15px;
+                                        box-sizing:border-box;
+                                        border:1px solid #ddd;
+                                        border-radius:8px;
+                                    "
+                                ></textarea>
+
+
+                                <div
+                                    style="
+                                        display:flex;
+                                        justify-content:space-between;
+                                        align-items:center;
+                                        padding:15px 0;
+                                        border-top:1px solid #eee;
+                                        border-bottom:1px solid #eee;
+                                        margin-bottom:15px;
+                                    "
+                                >
+
+                                    <strong>
+                                        Total
+                                    </strong>
+
+                                    <strong>
+                                        ${formatPrice(getCartTotal())}
+                                    </strong>
+
+                                </div>
+
+
+                                <button
+                                    type="submit"
+                                    id="newConfirmOrder"
+                                    style="
+                                        width:100%;
+                                        padding:15px;
+                                        border:0;
+                                        border-radius:10px;
+                                        background:#25D366;
+                                        color:#fff;
+                                        font-size:16px;
+                                        font-weight:bold;
+                                        cursor:pointer;
+                                    "
+                                >
+                                    💬 Confirmer la commande
+                                </button>
+
+
+                                <p
+                                    id="newCheckoutStatus"
+                                    style="
+                                        text-align:center;
+                                        margin-top:12px;
+                                    "
+                                ></p>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                document.body.appendChild(
+                    modal
+                );
+
+
+                /*
+                   Bouton fermer
+                */
+
+                const closeButton =
+                    document.getElementById(
+                        "newCloseCheckout"
+                    );
+
+
+                if (closeButton) {
+
+                    closeButton.onclick =
+                        function () {
+
+                            modal.remove();
+
+                        };
+
+                }
+
+
+                /*
+                   Fermer en cliquant
+                   sur l'arrière-plan
+                */
+
+                const overlay =
+                    document.getElementById(
+                        "newCheckoutOverlay"
+                    );
+
+
+                if (overlay) {
+
+                    overlay.onclick =
+                        function (e) {
+
+                            if (
+                                e.target ===
+                                overlay
+                            ) {
+
+                                modal.remove();
+
+                            }
+
+                        };
+
+                }
+
+
+                /*
+                   FORMULAIRE
+                */
+
+                const form =
+                    document.getElementById(
+                        "newCheckoutForm"
+                    );
+
+
+                if (form) {
+
+                    form.addEventListener(
+                        "submit",
+                        async function (e) {
+
+                            e.preventDefault();
+
+
+                            const name =
+                                document
+                                    .getElementById(
+                                        "newCustomerName"
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            const phone =
+                                document
+                                    .getElementById(
+                                        "newCustomerPhone"
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            const address =
+                                document
+                                    .getElementById(
+                                        "newCustomerAddress"
+                                    )
+                                    .value
+                                    .trim();
+
+
+                            if (
+                                !name ||
+                                !phone ||
+                                !address
+                            ) {
+
+                                alert(
+                                    "Veuillez remplir tous les champs."
+                                );
+
+                                return;
+
+                            }
+
+
+                            const confirmButton =
+                                document.getElementById(
+                                    "newConfirmOrder"
+                                );
+
+
+                            const status =
+                                document.getElementById(
+                                    "newCheckoutStatus"
+                                );
+
+
+                            confirmButton.disabled =
+                                true;
+
+
+                            confirmButton.textContent =
+                                "⏳ Enregistrement...";
+
+
+                            /*
+                               Enregistrement Supabase
+                            */
+
+                            let result = {
+                                success: false
+                            };
+
+
+                            try {
+
+                                if (
+                                    typeof saveOrderToSupabase ===
+                                    "function"
+                                ) {
+
+                                    result =
+                                        await saveOrderToSupabase(
+                                            name,
+                                            phone,
+                                            address
+                                        );
+
+                                }
+
+                            } catch (error) {
+
+                                console.error(
+                                    "Erreur commande :",
+                                    error
+                                );
+
+                            }
+
+
+                            /*
+                               Message WhatsApp
+                            */
+
+                            const message =
+                                createOrderWhatsAppMessage(
+                                    name,
+                                    phone,
+                                    address
+                                );
+
+
+                            const whatsappLink =
+                                createWhatsAppLink(
+                                    message
+                                );
+
+
+                            if (
+                                status
+                            ) {
+
+                                status.textContent =
+                                    result.success
+                                    ? "✅ Commande enregistrée. Ouverture de WhatsApp..."
+                                    : "⚠️ Ouverture de WhatsApp...";
+
+                            }
+
+
+                            /*
+                               Ouvrir WhatsApp
+                            */
+
+                            if (
+                                whatsappLink
+                            ) {
+
+                                setTimeout(
+                                    function () {
+
+                                        window.location.href =
+                                            whatsappLink;
+
+                                    },
+                                    400
+                                );
+
+                            }
+
+
+                            /*
+                               Vider le panier
+                            */
+
+                            cart = [];
+
+                            saveCart();
+
+                            updateCartUI();
+
+                        }
+                    );
+
+                }
+
+            },
+            false
+        );
+
+
+        console.log(
+            "✅ Bouton de commande entièrement réinitialisé."
+        );
+
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            resetCheckoutButton
+        );
+
+    } else {
+
+        resetCheckoutButton();
+
+    }
+
+})();
