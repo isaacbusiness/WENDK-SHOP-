@@ -691,16 +691,193 @@
         role="status"
         aria-live="polite"
     ></div>
+        <!-- =================================================
+             MODALE DÉTAILS PRODUIT
+             ================================================= -->
+
+        <div
+            id="productDetailsModal"
+            class="product-details-container hidden"
+        >
+
+            <div
+                id="productDetailsOverlay"
+                class="product-details-overlay"
+            >
+
+                <div
+                    class="product-details-modal"
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="detailsProductName"
+                >
+
+                    <button
+                        type="button"
+                        id="closeProductDetails"
+                        class="product-details-close"
+                        aria-label="Fermer"
+                    >
+                        ×
+                    </button>
+
+
+                    <div class="details-image-container">
+
+                        <img
+                            id="detailsProductImage"
+                            class="details-image"
+                            src=""
+                            alt="Produit"
+                        >
+
+                    </div>
+
+
+                    <div class="details-content">
+
+                        <span
+                            id="detailsProductCategory"
+                            class="product-category"
+                        >
+                            Produit
+                        </span>
+
+
+                        <h2 id="detailsProductName">
+                            Produit
+                        </h2>
+
+
+                        <p id="detailsProductDescription">
+                            Description du produit.
+                        </p>
+
+
+                        <div
+                            id="detailsProductPrice"
+                            class="details-price"
+                        >
+                            0 FCFA
+                        </div>
+
+
+                        <h3>
+                            📋 Fiche technique
+                        </h3>
+
+
+                        <div
+                            id="detailsProductSpecs"
+                            class="specs-list"
+                        >
+                        </div>
+
+
+                        <button
+                            type="button"
+                            id="detailsAddCart"
+                            class="btn btn-whatsapp"
+                        >
+                            🛒 Ajouter au panier
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
 
 
 
-    <!-- =====================================================
-         JAVASCRIPT
-         ===================================================== -->
+        <!-- =================================================
+             INFORMATIONS DE LIVRAISON
+             ================================================= -->
 
-    <script src="script.js"></script>
+        <section class="info-section">
 
-</body>
+            <div class="container">
 
-    </html>
-    
+                <div class="info-grid">
+
+                    <div class="info-card">
+
+                        <div class="info-icon">
+                            🚚
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Livraison
+                            </h3>
+
+                            <p>
+                                Livraison à Ouagadougou
+                                et selon les possibilités
+                                dans les autres villes.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-card">
+
+                        <div class="info-icon">
+                            💳
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Paiement
+                            </h3>
+
+                            <p>
+                                Les modalités de paiement
+                                sont communiquées lors
+                                de la confirmation.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-card">
+
+                        <div class="info-icon">
+                            ✅
+                        </div>
+
+                        <div>
+
+                            <h3>
+                                Commande sécurisée
+                            </h3>
+
+                            <p>
+                                Votre commande est
+                                enregistrée avant
+                                l'ouverture de WhatsApp.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FIN DU CONTENU PRINCIPAL
+             ================================================= -->
