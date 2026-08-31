@@ -3269,3 +3269,148 @@ if (
     }
 
 })();
+/* =========================================================
+   WENDK SHOP — CORRECTION PASSER LA COMMANDE
+   ========================================================= */
+
+(function () {
+
+    function fixCheckoutButton() {
+
+        const checkoutButton =
+            document.getElementById("checkoutBtn");
+
+        if (!checkoutButton) {
+
+            console.error(
+                "❌ Bouton checkoutBtn introuvable."
+            );
+
+            return;
+
+        }
+
+
+        checkoutButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+
+                /* Vérifier le panier */
+
+                if (
+                    !Array.isArray(cart) ||
+                    cart.length === 0
+                ) {
+
+                    alert(
+                        "Votre panier est vide."
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                   Fermer le panier avant d'ouvrir
+                   le formulaire de commande.
+                */
+
+                if (
+                    typeof closeCart ===
+                    "function"
+                ) {
+
+                    closeCart();
+
+                }
+
+
+                /*
+                   Créer le formulaire
+                */
+
+                if (
+                    typeof createCheckoutModal ===
+                    "function"
+                ) {
+
+                    createCheckoutModal();
+
+                } else {
+
+                    console.error(
+                        "❌ createCheckoutModal introuvable."
+                    );
+
+                    return;
+
+                }
+
+
+                /*
+                   Petit délai pour éviter
+                   un conflit d'animation.
+                */
+
+                setTimeout(
+                    function () {
+
+                        const modal =
+                            document.getElementById(
+                                "checkoutModal"
+                            );
+
+                        if (modal) {
+
+                            modal.style.display =
+                                "block";
+
+                            modal.style.visibility =
+                                "visible";
+
+                            modal.style.opacity =
+                                "1";
+
+                            modal.style.zIndex =
+                                "100000";
+
+                        }
+
+                    },
+                    50
+                );
+
+            },
+            true
+        );
+
+
+        console.log(
+            "✅ Bouton de commande corrigé."
+        );
+
+    }
+
+
+    if (
+        document.readyState ===
+        "loading"
+    ) {
+
+        document.addEventListener(
+            "DOMContentLoaded",
+            fixCheckoutButton
+        );
+
+    } else {
+
+        fixCheckoutButton();
+
+    }
+
+})();
