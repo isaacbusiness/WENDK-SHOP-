@@ -1739,3 +1739,762 @@ function showToast(message) {
 /* =========================================================
    FIN DU BLOC 3
    ========================================================= */
+/* =========================================================
+   WENDK SHOP
+   SCRIPT.JS — BLOC 4/5
+   COMMANDE + SUPABASE + WHATSAPP
+   ========================================================= */
+
+
+/* =========================================================
+   CRÉER LE LIEN WHATSAPP
+   ========================================================= */
+
+function createWhatsAppLink(message) {
+
+    if (
+        !WHATSAPP_NUMBER ||
+        WHATSAPP_NUMBER.includes("XXXXXXXX")
+    ) {
+
+        alert(
+            "Le numéro WhatsApp n'est pas configuré."
+        );
+
+        return null;
+
+    }
+
+
+    return (
+        "https://wa.me/" +
+        WHATSAPP_NUMBER +
+        "?text=" +
+        encodeURIComponent(message)
+    );
+
+}
+
+
+/* =========================================================
+   CRÉER LE MESSAGE DE COMMANDE
+   ========================================================= */
+
+function createOrderWhatsAppMessage(
+    customerName,
+    customerPhone,
+    customerAddress
+) {
+
+    let message =
+        "🛍️ *NOUVELLE COMMANDE — WENDK SHOP*\n\n";
+
+
+    message +=
+        "👤 *Client :* " +
+        customerName +
+        "\n";
+
+
+    message +=
+        "📞 *Téléphone :* " +
+        customerPhone +
+        "\n";
+
+
+    message +=
+        "📍 *Adresse :* " +
+        customerAddress +
+        "\n\n";
+
+
+    message +=
+        "🛒 *PRODUITS COMMANDÉS :*\n";
+
+
+    cart.forEach((item, index) => {
+
+        const product =
+            getCartProduct(item.id);
+
+
+        if (!product) {
+
+            return;
+
+        }
+
+
+        const quantity =
+            Number(item.quantity);
+
+
+        const subtotal =
+            Number(product.price) *
+            quantity;
+
+
+        message +=
+            `${index + 1}. ${product.name}\n`;
+
+
+        message +=
+            `   Quantité : ${quantity}\n`;
+
+
+        message +=
+            `   Prix : ${formatPrice(product.price)}\n`;
+
+
+        message +=
+            `   Sous-total : ${formatPrice(subtotal)}\n\n`;
+
+    });
+
+
+    message +=
+        "💰 *TOTAL : " +
+        formatPrice(
+            getCartTotal()
+        ) +
+        "*\n\n";
+
+
+    message +=
+        "Merci de confirmer la disponibilité et les modalités de livraison. 🙏";
+
+
+    return message;
+
+}
+
+
+/* =========================================================
+   ENREGISTRER LA COMMANDE DANS SUPABASE
+   ========================================================= */
+
+async function saveOrderToSupabase(
+    customerName,
+    customerPhone,
+    customerAddress
+) {
+
+    const items =
+        cart.map(item => {
+
+            const product =
+                getCartProduct(item.id);
+
+
+            return {
+
+                id:
+                    item.id,
+
+                name:
+                    product
+                        ? product.name
+                        : "Produit",
+
+                price:
+                    product
+                        ? Number(product.price)
+                        : 0,
+
+                quantity:
+                    Number(item.quantity),
+
+                subtotal:
+                    product
+                        ? Number(product.price) *
+                          Number(item.quantity)
+                        : 0
+
+            };
+
+        });
+
+
+    const orderData = {
+
+        customer_name:
+            customerName,
+
+        customer_phone:
+            customerPhone,
+
+        address:
+            customerAddress,
+
+        items:
+            items,
+
+        total:
+            getCartTotal(),
+
+        status:
+            "Nouvelle"
+
+    };
+
+
+    try {
+
+        /*
+           IMPORTANT :
+           La table utilisée ici est "orders".
+        */
+
+        const response =
+            await fetch(
+                `${SUPABASE_URL}/rest/v1/orders`,
+                {
+
+                    method:
+                        "POST",
+
+                    headers: {
+
+                        ...SUPABASE_HEADERS,
+
+                        "Prefer":
+                            "return=representation"
+
+                    },
+
+                    body:
+                        JSON.stringify(
+                            orderData
+                        )
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+
+            console.error(
+                "❌ Erreur Supabase :",
+                errorText
+            );
+
+
+            return {
+
+                success:
+                    false,
+
+                error:
+                    errorText
+
+            };
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "✅ Commande enregistrée dans Supabase :",
+            data
+        );
+
+
+        return {
+
+            success:
+                true,
+
+            data:
+                data
+
+        };
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "❌ Impossible de contacter Supabase :",
+            error
+        );
+
+
+        return {
+
+            success:
+                false,
+
+            error:
+                error.message
+
+        };
+
+    }
+
+}
+
+
+/* =========================================================
+   CRÉER LA FENÊTRE DE COMMANDE
+   ========================================================= */
+
+function createCheckoutModal() {
+
+    /*
+       Éviter plusieurs fenêtres
+    */
+
+    const oldModal =
+        document.getElementById(
+            "checkoutModal"
+        );
+
+
+    if (oldModal) {
+
+        oldModal.remove();
+
+    }
+
+
+    const modal =
+        document.createElement(
+            "div"
+        );
+
+
+    modal.id =
+        "checkoutModal";
+
+
+    modal.innerHTML = `
+
+        <div
+            class="checkout-modal-overlay"
+            id="checkoutModalOverlay"
+        >
+
+            <div
+                class="checkout-modal"
+                role="dialog"
+                aria-modal="true"
+            >
+
+                <button
+                    type="button"
+                    class="checkout-modal-close"
+                    id="closeCheckoutModal"
+                >
+                    ×
+                </button>
+
+
+                <div class="checkout-modal-header">
+
+                    <span class="section-label">
+                        FINALISER LA COMMANDE
+                    </span>
+
+
+                    <h2>
+                        Vos informations
+                    </h2>
+
+
+                    <p>
+                        Remplissez vos informations
+                        avant d'envoyer la commande.
+                    </p>
+
+                </div>
+
+
+                <form
+                    id="checkoutForm"
+                    class="checkout-form"
+                >
+
+                    <label>
+                        Nom complet
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        name="customerName"
+                        placeholder="Votre nom complet"
+                        required
+                    >
+
+
+                    <label>
+                        Téléphone
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="customerPhone"
+                        name="customerPhone"
+                        placeholder="Ex : 70 00 00 00"
+                        required
+                    >
+
+
+                    <label>
+                        Adresse
+                    </label>
+
+                    <textarea
+                        id="customerAddress"
+                        name="customerAddress"
+                        placeholder="Quartier, secteur, ville..."
+                        rows="3"
+                        required
+                    ></textarea>
+
+
+                    <div
+                        class="checkout-summary"
+                    >
+
+                        <span>
+                            Total de la commande
+                        </span>
+
+                        <strong
+                            id="checkoutModalTotal"
+                        >
+                            ${formatPrice(getCartTotal())}
+                        </strong>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-whatsapp checkout-submit"
+                        id="confirmOrderBtn"
+                    >
+                        💬 Confirmer la commande
+                    </button>
+
+
+                    <p
+                        id="checkoutStatus"
+                        class="checkout-status"
+                    ></p>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        modal
+    );
+
+
+    const closeButton =
+        document.getElementById(
+            "closeCheckoutModal"
+        );
+
+
+    const overlay =
+        document.getElementById(
+            "checkoutModalOverlay"
+        );
+
+
+    const form =
+        document.getElementById(
+            "checkoutForm"
+        );
+
+
+    if (closeButton) {
+
+        closeButton.addEventListener(
+            "click",
+            closeCheckoutModal
+        );
+
+    }
+
+
+    if (overlay) {
+
+        overlay.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target ===
+                    overlay
+                ) {
+
+                    closeCheckoutModal();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if (form) {
+
+        form.addEventListener(
+            "submit",
+            handleCheckoutSubmit
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FERMER LA FENÊTRE DE COMMANDE
+   ========================================================= */
+
+function closeCheckoutModal() {
+
+    const modal =
+        document.getElementById(
+            "checkoutModal"
+        );
+
+
+    if (modal) {
+
+        modal.remove();
+
+    }
+
+}
+
+
+/* =========================================================
+   TRAITER LA COMMANDE
+   ========================================================= */
+
+async function handleCheckoutSubmit(
+    event
+) {
+
+    event.preventDefault();
+
+
+    if (
+        !cart ||
+        cart.length === 0
+    ) {
+
+        alert(
+            "Votre panier est vide."
+        );
+
+        closeCheckoutModal();
+
+        return;
+
+    }
+
+
+    const customerName =
+        document
+            .getElementById(
+                "customerName"
+            )
+            ?.value
+            .trim();
+
+
+    const customerPhone =
+        document
+            .getElementById(
+                "customerPhone"
+            )
+            ?.value
+            .trim();
+
+
+    const customerAddress =
+        document
+            .getElementById(
+                "customerAddress"
+            )
+            ?.value
+            .trim();
+
+
+    if (
+        !customerName ||
+        !customerPhone ||
+        !customerAddress
+    ) {
+
+        alert(
+            "Veuillez remplir tous les champs."
+        );
+
+        return;
+
+    }
+
+
+    const confirmButton =
+        document.getElementById(
+            "confirmOrderBtn"
+        );
+
+
+    const status =
+        document.getElementById(
+            "checkoutStatus"
+        );
+
+
+    if (confirmButton) {
+
+        confirmButton.disabled =
+            true;
+
+        confirmButton.textContent =
+            "⏳ Enregistrement...";
+
+    }
+
+
+    if (status) {
+
+        status.textContent =
+            "Enregistrement de votre commande...";
+
+    }
+
+
+    /*
+       1️⃣ Enregistrement Supabase
+    */
+
+    const result =
+        await saveOrderToSupabase(
+            customerName,
+            customerPhone,
+            customerAddress
+        );
+
+
+    /*
+       2️⃣ Création du message WhatsApp
+    */
+
+    const message =
+        createOrderWhatsAppMessage(
+            customerName,
+            customerPhone,
+            customerAddress
+        );
+
+
+    const whatsappLink =
+        createWhatsAppLink(
+            message
+        );
+
+
+    /*
+       3️⃣ Même si Supabase rencontre
+          un problème, on permet au client
+          de contacter WENDK SHOP.
+    */
+
+    if (!whatsappLink) {
+
+        if (confirmButton) {
+
+            confirmButton.disabled =
+                false;
+
+            confirmButton.textContent =
+                "💬 Confirmer la commande";
+
+        }
+
+        return;
+
+    }
+
+
+    /*
+       4️⃣ Message à l'utilisateur
+    */
+
+    if (result.success) {
+
+        if (status) {
+
+            status.textContent =
+                "✅ Commande enregistrée. Ouverture de WhatsApp...";
+
+        }
+
+    } else {
+
+        if (status) {
+
+            status.textContent =
+                "⚠️ WhatsApp va s'ouvrir. L'enregistrement automatique a rencontré un problème.";
+
+        }
+
+    }
+
+
+    /*
+       5️⃣ Ouvrir WhatsApp
+    */
+
+    setTimeout(
+        () => {
+
+            window.location.href =
+                whatsappLink;
+
+        },
+        500
+    );
+
+
+    /*
+       6️⃣ Vider le panier après
+          préparation de la commande
+    */
+
+    cart = [];
+
+    saveCart();
+
+    updateCartUI();
+
+}
+
+
+/* =========================================================
+   FIN DU BLOC 4
+   ========================================================= */
