@@ -2498,3 +2498,562 @@ async function handleCheckoutSubmit(
 /* =========================================================
    FIN DU BLOC 4
    ========================================================= */
+
+/* =========================================================
+   WENDK SHOP
+   SCRIPT.JS — BLOC 5/5
+   INITIALISATION + ÉVÉNEMENTS
+   ========================================================= */
+
+
+/* =========================================================
+   CATÉGORIES
+   ========================================================= */
+
+function setupCategories() {
+
+    const buttons =
+        document.querySelectorAll(
+            ".category-btn"
+        );
+
+
+    buttons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                buttons.forEach(btn => {
+
+                    btn.classList.remove(
+                        "active"
+                    );
+
+                });
+
+
+                this.classList.add(
+                    "active"
+                );
+
+
+                currentCategory =
+                    this.dataset.category ||
+                    "all";
+
+
+                renderProducts();
+
+            }
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   RECHERCHE
+   ========================================================= */
+
+function setupSearch() {
+
+    if (!searchInput) {
+
+        return;
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        function () {
+
+            searchTerm =
+                this.value.trim();
+
+
+            renderProducts();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RESET FILTRES
+   ========================================================= */
+
+function setupResetFilters() {
+
+    if (!resetFilters) {
+
+        return;
+
+    }
+
+
+    resetFilters.addEventListener(
+        "click",
+        function (event) {
+
+            event.preventDefault();
+
+
+            currentCategory =
+                "all";
+
+
+            searchTerm =
+                "";
+
+
+            if (searchInput) {
+
+                searchInput.value =
+                    "";
+
+            }
+
+
+            document
+                .querySelectorAll(
+                    ".category-btn"
+                )
+                .forEach(button => {
+
+                    button.classList.remove(
+                        "active"
+                    );
+
+
+                    if (
+                        button.dataset.category ===
+                        "all"
+                    ) {
+
+                        button.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                });
+
+
+            renderProducts();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   PANIER
+   ========================================================= */
+
+function setupCartEvents() {
+
+    /*
+       OUVRIR
+    */
+
+    if (openCartBtn) {
+
+        openCartBtn.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+                openCart();
+
+            }
+        );
+
+    }
+
+
+    /*
+       FERMER
+    */
+
+    if (closeCartBtn) {
+
+        closeCartBtn.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                event.stopPropagation();
+
+                closeCart();
+
+            }
+        );
+
+    }
+
+
+    /*
+       OVERLAY
+    */
+
+    if (cartOverlay) {
+
+        cartOverlay.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                closeCart();
+
+            }
+        );
+
+    }
+
+
+    /*
+       CONTINUER LES ACHATS
+    */
+
+    if (continueShopping) {
+
+        continueShopping.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                closeCart();
+
+            }
+        );
+
+    }
+
+
+    /*
+       VIDER
+    */
+
+    if (clearCartBtn) {
+
+        clearCartBtn.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                clearCart();
+
+            }
+        );
+
+    }
+
+
+    /*
+       COMMANDER
+    */
+
+    if (checkoutBtn) {
+
+        checkoutBtn.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+
+                if (
+                    !cart ||
+                    cart.length === 0
+                ) {
+
+                    alert(
+                        "Votre panier est vide."
+                    );
+
+                    return;
+
+                }
+
+
+                createCheckoutModal();
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   WHATSAPP CONTACT
+   ========================================================= */
+
+function setupWhatsAppLinks() {
+
+    const message =
+        "Bonjour WENDK SHOP 👋\n\n" +
+        "Je souhaite avoir des informations " +
+        "sur vos téléphones et accessoires.";
+
+
+    const link =
+        createWhatsAppLink(
+            message
+        );
+
+
+    if (!link) {
+
+        return;
+
+    }
+
+
+    if (promoWhatsapp) {
+
+        promoWhatsapp.href =
+            link;
+
+    }
+
+
+    if (contactWhatsapp) {
+
+        contactWhatsapp.href =
+            link;
+
+    }
+
+}
+
+
+/* =========================================================
+   ANNÉE
+   ========================================================= */
+
+function setupYear() {
+
+    if (currentYear) {
+
+        currentYear.textContent =
+            new Date().getFullYear();
+
+    }
+
+}
+
+
+/* =========================================================
+   TOUCHE ESC
+   ========================================================= */
+
+function setupEscapeKey() {
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (
+                event.key !==
+                "Escape"
+            ) {
+
+                return;
+
+            }
+
+
+            closeCart();
+
+            closeProductDetails();
+
+            closeCheckoutModal();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   NETTOYER LE PANIER
+   ========================================================= */
+
+function cleanInvalidCartItems() {
+
+    if (!Array.isArray(cart)) {
+
+        cart = [];
+
+        saveCart();
+
+        return;
+
+    }
+
+
+    const validIds =
+        products.map(
+            product =>
+                Number(product.id)
+        );
+
+
+    const cleaned =
+        cart.filter(item => {
+
+            return (
+                validIds.includes(
+                    Number(item.id)
+                ) &&
+                Number(item.quantity) > 0
+            );
+
+        });
+
+
+    if (
+        cleaned.length !==
+        cart.length
+    ) {
+
+        cart = cleaned;
+
+        saveCart();
+
+    }
+
+}
+
+
+/* =========================================================
+   DÉMARRAGE DES PRODUITS
+   ========================================================= */
+
+async function initializeProducts() {
+
+    /*
+       Affichage immédiat des produits
+       locaux.
+    */
+
+    renderProducts();
+
+
+    /*
+       Tentative de récupération
+       depuis Supabase.
+    */
+
+    await loadProductsFromSupabase();
+
+
+    /*
+       Actualisation si Supabase
+       contient des produits.
+    */
+
+    renderProducts();
+
+
+    /*
+       Nettoyage du panier après
+       chargement des produits.
+    */
+
+    cleanInvalidCartItems();
+
+    updateCartUI();
+
+}
+
+
+/* =========================================================
+   INITIALISATION PRINCIPALE
+   ========================================================= */
+
+async function initializeWendkShop() {
+
+    console.log(
+        "🚀 WENDK SHOP démarre..."
+    );
+
+
+    /*
+       Initialisation du panier
+    */
+
+    updateCartUI();
+
+
+    /*
+       Événements
+    */
+
+    setupCategories();
+
+    setupSearch();
+
+    setupResetFilters();
+
+    setupCartEvents();
+
+    setupWhatsAppLinks();
+
+    setupYear();
+
+    setupEscapeKey();
+
+
+    /*
+       Produits
+    */
+
+    await initializeProducts();
+
+
+    console.log(
+        "✅ WENDK SHOP est opérationnel."
+    );
+
+}
+
+
+/* =========================================================
+   DÉMARRAGE APRÈS CHARGEMENT HTML
+   ========================================================= */
+
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeWendkShop
+    );
+
+} else {
+
+    initializeWendkShop();
+
+}
+
+
+/* =========================================================
+   FIN DU SCRIPT.JS
+   ========================================================= */
