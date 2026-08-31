@@ -333,3 +333,711 @@ let selectedProduct = null;
 /* =========================================================
    FIN DU BLOC 1
    ========================================================= */
+/* =========================================================
+   WENDK SHOP
+   SCRIPT.JS — BLOC 2/5
+   DOM + PRODUITS + AFFICHAGE
+   ========================================================= */
+
+
+/* =========================================================
+   ÉLÉMENTS HTML
+   ========================================================= */
+
+const productsGrid =
+    document.getElementById("productsGrid");
+
+const noProducts =
+    document.getElementById("noProducts");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const cartCount =
+    document.getElementById("cartCount");
+
+const cartDrawer =
+    document.getElementById("cartDrawer");
+
+const cartOverlay =
+    document.getElementById("cartOverlay");
+
+const cartItems =
+    document.getElementById("cartItems");
+
+const cartTotal =
+    document.getElementById("cartTotal");
+
+const emptyCart =
+    document.getElementById("emptyCart");
+
+const cartFooter =
+    document.getElementById("cartFooter");
+
+const toast =
+    document.getElementById("toast");
+
+const checkoutBtn =
+    document.getElementById("checkoutBtn");
+
+const openCartBtn =
+    document.getElementById("openCartBtn");
+
+const closeCartBtn =
+    document.getElementById("closeCartBtn");
+
+const clearCartBtn =
+    document.getElementById("clearCartBtn");
+
+const continueShopping =
+    document.getElementById("continueShopping");
+
+const resetFilters =
+    document.getElementById("resetFilters");
+
+const promoWhatsapp =
+    document.getElementById("promoWhatsapp");
+
+const contactWhatsapp =
+    document.getElementById("contactWhatsapp");
+
+const currentYear =
+    document.getElementById("currentYear");
+
+
+/* =========================================================
+   FORMATAGE DU PRIX
+   ========================================================= */
+
+function formatPrice(price) {
+
+    return new Intl.NumberFormat("fr-FR")
+        .format(Number(price) || 0) + " FCFA";
+
+}
+
+
+/* =========================================================
+   NOM DES CATÉGORIES
+   ========================================================= */
+
+function getCategoryName(category) {
+
+    const categories = {
+
+        iphone: "iPhone",
+
+        samsung: "Samsung",
+
+        redmi: "Redmi",
+
+        tecno: "Tecno",
+
+        accessoires: "Accessoires"
+
+    };
+
+    return categories[category] || "Produit";
+
+}
+
+
+/* =========================================================
+   CHARGEMENT DES PRODUITS SUPABASE
+   ========================================================= */
+
+async function loadProductsFromSupabase() {
+
+    try {
+
+        const response =
+            await fetch(
+                `${SUPABASE_URL}/rest/v1/Product?select=*`,
+                {
+                    method: "GET",
+                    headers: SUPABASE_HEADERS
+                }
+            );
+
+
+        if (!response.ok) {
+
+            console.warn(
+                "⚠️ Table Product indisponible."
+            );
+
+            return;
+
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !Array.isArray(data) ||
+            data.length === 0
+        ) {
+
+            console.log(
+                "ℹ️ Aucun produit Supabase. Produits locaux conservés."
+            );
+
+            return;
+
+        }
+
+
+        products.length = 0;
+
+
+        data.forEach(product => {
+
+            products.push({
+
+                id:
+                    Number(product.id),
+
+                name:
+                    product.name || "Produit",
+
+                category:
+                    product.category || "accessoires",
+
+                price:
+                    Number(product.price) || 0,
+
+                badge:
+                    product.badge || "",
+
+                description:
+                    product.description || "",
+
+                image:
+                    product.image || "",
+
+                specs:
+                    product.specs || {}
+
+            });
+
+        });
+
+
+        console.log(
+            "✅ Produits Supabase chargés :",
+            products.length
+        );
+
+    }
+
+
+    catch (error) {
+
+        console.warn(
+            "⚠️ Supabase indisponible. Produits locaux utilisés.",
+            error
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FILTRAGE DES PRODUITS
+   ========================================================= */
+
+function getFilteredProducts() {
+
+    return products.filter(product => {
+
+        const categoryMatch =
+            currentCategory === "all" ||
+            product.category === currentCategory;
+
+
+        const searchText =
+            (
+                String(product.name || "") +
+                " " +
+                String(product.description || "")
+            ).toLowerCase();
+
+
+        const searchMatch =
+            searchText.includes(
+                searchTerm.toLowerCase()
+            );
+
+
+        return (
+            categoryMatch &&
+            searchMatch
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   AFFICHAGE DES PRODUITS
+   ========================================================= */
+
+function renderProducts() {
+
+    if (!productsGrid) {
+
+        console.error(
+            "❌ productsGrid introuvable."
+        );
+
+        return;
+
+    }
+
+
+    const filteredProducts =
+        getFilteredProducts();
+
+
+    productsGrid.innerHTML = "";
+
+
+    if (
+        noProducts
+    ) {
+
+        if (
+            filteredProducts.length === 0
+        ) {
+
+            noProducts.classList.remove(
+                "hidden"
+            );
+
+        } else {
+
+            noProducts.classList.add(
+                "hidden"
+            );
+
+        }
+
+    }
+
+
+    filteredProducts.forEach(product => {
+
+        const card =
+            document.createElement("article");
+
+
+        card.className =
+            "product-card";
+
+
+        card.innerHTML = `
+
+            <div class="product-image">
+
+                <img
+                    src="${product.image}"
+                    alt="${product.name}"
+                    loading="lazy"
+                    onerror="
+                        this.src='https://placehold.co/800x800/f3f4f6/111827?text=WENDK+SHOP'
+                    "
+                >
+
+                ${
+                    product.badge
+                    ?
+                    `<span class="product-badge">
+                        ${product.badge}
+                    </span>`
+                    :
+                    ""
+                }
+
+            </div>
+
+
+            <div class="product-info">
+
+                <span class="product-category">
+                    ${getCategoryName(product.category)}
+                </span>
+
+
+                <h3 class="product-name">
+                    ${product.name}
+                </h3>
+
+
+                <p class="product-description">
+                    ${product.description}
+                </p>
+
+
+                <div class="product-bottom">
+
+                    <strong class="product-price">
+                        ${formatPrice(product.price)}
+                    </strong>
+
+
+                    <div class="product-actions">
+
+                        <button
+                            type="button"
+                            class="details-btn"
+                            data-details-id="${product.id}"
+                        >
+                            👁️ Détails
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="add-cart"
+                            data-id="${product.id}"
+                            aria-label="Ajouter ${product.name} au panier"
+                        >
+                            🛒
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        productsGrid.appendChild(
+            card
+        );
+
+    });
+
+
+    /*
+       Boutons détails
+    */
+
+    document
+        .querySelectorAll(
+            "[data-details-id]"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const id =
+                        Number(
+                            button.dataset.detailsId
+                        );
+
+
+                    openProductDetails(
+                        id
+                    );
+
+                }
+            );
+
+        });
+
+
+    /*
+       Boutons panier
+    */
+
+    document
+        .querySelectorAll(
+            ".add-cart"
+        )
+        .forEach(button => {
+
+            button.addEventListener(
+                "click",
+                () => {
+
+                    const id =
+                        Number(
+                            button.dataset.id
+                        );
+
+
+                    addToCart(id);
+
+                }
+            );
+
+        });
+
+}
+
+
+/* =========================================================
+   DÉTAILS DU PRODUIT
+   ========================================================= */
+
+function openProductDetails(productId) {
+
+    const product =
+        products.find(
+            item =>
+                Number(item.id) ===
+                Number(productId)
+        );
+
+
+    if (!product) {
+
+        return;
+
+    }
+
+
+    selectedProduct =
+        product;
+
+
+    const existing =
+        document.getElementById(
+            "productDetailsModal"
+        );
+
+
+    if (existing) {
+
+        existing.remove();
+
+    }
+
+
+    const specs =
+        product.specs || {};
+
+
+    let specsHTML = "";
+
+
+    Object.keys(specs).forEach(key => {
+
+        specsHTML += `
+
+            <div class="spec-row">
+
+                <span>
+                    ${key}
+                </span>
+
+                <strong>
+                    ${specs[key]}
+                </strong>
+
+            </div>
+
+        `;
+
+    });
+
+
+    const modal =
+        document.createElement(
+            "div"
+        );
+
+
+    modal.id =
+        "productDetailsModal";
+
+
+    modal.innerHTML = `
+
+        <div
+            class="product-details-overlay"
+            id="productDetailsOverlay"
+        >
+
+            <div
+                class="product-details-modal"
+                role="dialog"
+                aria-modal="true"
+            >
+
+                <button
+                    type="button"
+                    class="product-details-close"
+                    id="closeProductDetails"
+                >
+                    ×
+                </button>
+
+
+                <img
+                    class="details-image"
+                    src="${product.image}"
+                    alt="${product.name}"
+                >
+
+
+                <span class="product-category">
+                    ${getCategoryName(product.category)}
+                </span>
+
+
+                <h2>
+                    ${product.name}
+                </h2>
+
+
+                <p>
+                    ${product.description}
+                </p>
+
+
+                <strong class="details-price">
+                    ${formatPrice(product.price)}
+                </strong>
+
+
+                <h3>
+                    📋 Fiche technique
+                </h3>
+
+
+                <div class="specs-list">
+
+                    ${
+                        specsHTML ||
+                        "<p>Informations techniques disponibles sur demande.</p>"
+                    }
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn btn-whatsapp"
+                    id="detailsAddCart"
+                >
+                    🛒 Ajouter au panier
+                </button>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        modal
+    );
+
+
+    const closeButton =
+        document.getElementById(
+            "closeProductDetails"
+        );
+
+
+    const overlay =
+        document.getElementById(
+            "productDetailsOverlay"
+        );
+
+
+    const addButton =
+        document.getElementById(
+            "detailsAddCart"
+        );
+
+
+    if (closeButton) {
+
+        closeButton.addEventListener(
+            "click",
+            closeProductDetails
+        );
+
+    }
+
+
+    if (overlay) {
+
+        overlay.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target === overlay
+                ) {
+
+                    closeProductDetails();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if (addButton) {
+
+        addButton.addEventListener(
+            "click",
+            () => {
+
+                addToCart(
+                    product.id
+                );
+
+                closeProductDetails();
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FERMER DÉTAILS PRODUIT
+   ========================================================= */
+
+function closeProductDetails() {
+
+    const modal =
+        document.getElementById(
+            "productDetailsModal"
+        );
+
+
+    if (modal) {
+
+        modal.remove();
+
+    }
+
+
+    selectedProduct =
+        null;
+
+}
+
+
+/* =========================================================
+   FIN DU BLOC 2
+   ========================================================= */
