@@ -1734,3 +1734,693 @@ function showToast(message) {
    FIN DU BLOC 3
    ========================================================= */
 
+/* =========================================================
+   WENDK SHOP
+   SCRIPT.JS — BLOC 4/5
+   COMMANDE + WHATSAPP + SUPABASE
+   ========================================================= */
+
+
+/* =========================================================
+   LIEN WHATSAPP
+   ========================================================= */
+
+function createWhatsAppLink(message) {
+
+    if (!WHATSAPP_NUMBER) {
+
+        alert(
+            "Le numéro WhatsApp n'est pas configuré."
+        );
+
+        return null;
+
+    }
+
+
+    return (
+        "https://wa.me/" +
+        WHATSAPP_NUMBER +
+        "?text=" +
+        encodeURIComponent(message)
+    );
+
+}
+
+
+/* =========================================================
+   CRÉER LE MESSAGE DE COMMANDE
+   ========================================================= */
+
+function createOrderMessage(
+    customerName,
+    customerPhone,
+    customerAddress
+) {
+
+    let message =
+        "Bonjour WENDK SHOP 👋\n\n" +
+        "🛍️ *NOUVELLE COMMANDE*\n\n";
+
+
+    message +=
+        "👤 Client : " +
+        customerName +
+        "\n";
+
+
+    message +=
+        "📞 Téléphone : " +
+        customerPhone +
+        "\n";
+
+
+    message +=
+        "📍 Adresse : " +
+        customerAddress +
+        "\n\n";
+
+
+    message +=
+        "📦 *PRODUITS :*\n\n";
+
+
+    let total = 0;
+
+
+    cart.forEach(item => {
+
+        const product =
+            getCartProduct(item);
+
+
+        if (!product) {
+
+            return;
+
+        }
+
+
+        const quantity =
+            Number(item.quantity);
+
+
+        const subtotal =
+            Number(product.price) *
+            quantity;
+
+
+        total += subtotal;
+
+
+        message +=
+            "📱 " +
+            product.name +
+            "\n";
+
+
+        message +=
+            "   Quantité : " +
+            quantity +
+            "\n";
+
+
+        message +=
+            "   Prix : " +
+            formatPrice(subtotal) +
+            "\n\n";
+
+    });
+
+
+    message +=
+        "━━━━━━━━━━━━━━━━\n";
+
+
+    message +=
+        "💰 *TOTAL : " +
+        formatPrice(total) +
+        "*\n\n";
+
+
+    message +=
+        "Merci de confirmer la disponibilité et les modalités de livraison. 🙏";
+
+
+    return message;
+
+}
+
+
+/* =========================================================
+   ENREGISTRER LA COMMANDE DANS SUPABASE
+   ========================================================= */
+
+async function saveOrderToSupabase(order) {
+
+    try {
+
+        const response =
+            await fetch(
+                SUPABASE_URL +
+                "/rest/v1/orders",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        ...SUPABASE_HEADERS,
+
+                        "Prefer":
+                            "return=representation"
+
+                    },
+
+                    body:
+                        JSON.stringify(order)
+
+                }
+            );
+
+
+        if (!response.ok) {
+
+            const errorText =
+                await response.text();
+
+
+            console.error(
+                "❌ Supabase :",
+                errorText
+            );
+
+
+            throw new Error(
+                "Impossible d'enregistrer la commande."
+            );
+
+        }
+
+
+        const result =
+            await response.json();
+
+
+        console.log(
+            "✅ Commande enregistrée :",
+            result
+        );
+
+
+        return result;
+
+    }
+
+
+    catch (error) {
+
+        console.error(
+            "❌ Erreur Supabase :",
+            error
+        );
+
+
+        return null;
+
+    }
+
+}
+
+
+/* =========================================================
+   OUVRIR LA FENÊTRE DE COMMANDE
+   ========================================================= */
+
+function createCheckoutModal() {
+
+    if (
+        document.getElementById(
+            "checkoutModal"
+        )
+    ) {
+
+        return;
+
+    }
+
+
+    const modal =
+        document.createElement(
+            "div"
+        );
+
+
+    modal.id =
+        "checkoutModal";
+
+
+    modal.innerHTML = `
+
+        <div
+            class="checkout-modal-overlay"
+            id="checkoutModalOverlay"
+        >
+
+            <div
+                class="checkout-modal"
+                role="dialog"
+                aria-modal="true"
+            >
+
+                <button
+                    type="button"
+                    class="checkout-modal-close"
+                    id="closeCheckoutModal"
+                >
+                    ×
+                </button>
+
+
+                <span class="section-label">
+                    FINALISER LA COMMANDE
+                </span>
+
+
+                <h2>
+                    Vos informations
+                </h2>
+
+
+                <p>
+                    Entrez vos informations avant
+                    d'envoyer votre commande.
+                </p>
+
+
+                <form
+                    id="checkoutForm"
+                    autocomplete="on"
+                >
+
+                    <label>
+                        Nom complet
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        placeholder="Ex : KABORE Wendgniga"
+                        required
+                    >
+
+
+                    <label>
+                        Téléphone
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="customerPhone"
+                        placeholder="Ex : 70 12 34 56"
+                        required
+                    >
+
+
+                    <label>
+                        Adresse / quartier
+                    </label>
+
+                    <textarea
+                        id="customerAddress"
+                        placeholder="Ex : Ouagadougou, Karpala"
+                        rows="3"
+                        required
+                    ></textarea>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-whatsapp"
+                        id="confirmCheckoutBtn"
+                    >
+                        💬 Envoyer la commande
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    document.body.appendChild(
+        modal
+    );
+
+
+    const closeButton =
+        document.getElementById(
+            "closeCheckoutModal"
+        );
+
+
+    const overlay =
+        document.getElementById(
+            "checkoutModalOverlay"
+        );
+
+
+    const form =
+        document.getElementById(
+            "checkoutForm"
+        );
+
+
+    if (closeButton) {
+
+        closeButton.addEventListener(
+            "click",
+            closeCheckoutModal
+        );
+
+    }
+
+
+    if (overlay) {
+
+        overlay.addEventListener(
+            "click",
+            event => {
+
+                if (
+                    event.target === overlay
+                ) {
+
+                    closeCheckoutModal();
+
+                }
+
+            }
+        );
+
+    }
+
+
+    if (form) {
+
+        form.addEventListener(
+            "submit",
+            handleCheckoutSubmit
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FERMER LA FENÊTRE DE COMMANDE
+   ========================================================= */
+
+function closeCheckoutModal() {
+
+    const modal =
+        document.getElementById(
+            "checkoutModal"
+        );
+
+
+    if (modal) {
+
+        modal.remove();
+
+    }
+
+}
+
+
+/* =========================================================
+   TRAITER LA COMMANDE
+   ========================================================= */
+
+async function handleCheckoutSubmit(event) {
+
+    event.preventDefault();
+
+
+    if (
+        !Array.isArray(cart) ||
+        cart.length === 0
+    ) {
+
+        alert(
+            "Votre panier est vide."
+        );
+
+        closeCheckoutModal();
+
+        return;
+
+    }
+
+
+    const customerName =
+        document
+            .getElementById(
+                "customerName"
+            )
+            ?.value
+            .trim();
+
+
+    const customerPhone =
+        document
+            .getElementById(
+                "customerPhone"
+            )
+            ?.value
+            .trim();
+
+
+    const customerAddress =
+        document
+            .getElementById(
+                "customerAddress"
+            )
+            ?.value
+            .trim();
+
+
+    if (
+        !customerName ||
+        !customerPhone ||
+        !customerAddress
+    ) {
+
+        alert(
+            "Veuillez remplir toutes les informations."
+        );
+
+        return;
+
+    }
+
+
+    const total =
+        getCartTotal();
+
+
+    /*
+       Format des produits pour Supabase.
+    */
+
+    const orderItems =
+        cart.map(item => {
+
+            const product =
+                getCartProduct(item);
+
+
+            return {
+
+                id: product
+                    ? product.id
+                    : item.id,
+
+                name: product
+                    ? product.name
+                    : "Produit",
+
+                price: product
+                    ? Number(product.price)
+                    : 0,
+
+                quantity:
+                    Number(item.quantity),
+
+                subtotal:
+                    product
+                        ? Number(product.price) *
+                          Number(item.quantity)
+                        : 0
+
+            };
+
+        });
+
+
+    /*
+       Objet envoyé à la table orders.
+       
+       Les noms correspondent aux colonnes
+       que tu m'as indiquées :
+       
+       customer_name
+       customer_phone
+       address
+       items
+       total
+       status
+    */
+
+    const order = {
+
+        customer_name:
+            customerName,
+
+        customer_phone:
+            customerPhone,
+
+        address:
+            customerAddress,
+
+        items:
+            JSON.stringify(orderItems),
+
+        total:
+            total,
+
+        status:
+            "Nouvelle"
+
+    };
+
+
+    const confirmButton =
+        document.getElementById(
+            "confirmCheckoutBtn"
+        );
+
+
+    if (confirmButton) {
+
+        confirmButton.disabled =
+            true;
+
+        confirmButton.textContent =
+            "⏳ Enregistrement...";
+
+    }
+
+
+    /*
+       1️⃣ ENREGISTREMENT SUPABASE
+    */
+
+    const savedOrder =
+        await saveOrderToSupabase(
+            order
+        );
+
+
+    /*
+       2️⃣ CRÉATION DU MESSAGE WHATSAPP
+    */
+
+    const message =
+        createOrderMessage(
+            customerName,
+            customerPhone,
+            customerAddress
+        );
+
+
+    const whatsappLink =
+        createWhatsAppLink(
+            message
+        );
+
+
+    /*
+       3️⃣ SI SUPABASE A ACCEPTÉ
+       → ouvrir WhatsApp
+    */
+
+    if (savedOrder) {
+
+        closeCheckoutModal();
+
+        /*
+           On garde le panier jusqu'à ce que
+           WhatsApp soit ouvert correctement.
+        */
+
+        if (whatsappLink) {
+
+            window.open(
+                whatsappLink,
+                "_blank"
+            );
+
+        }
+
+
+        showToast(
+            "Commande enregistrée ✅"
+        );
+
+
+        /*
+           Vider le panier après
+           l'enregistrement réussi.
+        */
+
+        cart = [];
+
+        saveCart();
+
+        updateCartUI();
+
+        closeCart();
+
+    }
+
+
+    else {
+
+        if (confirmButton) {
+
+            confirmButton.disabled =
+                false;
+
+            confirmButton.textContent =
+                "💬 Envoyer la commande";
+
+        }
+
+
+        alert(
+            "⚠️ La commande n'a pas pu être enregistrée dans Supabase.\n\n" +
+            "WhatsApp ne sera pas ouvert afin d'éviter de perdre la commande."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   FIN DU BLOC 4
+   ========================================================= */
