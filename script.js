@@ -2423,4 +2423,524 @@ async function handleCheckoutSubmit(event) {
 
 /* =========================================================
    FIN DU BLOC 4
+   ========================================================= *//* =========================================================
+   WENDK SHOP
+   SCRIPT.JS — BLOC 5/5
+   INITIALISATION + ÉVÉNEMENTS
+   ========================================================= */
+
+
+/* =========================================================
+   CATÉGORIES
+   ========================================================= */
+
+function setupCategories() {
+
+    const categoryButtons =
+        document.querySelectorAll(
+            ".category-btn"
+        );
+
+
+    categoryButtons.forEach(button => {
+
+        button.addEventListener(
+            "click",
+            () => {
+
+                categoryButtons.forEach(
+                    btn => {
+
+                        btn.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                button.classList.add(
+                    "active"
+                );
+
+
+                currentCategory =
+                    button.dataset.category ||
+                    "all";
+
+
+                renderProducts();
+
+            }
+        );
+
+    });
+
+}
+
+
+/* =========================================================
+   RECHERCHE
+   ========================================================= */
+
+function setupSearch() {
+
+    if (!searchInput) {
+
+        return;
+
+    }
+
+
+    searchInput.addEventListener(
+        "input",
+        event => {
+
+            searchTerm =
+                event.target.value.trim();
+
+
+            renderProducts();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RESET FILTRES
+   ========================================================= */
+
+function setupResetFilters() {
+
+    if (!resetFilters) {
+
+        return;
+
+    }
+
+
+    resetFilters.addEventListener(
+        "click",
+        () => {
+
+            currentCategory =
+                "all";
+
+            searchTerm =
+                "";
+
+
+            if (searchInput) {
+
+                searchInput.value =
+                    "";
+
+            }
+
+
+            document
+                .querySelectorAll(
+                    ".category-btn"
+                )
+                .forEach(button => {
+
+                    button.classList.remove(
+                        "active"
+                    );
+
+                    if (
+                        button.dataset.category ===
+                        "all"
+                    ) {
+
+                        button.classList.add(
+                            "active"
+                        );
+
+                    }
+
+                });
+
+
+            renderProducts();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   PANIER
+   ========================================================= */
+
+function setupCart() {
+
+    /*
+       Ouvrir panier
+    */
+
+    if (openCartBtn) {
+
+        openCartBtn.addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+                openCart();
+
+            }
+        );
+
+    }
+
+
+    /*
+       Fermer panier
+    */
+
+    if (closeCartBtn) {
+
+        closeCartBtn.addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+                closeCart();
+
+            }
+        );
+
+    }
+
+
+    /*
+       Cliquer sur l'arrière-plan
+       ferme le panier.
+    */
+
+    if (cartOverlay) {
+
+        cartOverlay.addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+                closeCart();
+
+            }
+        );
+
+    }
+
+
+    /*
+       Continuer les achats
+    */
+
+    if (continueShopping) {
+
+        continueShopping.addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+                closeCart();
+
+            }
+        );
+
+    }
+
+
+    /*
+       Vider le panier
+    */
+
+    if (clearCartBtn) {
+
+        clearCartBtn.addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+                clearCart();
+
+            }
+        );
+
+    }
+
+
+    /*
+       Commander
+    */
+
+    if (checkoutBtn) {
+
+        checkoutBtn.addEventListener(
+            "click",
+            event => {
+
+                event.preventDefault();
+
+                if (
+                    !cart ||
+                    cart.length === 0
+                ) {
+
+                    alert(
+                        "Votre panier est vide."
+                    );
+
+                    return;
+
+                }
+
+
+                createCheckoutModal();
+
+            }
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   WHATSAPP GÉNÉRAL
+   ========================================================= */
+
+function setupWhatsAppLinks() {
+
+    const message =
+        "Bonjour WENDK SHOP 👋\n\n" +
+        "Je souhaite avoir des informations " +
+        "sur vos téléphones et accessoires.";
+
+
+    const link =
+        createWhatsAppLink(
+            message
+        );
+
+
+    if (!link) {
+
+        return;
+
+    }
+
+
+    if (promoWhatsapp) {
+
+        promoWhatsapp.href =
+            link;
+
+    }
+
+
+    if (contactWhatsapp) {
+
+        contactWhatsapp.href =
+            link;
+
+    }
+
+}
+
+
+/* =========================================================
+   ANNÉE AUTOMATIQUE
+   ========================================================= */
+
+function setupYear() {
+
+    if (currentYear) {
+
+        currentYear.textContent =
+            new Date().getFullYear();
+
+    }
+
+}
+
+
+/* =========================================================
+   FERMER AVEC LA TOUCHE ESC
+   ========================================================= */
+
+function setupEscapeKey() {
+
+    document.addEventListener(
+        "keydown",
+        event => {
+
+            if (
+                event.key !==
+                "Escape"
+            ) {
+
+                return;
+
+            }
+
+
+            closeCart();
+
+            closeProductDetails();
+
+            closeCheckoutModal();
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   CHARGER LES PRODUITS
+   ========================================================= */
+
+async function initializeProducts() {
+
+    /*
+       Affichage immédiat des produits
+       locaux afin que le site ne reste
+       jamais vide pendant le chargement.
+    */
+
+    renderProducts();
+
+
+    /*
+       Ensuite on tente de récupérer
+       les produits Supabase.
+    */
+
+    await loadProductsFromSupabase();
+
+
+    /*
+       Si Supabase contient des produits,
+       l'affichage est actualisé.
+    */
+
+    renderProducts();
+
+}
+
+
+/* =========================================================
+   INITIALISATION GÉNÉRALE
+   ========================================================= */
+
+async function initializeWendkShop() {
+
+    console.log(
+        "🚀 WENDK SHOP démarrage..."
+    );
+
+
+    /*
+       Panier
+    */
+
+    updateCartUI();
+
+
+    /*
+       Catégories
+    */
+
+    setupCategories();
+
+
+    /*
+       Recherche
+    */
+
+    setupSearch();
+
+
+    /*
+       Reset
+    */
+
+    setupResetFilters();
+
+
+    /*
+       Panier / boutons
+    */
+
+    setupCart();
+
+
+    /*
+       WhatsApp
+    */
+
+    setupWhatsAppLinks();
+
+
+    /*
+       Année
+    */
+
+    setupYear();
+
+
+    /*
+       Touche ESC
+    */
+
+    setupEscapeKey();
+
+
+    /*
+       Produits
+    */
+
+    await initializeProducts();
+
+
+    console.log(
+        "✅ WENDK SHOP prêt."
+    );
+
+}
+
+
+/* =========================================================
+   DÉMARRAGE
+   ========================================================= */
+
+if (
+    document.readyState ===
+    "loading"
+) {
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeWendkShop
+    );
+
+} else {
+
+    initializeWendkShop();
+
+}
+
+
+/* =========================================================
+   FIN SCRIPT.JS
    ========================================================= */
