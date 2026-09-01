@@ -1354,3 +1354,841 @@ document.addEventListener("click", (event) => {
 /* =========================================================
    FIN DU BLOC 2/3
 =================================================== */
+/* =========================================================
+   WENDK SHOP — SCRIPT.JS
+   BLOC 3/3
+========================================================= */
+
+
+/* =========================================================
+   MODALE DÉTAILS PRODUIT
+========================================================= */
+
+const productDetailsModal =
+  document.getElementById("productDetailsModal");
+
+const productDetailsOverlay =
+  document.getElementById("productDetailsOverlay");
+
+const closeProductDetails =
+  document.getElementById("closeProductDetails");
+
+const detailsProductImage =
+  document.getElementById("detailsProductImage");
+
+const detailsProductCategory =
+  document.getElementById("detailsProductCategory");
+
+const detailsProductName =
+  document.getElementById("detailsProductName");
+
+const detailsProductDescription =
+  document.getElementById("detailsProductDescription");
+
+const detailsProductPrice =
+  document.getElementById("detailsProductPrice");
+
+const detailsProductSpecs =
+  document.getElementById("detailsProductSpecs");
+
+const detailsAddCart =
+  document.getElementById("detailsAddCart");
+
+
+/* =========================================================
+   OUVRIR LES DÉTAILS
+========================================================= */
+
+function openProductDetails(productId) {
+
+  const product = products.find(
+    item => item.id === productId
+  );
+
+  if (!product) return;
+
+  currentProduct = product;
+
+  if (detailsProductImage) {
+
+    detailsProductImage.src =
+      product.image;
+
+    detailsProductImage.alt =
+      product.name;
+
+  }
+
+  if (detailsProductCategory) {
+
+    detailsProductCategory.textContent =
+      getCategoryName(product.category);
+
+  }
+
+  if (detailsProductName) {
+
+    detailsProductName.textContent =
+      product.name;
+
+  }
+
+  if (detailsProductDescription) {
+
+    detailsProductDescription.textContent =
+      product.description;
+
+  }
+
+  if (detailsProductPrice) {
+
+    detailsProductPrice.textContent =
+      formatPrice(product.price);
+
+  }
+
+  if (detailsProductSpecs) {
+
+    detailsProductSpecs.innerHTML =
+      product.specs
+        .map(spec => `
+          <li class="spec-item">
+            <span>✓</span>
+            ${spec}
+          </li>
+        `)
+        .join("");
+
+  }
+
+  if (productDetailsModal) {
+
+    productDetailsModal.classList.add("active");
+
+  }
+
+  if (productDetailsOverlay) {
+
+    productDetailsOverlay.classList.add("active");
+
+  }
+
+  document.body.style.overflow = "hidden";
+
+}
+
+
+/* =========================================================
+   FERMER LES DÉTAILS
+========================================================= */
+
+function closeProductDetailsModal() {
+
+  if (productDetailsModal) {
+
+    productDetailsModal.classList.remove("active");
+
+  }
+
+  if (productDetailsOverlay) {
+
+    productDetailsOverlay.classList.remove("active");
+
+  }
+
+  document.body.style.overflow = "";
+
+  currentProduct = null;
+
+}
+
+
+if (closeProductDetails) {
+
+  closeProductDetails.addEventListener(
+    "click",
+    closeProductDetailsModal
+  );
+
+}
+
+
+if (productDetailsOverlay) {
+
+  productDetailsOverlay.addEventListener(
+    "click",
+    closeProductDetailsModal
+  );
+
+}
+
+
+/* =========================================================
+   AJOUTER LE PRODUIT DE LA MODALE AU PANIER
+========================================================= */
+
+if (detailsAddCart) {
+
+  detailsAddCart.addEventListener(
+    "click",
+    () => {
+
+      if (!currentProduct) return;
+
+      addToCart(currentProduct.id);
+
+      closeProductDetailsModal();
+
+      openCart();
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   RECHERCHE PRODUITS
+========================================================= */
+
+const searchInput =
+  document.getElementById("searchInput");
+
+const searchBtn =
+  document.getElementById("searchBtn");
+
+
+function searchProducts() {
+
+  if (!searchInput) return;
+
+  const searchTerm =
+    searchInput.value
+      .trim()
+      .toLowerCase();
+
+  if (!searchTerm) {
+
+    currentCategory = "all";
+
+    renderProducts();
+
+    return;
+
+  }
+
+  const results =
+    products.filter(product => {
+
+      return (
+        product.name
+          .toLowerCase()
+          .includes(searchTerm) ||
+
+        product.description
+          .toLowerCase()
+          .includes(searchTerm) ||
+
+        product.category
+          .toLowerCase()
+          .includes(searchTerm)
+      );
+
+    });
+
+
+  if (!productsGrid) return;
+
+  if (results.length === 0) {
+
+    productsGrid.innerHTML = "";
+
+    if (noProducts) {
+
+      noProducts.classList.remove("hidden");
+
+    }
+
+    return;
+
+  }
+
+
+  if (noProducts) {
+
+    noProducts.classList.add("hidden");
+
+  }
+
+
+  productsGrid.innerHTML =
+    results
+      .map(product => createProductCard(product))
+      .join("");
+
+}
+
+
+if (searchBtn) {
+
+  searchBtn.addEventListener(
+    "click",
+    searchProducts
+  );
+
+}
+
+
+if (searchInput) {
+
+  searchInput.addEventListener(
+    "keydown",
+    event => {
+
+      if (event.key === "Enter") {
+
+        searchProducts();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   AFFICHER TOUS LES PRODUITS
+========================================================= */
+
+const showAllProducts =
+  document.getElementById("showAllProducts");
+
+
+if (showAllProducts) {
+
+  showAllProducts.addEventListener(
+    "click",
+    event => {
+
+      event.preventDefault();
+
+      currentCategory = "all";
+
+      if (searchInput) {
+
+        searchInput.value = "";
+
+      }
+
+      document
+        .querySelectorAll(".filter-btn")
+        .forEach(button => {
+
+          button.classList.remove("active");
+
+        });
+
+
+      const allButton =
+        document.querySelector(
+          '.filter-btn[data-filter="all"]'
+        );
+
+      if (allButton) {
+
+        allButton.classList.add("active");
+
+      }
+
+      renderProducts();
+
+      const productsSection =
+        document.getElementById("produits");
+
+      if (productsSection) {
+
+        productsSection.scrollIntoView({
+          behavior: "smooth"
+        });
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   RESET DES FILTRES
+========================================================= */
+
+const resetFilters =
+  document.getElementById("resetFilters");
+
+
+if (resetFilters) {
+
+  resetFilters.addEventListener(
+    "click",
+    () => {
+
+      currentCategory = "all";
+
+      if (searchInput) {
+
+        searchInput.value = "";
+
+      }
+
+      document
+        .querySelectorAll(".filter-btn")
+        .forEach(button => {
+
+          button.classList.remove("active");
+
+        });
+
+
+      const allButton =
+        document.querySelector(
+          '.filter-btn[data-filter="all"]'
+        );
+
+      if (allButton) {
+
+        allButton.classList.add("active");
+
+      }
+
+      renderProducts();
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   COMMANDE WHATSAPP
+========================================================= */
+
+const checkoutBtn =
+  document.getElementById("checkoutBtn");
+
+
+function checkoutWhatsApp() {
+
+  if (cart.length === 0) {
+
+    showToast(
+      "Votre panier est vide",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  let message =
+    "🛍️ *COMMANDE WENDK SHOP*\n\n";
+
+
+  cart.forEach((item, index) => {
+
+    const product =
+      products.find(
+        product => product.id === item.id
+      );
+
+    if (!product) return;
+
+    const subtotal =
+      product.price * item.quantity;
+
+
+    message +=
+      `${index + 1}. ${product.name}\n`;
+
+    message +=
+      `   Quantité : ${item.quantity}\n`;
+
+    message +=
+      `   Prix : ${formatPrice(subtotal)}\n\n`;
+
+  });
+
+
+  message +=
+    `💰 *TOTAL : ${formatPrice(
+      getCartTotal()
+    )}*\n\n`;
+
+  message +=
+    "📍 Livraison : Burkina Faso\n";
+
+  message +=
+    "📞 Merci de confirmer votre commande avec WENDK SHOP.";
+
+
+  const whatsappUrl =
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+      message
+    )}`;
+
+
+  window.open(
+    whatsappUrl,
+    "_blank"
+  );
+
+}
+
+
+if (checkoutBtn) {
+
+  checkoutBtn.addEventListener(
+    "click",
+    checkoutWhatsApp
+  );
+
+}
+
+
+/* =========================================================
+   BOUTON COMPTE
+========================================================= */
+
+const accountBtn =
+  document.getElementById("accountBtn");
+
+const accountModal =
+  document.getElementById("accountModal");
+
+const accountModalOverlay =
+  document.getElementById("accountModalOverlay");
+
+const closeAccountModal =
+  document.getElementById("closeAccountModal");
+
+const accountWhatsappBtn =
+  document.getElementById("accountWhatsappBtn");
+
+
+function openAccountModal() {
+
+  if (accountModal) {
+
+    accountModal.classList.add("active");
+
+  }
+
+  if (accountModalOverlay) {
+
+    accountModalOverlay.classList.add("active");
+
+  }
+
+  document.body.style.overflow = "hidden";
+
+}
+
+
+function closeAccountModalFunction() {
+
+  if (accountModal) {
+
+    accountModal.classList.remove("active");
+
+  }
+
+  if (accountModalOverlay) {
+
+    accountModalOverlay.classList.remove("active");
+
+  }
+
+  document.body.style.overflow = "";
+
+}
+
+
+if (accountBtn) {
+
+  accountBtn.addEventListener(
+    "click",
+    openAccountModal
+  );
+
+}
+
+
+if (closeAccountModal) {
+
+  closeAccountModal.addEventListener(
+    "click",
+    closeAccountModalFunction
+  );
+
+}
+
+
+if (accountModalOverlay) {
+
+  accountModalOverlay.addEventListener(
+    "click",
+    closeAccountModalFunction
+  );
+
+}
+
+
+if (accountWhatsappBtn) {
+
+  accountWhatsappBtn.addEventListener(
+    "click",
+    () => {
+
+      const message =
+        "Bonjour WENDK SHOP 👋\n\n" +
+        "Je souhaite créer un compte client " +
+        "et obtenir plus d'informations.";
+
+      const url =
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+          message
+        )}`;
+
+      window.open(url, "_blank");
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   LIENS CATÉGORIES
+========================================================= */
+
+document.addEventListener(
+  "click",
+  event => {
+
+    const categoryLink =
+      event.target.closest("[data-category]");
+
+    if (!categoryLink) return;
+
+    const category =
+      categoryLink.dataset.category;
+
+    if (!category) return;
+
+    currentCategory = category;
+
+    if (searchInput) {
+
+      searchInput.value = "";
+
+    }
+
+    document
+      .querySelectorAll(".filter-btn")
+      .forEach(button => {
+
+        button.classList.remove("active");
+
+      });
+
+
+    const filterButton =
+      document.querySelector(
+        `.filter-btn[data-filter="${category}"]`
+      );
+
+    if (filterButton) {
+
+      filterButton.classList.add("active");
+
+    }
+
+    renderProducts();
+
+    const productsSection =
+      document.getElementById("produits");
+
+    if (productsSection) {
+
+      productsSection.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   NAVIGATION FLUIDE
+========================================================= */
+
+document.querySelectorAll(
+  'a[href^="#"]'
+).forEach(link => {
+
+  link.addEventListener(
+    "click",
+    event => {
+
+      const targetId =
+        link.getAttribute("href");
+
+      if (
+        !targetId ||
+        targetId === "#"
+      ) {
+        return;
+      }
+
+      const target =
+        document.querySelector(targetId);
+
+      if (!target) return;
+
+      event.preventDefault();
+
+      target.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+    }
+  );
+
+});
+
+
+/* =========================================================
+   TOAST / NOTIFICATION
+========================================================= */
+
+let toastTimeout;
+
+
+function showToast(message, type = "success") {
+
+  if (!toast) return;
+
+  clearTimeout(toastTimeout);
+
+  toast.textContent = message;
+
+  toast.className =
+    `toast ${type} show`;
+
+  toastTimeout =
+    setTimeout(() => {
+
+      toast.classList.remove("show");
+
+    }, 3000);
+
+}
+
+
+/* =========================================================
+   BOUTON RETOUR EN HAUT
+========================================================= */
+
+const backToTop =
+  document.getElementById("backToTop");
+
+
+window.addEventListener(
+  "scroll",
+  () => {
+
+    if (!backToTop) return;
+
+    if (window.scrollY > 500) {
+
+      backToTop.classList.add("active");
+
+    } else {
+
+      backToTop.classList.remove("active");
+
+    }
+
+  }
+);
+
+
+if (backToTop) {
+
+  backToTop.addEventListener(
+    "click",
+    () => {
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   FERMER LES MODALES AVEC ÉCHAP
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  event => {
+
+    if (event.key !== "Escape") return;
+
+    closeCart();
+
+    closeFavorites();
+
+    closeProductDetailsModal();
+
+    closeAccountModalFunction();
+
+  }
+);
+
+
+/* =========================================================
+   PROTECTION DES IMAGES
+========================================================= */
+
+document.addEventListener(
+  "error",
+  event => {
+
+    if (
+      event.target &&
+      event.target.tagName === "IMG"
+    ) {
+
+      event.target.style.objectFit = "contain";
+
+    }
+
+  },
+  true
+);
+
+
+/* =========================================================
+   FIN DU SCRIPT.JS
+========================================================= */
