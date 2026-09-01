@@ -2227,3 +2227,81 @@ document.addEventListener("click", function(event) {
   }
 
 });
+
+/* =========================================================
+   CORRECTIF COMPLET — DÉTAILS PRODUIT
+========================================================= */
+
+document.addEventListener("click", function (event) {
+
+  const button = event.target.closest(".product-quick-view");
+
+  if (!button) return;
+
+  const productId = Number(button.dataset.view);
+
+  const product = products.find(p => p.id === productId);
+
+  if (!product) {
+    console.error("Produit introuvable :", productId);
+    return;
+  }
+
+  const modal = document.getElementById("productDetailsModal");
+  const overlay = document.getElementById("productDetailsOverlay");
+
+  const image = document.getElementById("detailsProductImage");
+  const category = document.getElementById("detailsProductCategory");
+  const name = document.getElementById("detailsProductName");
+  const description = document.getElementById("detailsProductDescription");
+  const price = document.getElementById("detailsProductPrice");
+  const specs = document.getElementById("detailsProductSpecs");
+
+  if (!modal) {
+    console.error("productDetailsModal introuvable");
+    return;
+  }
+
+  if (image) {
+    image.src = product.image;
+    image.alt = product.name;
+  }
+
+  if (category) {
+    category.textContent = getCategoryName(product.category);
+  }
+
+  if (name) {
+    name.textContent = product.name;
+  }
+
+  if (description) {
+    description.textContent = product.description;
+  }
+
+  if (price) {
+    price.textContent = formatPrice(product.price);
+  }
+
+  if (specs) {
+    specs.innerHTML = product.specs
+      .map(spec => `
+        <li class="spec-item">
+          <span>✓</span>
+          ${spec}
+        </li>
+      `)
+      .join("");
+  }
+
+  modal.classList.remove("hidden");
+  modal.classList.add("active");
+
+  if (overlay) {
+    overlay.classList.remove("hidden");
+    overlay.classList.add("active");
+  }
+
+  document.body.style.overflow = "hidden";
+
+});
