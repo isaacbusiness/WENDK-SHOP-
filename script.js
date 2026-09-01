@@ -1,3991 +1,1356 @@
 /* =========================================================
-   WENDK SHOP
-   SCRIPT.JS — NOUVELLE VERSION
-   BLOC 1/5
-   CONFIGURATION + PRODUITS + ÉTAT
-   ========================================================= */
-
+   WENDK SHOP — SCRIPT.JS
+   BLOC 1/3
+========================================================= */
 
 /* =========================================================
    CONFIGURATION
-   ========================================================= */
+========================================================= */
 
 const WHATSAPP_NUMBER = "22607309472";
 
-const SUPABASE_URL =
-    "https://peytqrampgxvqdzygxnc.supabase.co";
-
-const SUPABASE_KEY =
-    "sb_publishable_atQoFNjWTz8MxT81vg2QGQ_iO4_giOb";
-
-const SUPABASE_HEADERS = {
-    "apikey": SUPABASE_KEY,
-    "Authorization": `Bearer ${SUPABASE_KEY}`,
-    "Content-Type": "application/json"
-};
-
-
-/* =========================================================
-   PRODUITS
-   ========================================================= */
-
 const products = [
+  {
+    id: 1,
+    name: "iPhone 17 Pro Max",
+    category: "iphone",
+    price: 850000,
+    oldPrice: 900000,
+    image: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=800&q=80",
+    badge: "Nouveau",
+    description: "iPhone haut de gamme avec performances exceptionnelles et design premium.",
+    specs: [
+      "Écran Super Retina",
+      "Grande capacité de stockage",
+      "Appareil photo professionnel",
+      "Face ID",
+      "5G"
+    ]
+  },
 
-    {
-        id: 1,
-        name: "iPhone 11",
-        category: "iphone",
-        price: 145000,
-        badge: "Populaire",
-        description: "iPhone 11 • 64 Go • Excellent état",
-        image: "https://images.unsplash.com/photo-1592286927505-1def25115558?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Écran": "6,1 pouces",
-            "Stockage": "64 Go",
-            "Caméra": "12 MP",
-            "Réseau": "4G",
-            "SIM": "Double SIM",
-            "Batterie": "3110 mAh"
-        }
-    },
+  {
+    id: 2,
+    name: "iPhone 15 Pro Max",
+    category: "iphone",
+    price: 650000,
+    oldPrice: 700000,
+    image: "https://images.unsplash.com/photo-1591337676887-a217a6970a8a?auto=format&fit=crop&w=800&q=80",
+    badge: "Promo",
+    description: "Un smartphone puissant avec une excellente qualité photo et vidéo.",
+    specs: [
+      "Écran OLED",
+      "Puce Apple performante",
+      "Caméra professionnelle",
+      "5G",
+      "Face ID"
+    ]
+  },
 
-    {
-        id: 2,
-        name: "iPhone 13",
-        category: "iphone",
-        price: 235000,
-        badge: "Top vente",
-        description: "iPhone 13 • 128 Go • Très bon état",
-        image: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Écran": "6,1 pouces OLED",
-            "Stockage": "128 Go",
-            "Caméra": "Double 12 MP",
-            "Réseau": "5G",
-            "SIM": "Double SIM",
-            "Batterie": "3240 mAh"
-        }
-    },
+  {
+    id: 3,
+    name: "iPhone 13",
+    category: "iphone",
+    price: 350000,
+    oldPrice: 390000,
+    image: "https://images.unsplash.com/photo-1603891128711-11b4b03bb138?auto=format&fit=crop&w=800&q=80",
+    badge: "Promo",
+    description: "Un iPhone fiable et performant pour une utilisation quotidienne.",
+    specs: [
+      "Écran Super Retina XDR",
+      "Double caméra",
+      "Face ID",
+      "5G",
+      "Batterie longue durée"
+    ]
+  },
 
-    {
-        id: 3,
-        name: "iPhone 14",
-        category: "iphone",
-        price: 295000,
-        badge: "Premium",
-        description: "iPhone 14 • 128 Go • Disponible",
-        image: "https://images.unsplash.com/photo-1678685888221-cda773a3dcdb?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Écran": "6,1 pouces OLED",
-            "Stockage": "128 Go",
-            "Caméra": "Double 12 MP",
-            "Réseau": "5G",
-            "SIM": "Double SIM",
-            "Batterie": "3279 mAh"
-        }
-    },
+  {
+    id: 4,
+    name: "Samsung Galaxy S25 Ultra",
+    category: "samsung",
+    price: 750000,
+    oldPrice: 800000,
+    image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80",
+    badge: "Nouveau",
+    description: "Le smartphone premium Samsung avec puissance, caméra et intelligence artificielle.",
+    specs: [
+      "Écran Dynamic AMOLED",
+      "Caméra haute résolution",
+      "S Pen",
+      "5G",
+      "Grande autonomie"
+    ]
+  },
 
-    {
-        id: 4,
-        name: "iPhone 15",
-        category: "iphone",
-        price: 385000,
-        badge: "Nouveau",
-        description: "iPhone 15 • 128 Go • USB-C",
-        image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Écran": "6,1 pouces OLED",
-            "Stockage": "128 Go",
-            "Caméra": "48 MP",
-            "Réseau": "5G",
-            "Connecteur": "USB-C",
-            "Batterie": "3349 mAh"
-        }
-    },
+  {
+    id: 5,
+    name: "Samsung Galaxy S24 Ultra",
+    category: "samsung",
+    price: 600000,
+    oldPrice: 670000,
+    image: "https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&w=800&q=80",
+    badge: "Promo",
+    description: "Un smartphone premium Samsung puissant et polyvalent.",
+    specs: [
+      "Écran AMOLED",
+      "S Pen",
+      "Caméra 200 MP",
+      "5G",
+      "Batterie longue durée"
+    ]
+  },
 
-    {
-        id: 5,
-        name: "Samsung Galaxy A15",
-        category: "samsung",
-        price: 85000,
-        badge: "Bon prix",
-        description: "Galaxy A15 • 128 Go • Dual SIM",
-        image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Écran": "6,5 pouces",
-            "Stockage": "128 Go",
-            "Caméra": "50 MP",
-            "Réseau": "4G",
-            "SIM": "Double SIM",
-            "Batterie": "5000 mAh"
-        }
-    },
+  {
+    id: 6,
+    name: "Samsung Galaxy A55",
+    category: "samsung",
+    price: 220000,
+    oldPrice: 250000,
+    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
+    badge: "Promo",
+    description: "Excellent rapport qualité-prix pour le travail, les réseaux sociaux et le divertissement.",
+    specs: [
+      "Écran AMOLED",
+      "Triple caméra",
+      "5G",
+      "Bonne autonomie",
+      "Design premium"
+    ]
+  },
 
-    {
-        id: 6,
-        name: "Samsung Galaxy A25",
-        category: "samsung",
-        price: 125000,
-        badge: "Populaire",
-        description: "Galaxy A25 • 128 Go • 5G",
-        image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Écran": "6,5 pouces AMOLED",
-            "Stockage": "128 Go",
-            "Caméra": "50 MP",
-            "Réseau": "5G",
-            "SIM": "Double SIM",
-            "Batterie": "5000 mAh"
-        }
-    },
+  {
+    id: 7,
+    name: "Redmi Note 14 Pro",
+    category: "redmi",
+    price: 180000,
+    oldPrice: 210000,
+    image: "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=800&q=80",
+    badge: "Promo",
+    description: "Un smartphone Redmi puissant avec un excellent rapport qualité-prix.",
+    specs: [
+      "Écran AMOLED",
+      "Caméra haute résolution",
+      "Grande batterie",
+      "Charge rapide",
+      "4G/5G selon modèle"
+    ]
+  },
 
-    {
-        id: 7,
-        name: "Samsung Galaxy S23",
-        category: "samsung",
-        price: 285000,
-        badge: "Premium",
-        description: "Galaxy S23 • 256 Go • 5G",
-        image: "https://images.unsplash.com/photo-1678911820864-e2c567c655d7?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Écran": "6,1 pouces AMOLED",
-            "Stockage": "256 Go",
-            "Caméra": "50 MP",
-            "Réseau": "5G",
-            "RAM": "8 Go",
-            "Batterie": "3900 mAh"
-        }
-    },
+  {
+    id: 8,
+    name: "Redmi Note 13",
+    category: "redmi",
+    price: 135000,
+    oldPrice: 155000,
+    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
+    badge: "Promo",
+    description: "Un smartphone accessible et performant pour tous les jours.",
+    specs: [
+      "Écran AMOLED",
+      "Grande batterie",
+      "Caméra performante",
+      "Charge rapide",
+      "Double SIM"
+    ]
+  },
 
-    {
-        id: 8,
-        name: "Samsung Galaxy S24",
-        category: "samsung",
-        price: 365000,
-        badge: "Nouveau",
-        description: "Galaxy S24 • 256 Go • 5G",
-        image: "https://images.unsplash.com/photo-1707580108827-48c4d4b8e5c7?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Écran": "6,2 pouces AMOLED",
-            "Stockage": "256 Go",
-            "Caméra": "50 MP",
-            "Réseau": "5G",
-            "RAM": "8 Go",
-            "Batterie": "4000 mAh"
-        }
-    },
+  {
+    id: 9,
+    name: "Tecno Camon 30",
+    category: "tecno",
+    price: 165000,
+    oldPrice: 185000,
+    image: "https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&w=800&q=80",
+    badge: "Nouveau",
+    description: "Smartphone Tecno orienté photo avec design moderne.",
+    specs: [
+      "Écran AMOLED",
+      "Caméra haute résolution",
+      "Grande batterie",
+      "Charge rapide",
+      "Double SIM"
+    ]
+  },
 
-    {
-        id: 9,
-        name: "Redmi Note 13",
-        category: "redmi",
-        price: 95000,
-        badge: "Bon prix",
-        description: "Redmi Note 13 • 128 Go",
-        image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Écran": "6,67 pouces AMOLED",
-            "Stockage": "128 Go",
-            "Caméra": "108 MP",
-            "Réseau": "4G",
-            "RAM": "6 Go",
-            "Batterie": "5000 mAh"
-        }
-    },
+  {
+    id: 10,
+    name: "Tecno Spark 20",
+    category: "tecno",
+    price: 85000,
+    oldPrice: 100000,
+    image: "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80",
+    badge: "Promo",
+    description: "Un smartphone abordable pour les besoins essentiels.",
+    specs: [
+      "Grand écran",
+      "Bonne autonomie",
+      "Double caméra",
+      "Double SIM",
+      "Stockage généreux"
+    ]
+  },
 
-    {
-        id: 10,
-        name: "Redmi Note 13 Pro",
-        category: "redmi",
-        price: 145000,
-        badge: "Top vente",
-        description: "Redmi Note 13 Pro • 256 Go",
-        image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Écran": "6,67 pouces AMOLED",
-            "Stockage": "256 Go",
-            "Caméra": "200 MP",
-            "Réseau": "4G",
-            "RAM": "8 Go",
-            "Batterie": "5000 mAh"
-        }
-    },
+  {
+    id: 11,
+    name: "AirPods Pro",
+    category: "accessoires",
+    price: 45000,
+    oldPrice: 55000,
+    image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=800&q=80",
+    badge: "Promo",
+    description: "Écouteurs sans fil avec réduction de bruit et boîtier de recharge.",
+    specs: [
+      "Bluetooth",
+      "Réduction de bruit",
+      "Boîtier de recharge",
+      "Microphone intégré",
+      "Sans fil"
+    ]
+  },
 
-    {
-        id: 11,
-        name: "Tecno Spark 20",
-        category: "tecno",
-        price: 80000,
-        badge: "Promo",
-        description: "Tecno Spark 20 • 128 Go",
-        image: "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Écran": "6,56 pouces",
-            "Stockage": "128 Go",
-            "Caméra": "50 MP",
-            "Réseau": "4G",
-            "RAM": "8 Go",
-            "Batterie": "5000 mAh"
-        }
-    },
+  {
+    id: 12,
+    name: "Apple Watch",
+    category: "accessoires",
+    price: 75000,
+    oldPrice: 90000,
+    image: "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=800&q=80",
+    badge: "Nouveau",
+    description: "Montre connectée élégante pour suivre votre activité et vos notifications.",
+    specs: [
+      "Écran tactile",
+      "Bluetooth",
+      "Notifications",
+      "Suivi d'activité",
+      "Bracelet réglable"
+    ]
+  },
 
-    {
-        id: 12,
-        name: "Tecno Camon 30",
-        category: "tecno",
-        price: 125000,
-        badge: "Nouveau",
-        description: "Tecno Camon 30 • 256 Go",
-        image: "https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Écran": "6,78 pouces AMOLED",
-            "Stockage": "256 Go",
-            "Caméra": "50 MP",
-            "Réseau": "4G",
-            "RAM": "8 Go",
-            "Batterie": "5000 mAh"
-        }
-    },
+  {
+    id: 13,
+    name: "Power Bank 20 000 mAh",
+    category: "accessoires",
+    price: 18000,
+    oldPrice: 22000,
+    image: "https://images.unsplash.com/photo-1609592424841-3f6f7b8c4a4a?auto=format&fit=crop&w=800&q=80",
+    badge: "Promo",
+    description: "Batterie externe haute capacité pour recharger vos appareils partout.",
+    specs: [
+      "20 000 mAh",
+      "USB",
+      "Charge rapide",
+      "Indicateur de batterie",
+      "Compatible smartphones"
+    ]
+  },
 
-    {
-        id: 13,
-        name: "Power Bank 20 000 mAh",
-        category: "accessoires",
-        price: 15000,
-        badge: "Essentiel",
-        description: "Power Bank haute capacité",
-        image: "https://images.unsplash.com/photo-1609592424694-7e4b2a4c8c4a?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Capacité": "20 000 mAh",
-            "Type": "Power Bank",
-            "Recharge": "USB",
-            "Compatibilité": "Smartphones"
-        }
-    },
-
-    {
-        id: 14,
-        name: "Écouteurs Bluetooth",
-        category: "accessoires",
-        price: 10000,
-        badge: "Promo",
-        description: "Écouteurs sans fil Bluetooth",
-        image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Type": "Sans fil",
-            "Connexion": "Bluetooth",
-            "Microphone": "Oui",
-            "Recharge": "USB"
-        }
-    },
-
-    {
-        id: 15,
-        name: "Apple Watch",
-        category: "accessoires",
-        price: 65000,
-        badge: "Premium",
-        description: "Montre connectée Apple",
-        image: "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Type": "Montre connectée",
-            "Connexion": "Bluetooth",
-            "Écran": "Tactile",
-            "Compatibilité": "iPhone"
-        }
-    },
-
-    {
-        id: 16,
-        name: "Chargeur rapide USB-C",
-        category: "accessoires",
-        price: 7500,
-        badge: "Essentiel",
-        description: "Chargeur rapide USB-C",
-        image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=85",
-        specs: {
-            "Type": "Chargeur rapide",
-            "Connecteur": "USB-C",
-            "Compatibilité": "Smartphones",
-            "Charge": "Rapide"
-        }
-    }
-
+  {
+    id: 14,
+    name: "Chargeur rapide USB-C",
+    category: "accessoires",
+    price: 10000,
+    oldPrice: 13000,
+    image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=80",
+    badge: "Promo",
+    description: "Chargeur rapide compatible avec de nombreux smartphones modernes.",
+    specs: [
+      "USB-C",
+      "Charge rapide",
+      "Compact",
+      "Protection contre la surtension",
+      "Compatible Android et iPhone"
+    ]
+  }
 ];
 
 
 /* =========================================================
    ÉTAT DE L'APPLICATION
-   ========================================================= */
+========================================================= */
 
-let cart =
-    JSON.parse(
-        localStorage.getItem("wendkShopCart")
-    ) || [];
+let cart = JSON.parse(localStorage.getItem("wendkCart")) || [];
+
+let favorites =
+  JSON.parse(localStorage.getItem("wendkFavorites")) || [];
 
 let currentCategory = "all";
 
-let searchTerm = "";
-
-let selectedProduct = null;
+let currentProduct = null;
 
 
 /* =========================================================
-   FIN DU BLOC 1
-   ========================================================= */
-/* =========================================================
-   WENDK SHOP
-   SCRIPT.JS — BLOC 2/5
-   DOM + PRODUITS + AFFICHAGE
-   ========================================================= */
+   ÉLÉMENTS DOM
+========================================================= */
+
+const productsGrid = document.getElementById("productsGrid");
+
+const noProducts = document.getElementById("noProducts");
+
+const cartItems = document.getElementById("cartItems");
+
+const cartCount = document.getElementById("cartCount");
+
+const cartTotal = document.getElementById("cartTotal");
+
+const headerCartTotal =
+  document.getElementById("headerCartTotal");
+
+const emptyCart = document.getElementById("emptyCart");
+
+const cartFooter = document.getElementById("cartFooter");
+
+const cartOverlay = document.getElementById("cartOverlay");
+
+const cartDrawer = document.getElementById("cartDrawer");
+
+const toast = document.getElementById("toast");
+
+const currentYear = document.getElementById("currentYear");
 
 
 /* =========================================================
-   ÉLÉMENTS HTML
-   ========================================================= */
+   INITIALISATION
+========================================================= */
 
-const productsGrid =
-    document.getElementById("productsGrid");
+document.addEventListener("DOMContentLoaded", () => {
 
-const noProducts =
-    document.getElementById("noProducts");
+  renderProducts();
 
-const searchInput =
-    document.getElementById("searchInput");
+  renderCart();
 
-const cartCount =
-    document.getElementById("cartCount");
+  updateFavoritesButtons();
 
-const cartDrawer =
-    document.getElementById("cartDrawer");
+  if (currentYear) {
+    currentYear.textContent = new Date().getFullYear();
+  }
 
-const cartOverlay =
-    document.getElementById("cartOverlay");
-
-const cartItems =
-    document.getElementById("cartItems");
-
-const cartTotal =
-    document.getElementById("cartTotal");
-
-const emptyCart =
-    document.getElementById("emptyCart");
-
-const cartFooter =
-    document.getElementById("cartFooter");
-
-const toast =
-    document.getElementById("toast");
-
-const checkoutBtn =
-    document.getElementById("checkoutBtn");
-
-const openCartBtn =
-    document.getElementById("openCartBtn");
-
-const closeCartBtn =
-    document.getElementById("closeCartBtn");
-
-const clearCartBtn =
-    document.getElementById("clearCartBtn");
-
-const continueShopping =
-    document.getElementById("continueShopping");
-
-const resetFilters =
-    document.getElementById("resetFilters");
-
-const promoWhatsapp =
-    document.getElementById("promoWhatsapp");
-
-const contactWhatsapp =
-    document.getElementById("contactWhatsapp");
-
-const currentYear =
-    document.getElementById("currentYear");
+});
 
 
 /* =========================================================
-   FORMATAGE DU PRIX
-   ========================================================= */
+   FORMATAGE DES PRIX
+========================================================= */
 
 function formatPrice(price) {
 
-    return new Intl.NumberFormat("fr-FR")
-        .format(Number(price) || 0) + " FCFA";
+  return new Intl.NumberFormat("fr-FR").format(price) + " FCFA";
 
 }
 
 
 /* =========================================================
-   NOM DES CATÉGORIES
-   ========================================================= */
+   SAUVEGARDE LOCALSTORAGE
+========================================================= */
 
-function getCategoryName(category) {
+function saveCart() {
 
-    const categories = {
-
-        iphone: "iPhone",
-
-        samsung: "Samsung",
-
-        redmi: "Redmi",
-
-        tecno: "Tecno",
-
-        accessoires: "Accessoires"
-
-    };
-
-    return categories[category] || "Produit";
+  localStorage.setItem(
+    "wendkCart",
+    JSON.stringify(cart)
+  );
 
 }
 
 
-/* =========================================================
-   CHARGEMENT DES PRODUITS SUPABASE
-   ========================================================= */
+function saveFavorites() {
 
-async function loadProductsFromSupabase() {
-
-    try {
-
-        const response =
-            await fetch(
-                `${SUPABASE_URL}/rest/v1/Product?select=*`,
-                {
-                    method: "GET",
-                    headers: SUPABASE_HEADERS
-                }
-            );
-
-
-        if (!response.ok) {
-
-            console.warn(
-                "⚠️ Table Product indisponible."
-            );
-
-            return;
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        if (
-            !Array.isArray(data) ||
-            data.length === 0
-        ) {
-
-            console.log(
-                "ℹ️ Aucun produit Supabase. Produits locaux conservés."
-            );
-
-            return;
-
-        }
-
-
-        products.length = 0;
-
-
-        data.forEach(product => {
-
-            products.push({
-
-                id:
-                    Number(product.id),
-
-                name:
-                    product.name || "Produit",
-
-                category:
-                    product.category || "accessoires",
-
-                price:
-                    Number(product.price) || 0,
-
-                badge:
-                    product.badge || "",
-
-                description:
-                    product.description || "",
-
-                image:
-                    product.image || "",
-
-                specs:
-                    product.specs || {}
-
-            });
-
-        });
-
-
-        console.log(
-            "✅ Produits Supabase chargés :",
-            products.length
-        );
-
-    }
-
-
-    catch (error) {
-
-        console.warn(
-            "⚠️ Supabase indisponible. Produits locaux utilisés.",
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   FILTRAGE DES PRODUITS
-   ========================================================= */
-
-function getFilteredProducts() {
-
-    return products.filter(product => {
-
-        const categoryMatch =
-            currentCategory === "all" ||
-            product.category === currentCategory;
-
-
-        const searchText =
-            (
-                String(product.name || "") +
-                " " +
-                String(product.description || "")
-            ).toLowerCase();
-
-
-        const searchMatch =
-            searchText.includes(
-                searchTerm.toLowerCase()
-            );
-
-
-        return (
-            categoryMatch &&
-            searchMatch
-        );
-
-    });
+  localStorage.setItem(
+    "wendkFavorites",
+    JSON.stringify(favorites)
+  );
 
 }
 
 
 /* =========================================================
    AFFICHAGE DES PRODUITS
-   ========================================================= */
+========================================================= */
 
 function renderProducts() {
 
-    if (!productsGrid) {
+  if (!productsGrid) return;
 
-        console.error(
-            "❌ productsGrid introuvable."
-        );
+  let filteredProducts = products;
 
-        return;
+  if (currentCategory !== "all") {
 
-    }
+    filteredProducts = products.filter(
+      product => product.category === currentCategory
+    );
 
+  }
 
-    const filteredProducts =
-        getFilteredProducts();
-
+  if (filteredProducts.length === 0) {
 
     productsGrid.innerHTML = "";
 
-
-    if (
-        noProducts
-    ) {
-
-        if (
-            filteredProducts.length === 0
-        ) {
-
-            noProducts.classList.remove(
-                "hidden"
-            );
-
-        } else {
-
-            noProducts.classList.add(
-                "hidden"
-            );
-
-        }
-
+    if (noProducts) {
+      noProducts.classList.remove("hidden");
     }
 
+    return;
 
-    filteredProducts.forEach(product => {
+  }
 
-        const card =
-            document.createElement("article");
+  if (noProducts) {
+    noProducts.classList.add("hidden");
+  }
 
-
-        card.className =
-            "product-card";
-
-
-        card.innerHTML = `
-
-            <div class="product-image">
-
-                <img
-                    src="${product.image}"
-                    alt="${product.name}"
-                    loading="lazy"
-                    onerror="
-                        this.src='https://placehold.co/800x800/f3f4f6/111827?text=WENDK+SHOP'
-                    "
-                >
-
-                ${
-                    product.badge
-                    ?
-                    `<span class="product-badge">
-                        ${product.badge}
-                    </span>`
-                    :
-                    ""
-                }
-
-            </div>
-
-
-            <div class="product-info">
-
-                <span class="product-category">
-                    ${getCategoryName(product.category)}
-                </span>
-
-
-                <h3 class="product-name">
-                    ${product.name}
-                </h3>
-
-
-                <p class="product-description">
-                    ${product.description}
-                </p>
-
-
-                <div class="product-bottom">
-
-                    <strong class="product-price">
-                        ${formatPrice(product.price)}
-                    </strong>
-
-
-                    <div class="product-actions">
-
-                        <button
-                            type="button"
-                            class="details-btn"
-                            data-details-id="${product.id}"
-                        >
-                            👁️ Détails
-                        </button>
-
-
-                        <button
-                            type="button"
-                            class="add-cart"
-                            data-id="${product.id}"
-                            aria-label="Ajouter ${product.name} au panier"
-                        >
-                            🛒
-                        </button>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-        `;
-
-
-        productsGrid.appendChild(
-            card
-        );
-
-    });
-
-
-    /*
-       Boutons détails
-    */
-
-    document
-        .querySelectorAll(
-            "[data-details-id]"
-        )
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    const id =
-                        Number(
-                            button.dataset.detailsId
-                        );
-
-
-                    openProductDetails(
-                        id
-                    );
-
-                }
-            );
-
-        });
-
-
-    /*
-       Boutons panier
-    */
-
-    document
-        .querySelectorAll(
-            ".add-cart"
-        )
-        .forEach(button => {
-
-            button.addEventListener(
-                "click",
-                () => {
-
-                    const id =
-                        Number(
-                            button.dataset.id
-                        );
-
-
-                    addToCart(id);
-
-                }
-            );
-
-        });
+  productsGrid.innerHTML = filteredProducts
+    .map(product => createProductCard(product))
+    .join("");
 
 }
 
 
 /* =========================================================
-   DÉTAILS DU PRODUIT
-   ========================================================= */
+   CARTE PRODUIT
+========================================================= */
 
-function openProductDetails(productId) {
+function createProductCard(product) {
 
-    const product =
-        products.find(
-            item =>
-                Number(item.id) ===
-                Number(productId)
-        );
+  const isFavorite = favorites.includes(product.id);
 
+  const badgeClass =
+    product.badge === "Promo"
+      ? "product-badge sale"
+      : "product-badge new";
 
-    if (!product) {
+  return `
+    <article class="product-card">
 
-        return;
+      <div class="product-image-wrapper">
 
-    }
-
-
-    selectedProduct =
-        product;
-
-
-    const existing =
-        document.getElementById(
-            "productDetailsModal"
-        );
-
-
-    if (existing) {
-
-        existing.remove();
-
-    }
-
-
-    const specs =
-        product.specs || {};
-
-
-    let specsHTML = "";
-
-
-    Object.keys(specs).forEach(key => {
-
-        specsHTML += `
-
-            <div class="spec-row">
-
-                <span>
-                    ${key}
-                </span>
-
-                <strong>
-                    ${specs[key]}
-                </strong>
-
-            </div>
-
-        `;
-
-    });
-
-
-    const modal =
-        document.createElement(
-            "div"
-        );
-
-
-    modal.id =
-        "productDetailsModal";
-
-
-    modal.innerHTML = `
-
-        <div
-            class="product-details-overlay"
-            id="productDetailsOverlay"
+        <img
+          src="${product.image}"
+          alt="${product.name}"
+          loading="lazy"
         >
 
-            <div
-                class="product-details-modal"
-                role="dialog"
-                aria-modal="true"
-            >
+        ${
+          product.badge
+            ? `<span class="${badgeClass}">
+                ${product.badge}
+              </span>`
+            : ""
+        }
 
-                <button
-                    type="button"
-                    class="product-details-close"
-                    id="closeProductDetails"
-                >
-                    ×
-                </button>
+        <button
+          class="favorite-btn ${isFavorite ? "active" : ""}"
+          data-favorite="${product.id}"
+          aria-label="Ajouter aux favoris"
+        >
+          ${isFavorite ? "♥" : "♡"}
+        </button>
 
+        <button
+          class="product-quick-view"
+          data-view="${product.id}"
+        >
+          Voir le produit
+        </button>
 
-                <img
-                    class="details-image"
-                    src="${product.image}"
-                    alt="${product.name}"
-                >
+      </div>
 
+      <div class="product-content">
 
-                <span class="product-category">
-                    ${getCategoryName(product.category)}
-                </span>
+        <div class="product-category">
+          ${getCategoryName(product.category)}
+        </div>
 
+        <h3 class="product-name">
+          ${product.name}
+        </h3>
 
-                <h2>
-                    ${product.name}
-                </h2>
+        <p class="product-description">
+          ${product.description}
+        </p>
 
+        <div class="product-bottom">
 
-                <p>
-                    ${product.description}
-                </p>
+          <div>
+            <span class="product-price">
+              ${formatPrice(product.price)}
+            </span>
 
+            ${
+              product.oldPrice
+                ? `<span class="product-old-price">
+                    ${formatPrice(product.oldPrice)}
+                  </span>`
+                : ""
+            }
+          </div>
 
-                <strong class="details-price">
-                    ${formatPrice(product.price)}
-                </strong>
-
-
-                <h3>
-                    📋 Fiche technique
-                </h3>
-
-
-                <div class="specs-list">
-
-                    ${
-                        specsHTML ||
-                        "<p>Informations techniques disponibles sur demande.</p>"
-                    }
-
-                </div>
-
-
-                <button
-                    type="button"
-                    class="btn btn-whatsapp"
-                    id="detailsAddCart"
-                >
-                    🛒 Ajouter au panier
-                </button>
-
-            </div>
+          <button
+            class="add-cart-btn"
+            data-add-cart="${product.id}"
+          >
+            🛒 Ajouter
+          </button>
 
         </div>
 
-    `;
+      </div>
+
+    </article>
+  `;
+
+}
 
 
-    document.body.appendChild(
-        modal
+/* =========================================================
+   NOM DES CATÉGORIES
+========================================================= */
+
+function getCategoryName(category) {
+
+  const names = {
+    iphone: "iPhone",
+    samsung: "Samsung",
+    redmi: "Redmi",
+    tecno: "Tecno",
+    accessoires: "Accessoires"
+  };
+
+  return names[category] || "Produit";
+
+}
+
+
+/* =========================================================
+   ÉVÉNEMENTS PRODUITS
+========================================================= */
+
+document.addEventListener("click", (event) => {
+
+  const addButton =
+    event.target.closest("[data-add-cart]");
+
+  if (addButton) {
+
+    const productId =
+      Number(addButton.dataset.addCart);
+
+    addToCart(productId);
+
+    return;
+  }
+
+
+  const favoriteButton =
+    event.target.closest("[data-favorite]");
+
+  if (favoriteButton) {
+
+    const productId =
+      Number(favoriteButton.dataset.favorite);
+
+    toggleFavorite(productId);
+
+    return;
+  }
+
+
+  const viewButton =
+    event.target.closest("[data-view]");
+
+  if (viewButton) {
+
+    const productId =
+      Number(viewButton.dataset.view);
+
+    openProductDetails(productId);
+
+    return;
+  }
+
+});
+
+
+/* =========================================================
+   FILTRES CATÉGORIES
+========================================================= */
+
+document.addEventListener("click", (event) => {
+
+  const filterButton =
+    event.target.closest(".filter-btn");
+
+  if (!filterButton) return;
+
+  const category =
+    filterButton.dataset.filter;
+
+  if (!category) return;
+
+  currentCategory = category;
+
+  document
+    .querySelectorAll(".filter-btn")
+    .forEach(button => {
+      button.classList.remove("active");
+    });
+
+  filterButton.classList.add("active");
+
+  renderProducts();
+
+});
+
+
+/* =========================================================
+   FIN DU BLOC 1/3
+========================================================= */
+/* =========================================================
+   WENDK SHOP — SCRIPT.JS
+   BLOC 2/3
+========================================================= */
+
+
+/* =========================================================
+   PANIER — AJOUTER UN PRODUIT
+========================================================= */
+
+function addToCart(productId) {
+
+  const product = products.find(
+    item => item.id === productId
+  );
+
+  if (!product) return;
+
+  const existingItem = cart.find(
+    item => item.id === productId
+  );
+
+  if (existingItem) {
+
+    existingItem.quantity += 1;
+
+  } else {
+
+    cart.push({
+      id: product.id,
+      quantity: 1
+    });
+
+  }
+
+  saveCart();
+
+  renderCart();
+
+  showToast(
+    `${product.name} ajouté au panier`,
+    "success"
+  );
+
+}
+
+
+/* =========================================================
+   PANIER — SUPPRIMER UN PRODUIT
+========================================================= */
+
+function removeFromCart(productId) {
+
+  const product = products.find(
+    item => item.id === productId
+  );
+
+  cart = cart.filter(
+    item => item.id !== productId
+  );
+
+  saveCart();
+
+  renderCart();
+
+  if (product) {
+
+    showToast(
+      `${product.name} retiré du panier`,
+      "success"
     );
 
-
-    const closeButton =
-        document.getElementById(
-            "closeProductDetails"
-        );
-
-
-    const overlay =
-        document.getElementById(
-            "productDetailsOverlay"
-        );
-
-
-    const addButton =
-        document.getElementById(
-            "detailsAddCart"
-        );
-
-
-    if (closeButton) {
-
-        closeButton.addEventListener(
-            "click",
-            closeProductDetails
-        );
-
-    }
-
-
-    if (overlay) {
-
-        overlay.addEventListener(
-            "click",
-            event => {
-
-                if (
-                    event.target === overlay
-                ) {
-
-                    closeProductDetails();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if (addButton) {
-
-        addButton.addEventListener(
-            "click",
-            () => {
-
-                addToCart(
-                    product.id
-                );
-
-                closeProductDetails();
-
-            }
-        );
-
-    }
+  }
 
 }
 
 
 /* =========================================================
-   FERMER DÉTAILS PRODUIT
-   ========================================================= */
+   PANIER — MODIFIER LA QUANTITÉ
+========================================================= */
 
-function closeProductDetails() {
+function updateQuantity(productId, change) {
 
-    const modal =
-        document.getElementById(
-            "productDetailsModal"
-        );
+  const item = cart.find(
+    cartItem => cartItem.id === productId
+  );
 
+  if (!item) return;
 
-    if (modal) {
+  item.quantity += change;
 
-        modal.remove();
+  if (item.quantity <= 0) {
 
-    }
+    removeFromCart(productId);
 
+    return;
 
-    selectedProduct =
-        null;
+  }
 
-}
+  saveCart();
 
-
-/* =========================================================
-   FIN DU BLOC 2
-   ========================================================= *//* =========================================================
-   WENDK SHOP
-   SCRIPT.JS — BLOC 3/5
-   PANIER + QUANTITÉS + AFFICHAGE
-   ========================================================= */
-
-
-/* =========================================================
-   SAUVEGARDER LE PANIER
-   ========================================================= */
-
-function saveCart() {
-
-    localStorage.setItem(
-        "wendkShopCart",
-        JSON.stringify(cart)
-    );
+  renderCart();
 
 }
 
 
 /* =========================================================
-   RÉCUPÉRER UN PRODUIT
-   ========================================================= */
-
-function getCartProduct(productId) {
-
-    return products.find(
-        product =>
-            Number(product.id) ===
-            Number(productId)
-    );
-
-}
-
-
-/* =========================================================
-   CALCULER LE TOTAL
-   ========================================================= */
+   CALCUL DU TOTAL
+========================================================= */
 
 function getCartTotal() {
 
-    return cart.reduce(
-        (total, item) => {
+  return cart.reduce((total, item) => {
 
-            const product =
-                getCartProduct(item.id);
-
-
-            if (!product) {
-
-                return total;
-
-            }
-
-
-            return (
-                total +
-                (
-                    Number(product.price) *
-                    Number(item.quantity)
-                )
-            );
-
-        },
-        0
+    const product = products.find(
+      product => product.id === item.id
     );
+
+    if (!product) return total;
+
+    return total + product.price * item.quantity;
+
+  }, 0);
 
 }
 
 
 /* =========================================================
    NOMBRE TOTAL D'ARTICLES
-   ========================================================= */
+========================================================= */
 
 function getCartCount() {
 
-    return cart.reduce(
-        (total, item) => {
-
-            return (
-                total +
-                Number(item.quantity)
-            );
-
-        },
-        0
-    );
-
-}
-
-
-/* =========================================================
-   AJOUTER AU PANIER
-   ========================================================= */
-
-function addToCart(productId) {
-
-    const product =
-        getCartProduct(productId);
-
-
-    if (!product) {
-
-        console.error(
-            "Produit introuvable :",
-            productId
-        );
-
-        return;
-
-    }
-
-
-    const existingItem =
-        cart.find(
-            item =>
-                Number(item.id) ===
-                Number(productId)
-        );
-
-
-    if (existingItem) {
-
-        existingItem.quantity =
-            Number(existingItem.quantity) + 1;
-
-    } else {
-
-        cart.push({
-
-            id:
-                Number(productId),
-
-            quantity:
-                1
-
-        });
-
-    }
-
-
-    saveCart();
-
-    updateCartUI();
-
-
-    showToast(
-        `${product.name} ajouté au panier ✅`
-    );
-
-}
-
-
-/* =========================================================
-   MODIFIER LA QUANTITÉ
-   ========================================================= */
-
-function changeQuantity(
-    productId,
-    amount
-) {
-
-    const item =
-        cart.find(
-            cartItem =>
-                Number(cartItem.id) ===
-                Number(productId)
-        );
-
-
-    if (!item) {
-
-        return;
-
-    }
-
-
-    item.quantity =
-        Number(item.quantity) +
-        Number(amount);
-
-
-    if (
-        item.quantity <= 0
-    ) {
-
-        cart =
-            cart.filter(
-                cartItem =>
-                    Number(cartItem.id) !==
-                    Number(productId)
-            );
-
-    }
-
-
-    saveCart();
-
-    updateCartUI();
-
-}
-
-
-/* =========================================================
-   SUPPRIMER UN PRODUIT
-   ========================================================= */
-
-function removeFromCart(productId) {
-
-    cart =
-        cart.filter(
-            item =>
-                Number(item.id) !==
-                Number(productId)
-        );
-
-
-    saveCart();
-
-    updateCartUI();
-
-
-    showToast(
-        "Produit supprimé du panier"
-    );
-
-}
-
-
-/* =========================================================
-   VIDER LE PANIER
-   ========================================================= */
-
-function clearCart() {
-
-    if (
-        cart.length === 0
-    ) {
-
-        return;
-
-    }
-
-
-    const confirmed =
-        window.confirm(
-            "Voulez-vous vraiment vider le panier ?"
-        );
-
-
-    if (!confirmed) {
-
-        return;
-
-    }
-
-
-    cart = [];
-
-
-    saveCart();
-
-    updateCartUI();
-
-
-    showToast(
-        "Panier vidé"
-    );
+  return cart.reduce(
+    (total, item) => total + item.quantity,
+    0
+  );
 
 }
 
 
 /* =========================================================
    AFFICHER LE PANIER
-   ========================================================= */
+========================================================= */
 
 function renderCart() {
 
-    if (!cartItems) {
+  if (!cartItems) return;
 
-        console.error(
-            "❌ Élément cartItems introuvable."
-        );
-
-        return;
-
-    }
-
+  if (cart.length === 0) {
 
     cartItems.innerHTML = "";
 
-
-    /*
-       Panier vide
-    */
-
-    if (
-        cart.length === 0
-    ) {
-
-        if (emptyCart) {
-
-            emptyCart.classList.remove(
-                "hidden"
-            );
-
-        }
-
-
-        if (cartFooter) {
-
-            cartFooter.classList.add(
-                "hidden"
-            );
-
-        }
-
-
-        return;
-
-    }
-
-
-    /*
-       Panier avec produits
-    */
-
     if (emptyCart) {
-
-        emptyCart.classList.add(
-            "hidden"
-        );
-
+      emptyCart.classList.remove("hidden");
     }
-
 
     if (cartFooter) {
-
-        cartFooter.classList.remove(
-            "hidden"
-        );
-
+      cartFooter.classList.add("hidden");
     }
 
+  } else {
 
-    cart.forEach(item => {
-
-        const product =
-            getCartProduct(item.id);
-
-
-        /*
-           Si un ancien produit n'existe
-           plus, on l'ignore.
-        */
-
-        if (!product) {
-
-            return;
-
-        }
-
-
-        const quantity =
-            Number(item.quantity);
-
-
-        const subtotal =
-            Number(product.price) *
-            quantity;
-
-
-        const cartItem =
-            document.createElement(
-                "div"
-            );
-
-
-        cartItem.className =
-            "cart-item";
-
-
-        cartItem.innerHTML = `
-
-            <div class="cart-item-image">
-
-                <img
-                    src="${product.image}"
-                    alt="${product.name}"
-                    onerror="
-                        this.src='https://placehold.co/200x200/f3f4f6/111827?text=WENDK'
-                    "
-                >
-
-            </div>
-
-
-            <div class="cart-item-content">
-
-                <div class="cart-item-name">
-                    ${product.name}
-                </div>
-
-
-                <div class="cart-item-price">
-                    ${formatPrice(product.price)}
-                </div>
-
-
-                <div class="quantity-control">
-
-                    <button
-                        type="button"
-                        class="quantity-btn"
-                        data-cart-action="decrease"
-                        data-id="${product.id}"
-                    >
-                        −
-                    </button>
-
-
-                    <span class="quantity-value">
-                        ${quantity}
-                    </span>
-
-
-                    <button
-                        type="button"
-                        class="quantity-btn"
-                        data-cart-action="increase"
-                        data-id="${product.id}"
-                    >
-                        +
-                    </button>
-
-                </div>
-
-
-                <div class="cart-item-subtotal">
-                    Sous-total :
-                    <strong>
-                        ${formatPrice(subtotal)}
-                    </strong>
-                </div>
-
-            </div>
-
-
-            <button
-                type="button"
-                class="remove-item"
-                data-cart-action="remove"
-                data-id="${product.id}"
-                aria-label="Supprimer ${product.name}"
-            >
-                🗑️
-            </button>
-
-        `;
-
-
-        cartItems.appendChild(
-            cartItem
-        );
-
-    });
-
-
-    /*
-       Total
-    */
-
-    if (cartTotal) {
-
-        cartTotal.textContent =
-            formatPrice(
-                getCartTotal()
-            );
-
+    if (emptyCart) {
+      emptyCart.classList.add("hidden");
     }
 
+    if (cartFooter) {
+      cartFooter.classList.remove("hidden");
+    }
 
-    /*
-       Événements des boutons du panier
-    */
+    cartItems.innerHTML = cart
+      .map(item => createCartItem(item))
+      .join("");
 
-    cartItems
-        .querySelectorAll(
-            "[data-cart-action]"
-        )
-        .forEach(button => {
+  }
 
-            button.addEventListener(
-                "click",
-                event => {
-
-                    event.preventDefault();
-
-                    event.stopPropagation();
-
-
-                    const id =
-                        Number(
-                            button.dataset.id
-                        );
-
-
-                    const action =
-                        button.dataset.cartAction;
-
-
-                    if (
-                        action ===
-                        "increase"
-                    ) {
-
-                        changeQuantity(
-                            id,
-                            1
-                        );
-
-                    }
-
-
-                    else if (
-                        action ===
-                        "decrease"
-                    ) {
-
-                        changeQuantity(
-                            id,
-                            -1
-                        );
-
-                    }
-
-
-                    else if (
-                        action ===
-                        "remove"
-                    ) {
-
-                        removeFromCart(
-                            id
-                        );
-
-                    }
-
-                }
-            );
-
-        });
+  updateCartTotals();
 
 }
 
 
 /* =========================================================
-   ACTUALISER L'INTERFACE DU PANIER
-   ========================================================= */
+   CARTE D'UN ARTICLE DU PANIER
+========================================================= */
 
-function updateCartUI() {
+function createCartItem(item) {
 
-    if (cartCount) {
+  const product = products.find(
+    product => product.id === item.id
+  );
 
-        cartCount.textContent =
-            getCartCount();
+  if (!product) return "";
 
-    }
+  const subtotal =
+    product.price * item.quantity;
 
+  return `
+    <div class="cart-item">
 
-    renderCart();
+      <img
+        class="cart-item-image"
+        src="${product.image}"
+        alt="${product.name}"
+      >
+
+      <div class="cart-item-info">
+
+        <h4 class="cart-item-name">
+          ${product.name}
+        </h4>
+
+        <div class="cart-item-price">
+          ${formatPrice(subtotal)}
+        </div>
+
+        <div class="cart-item-controls">
+
+          <button
+            class="quantity-btn"
+            data-decrease="${product.id}"
+            aria-label="Diminuer"
+          >
+            −
+          </button>
+
+          <span class="quantity-value">
+            ${item.quantity}
+          </span>
+
+          <button
+            class="quantity-btn"
+            data-increase="${product.id}"
+            aria-label="Augmenter"
+          >
+            +
+          </button>
+
+          <button
+            class="remove-cart-item"
+            data-remove-cart="${product.id}"
+            aria-label="Supprimer"
+          >
+            🗑️
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
 
 }
+
+
+/* =========================================================
+   TOTALS DU PANIER
+========================================================= */
+
+function updateCartTotals() {
+
+  const count = getCartCount();
+
+  const total = getCartTotal();
+
+  if (cartCount) {
+
+    cartCount.textContent = count;
+
+    cartCount.style.display =
+      count > 0 ? "flex" : "none";
+
+  }
+
+  if (cartTotal) {
+
+    cartTotal.textContent =
+      formatPrice(total);
+
+  }
+
+  if (headerCartTotal) {
+
+    headerCartTotal.textContent =
+      formatPrice(total);
+
+  }
+
+}
+
+
+/* =========================================================
+   ÉVÉNEMENTS DU PANIER
+========================================================= */
+
+document.addEventListener("click", (event) => {
+
+  const increaseButton =
+    event.target.closest("[data-increase]");
+
+  if (increaseButton) {
+
+    const productId =
+      Number(increaseButton.dataset.increase);
+
+    updateQuantity(productId, 1);
+
+    return;
+
+  }
+
+
+  const decreaseButton =
+    event.target.closest("[data-decrease]");
+
+  if (decreaseButton) {
+
+    const productId =
+      Number(decreaseButton.dataset.decrease);
+
+    updateQuantity(productId, -1);
+
+    return;
+
+  }
+
+
+  const removeButton =
+    event.target.closest("[data-remove-cart]");
+
+  if (removeButton) {
+
+    const productId =
+      Number(removeButton.dataset.removeCart);
+
+    removeFromCart(productId);
+
+    return;
+
+  }
+
+});
 
 
 /* =========================================================
    OUVRIR LE PANIER
-   ========================================================= */
+========================================================= */
 
 function openCart() {
 
-    if (!cartDrawer) {
+  if (cartOverlay) {
+    cartOverlay.classList.add("active");
+  }
 
-        console.error(
-            "❌ cartDrawer introuvable."
-        );
+  if (cartDrawer) {
+    cartDrawer.classList.add("active");
+  }
 
-        return;
-
-    }
-
-
-    /*
-       On affiche d'abord le panier.
-       Cela évite qu'un problème d'animation
-       laisse l'écran dans un état bloqué.
-    */
-
-    renderCart();
-
-
-    cartDrawer.classList.add(
-        "open"
-    );
-
-
-    if (cartOverlay) {
-
-        cartOverlay.classList.add(
-            "active"
-        );
-
-    }
-
-
-    document.body.classList.add(
-        "cart-open"
-    );
+  document.body.style.overflow = "hidden";
 
 }
 
 
 /* =========================================================
    FERMER LE PANIER
-   ========================================================= */
+========================================================= */
 
 function closeCart() {
 
-    if (cartDrawer) {
+  if (cartOverlay) {
+    cartOverlay.classList.remove("active");
+  }
 
-        cartDrawer.classList.remove(
-            "open"
-        );
+  if (cartDrawer) {
+    cartDrawer.classList.remove("active");
+  }
 
-    }
-
-
-    if (cartOverlay) {
-
-        cartOverlay.classList.remove(
-            "active"
-        );
-
-    }
-
-
-    document.body.classList.remove(
-        "cart-open"
-    );
+  document.body.style.overflow = "";
 
 }
 
 
 /* =========================================================
-   MESSAGE TOAST
-   ========================================================= */
+   BOUTONS PANIER
+========================================================= */
 
-function showToast(message) {
+const openCartBtn =
+  document.getElementById("openCartBtn");
 
-    if (!toast) {
+const closeCartBtn =
+  document.getElementById("closeCartBtn");
+
+const continueShopping =
+  document.getElementById("continueShopping");
+
+
+if (openCartBtn) {
+
+  openCartBtn.addEventListener(
+    "click",
+    openCart
+  );
+
+}
+
+
+if (closeCartBtn) {
+
+  closeCartBtn.addEventListener(
+    "click",
+    closeCart
+  );
+
+}
+
+
+if (continueShopping) {
+
+  continueShopping.addEventListener(
+    "click",
+    closeCart
+  );
+
+}
+
+
+if (cartOverlay) {
+
+  cartOverlay.addEventListener(
+    "click",
+    closeCart
+  );
+
+}
+
+
+/* =========================================================
+   VIDER LE PANIER
+========================================================= */
+
+const clearCartBtn =
+  document.getElementById("clearCartBtn");
+
+if (clearCartBtn) {
+
+  clearCartBtn.addEventListener(
+    "click",
+    () => {
+
+      if (cart.length === 0) {
+
+        showToast(
+          "Le panier est déjà vide",
+          "error"
+        );
 
         return;
 
-    }
+      }
 
-
-    toast.textContent =
-        message;
-
-
-    toast.classList.add(
-        "show"
-    );
-
-
-    clearTimeout(
-        showToast.timeout
-    );
-
-
-    showToast.timeout =
-        setTimeout(
-            () => {
-
-                toast.classList.remove(
-                    "show"
-                );
-
-            },
-            2500
+      const confirmed =
+        confirm(
+          "Voulez-vous vraiment vider le panier ?"
         );
+
+      if (!confirmed) return;
+
+      cart = [];
+
+      saveCart();
+
+      renderCart();
+
+      showToast(
+        "Panier vidé",
+        "success"
+      );
+
+    }
+  );
 
 }
 
 
 /* =========================================================
-   FIN DU BLOC 3
-   ========================================================= */
-/* =========================================================
-   WENDK SHOP
-   SCRIPT.JS — BLOC 4/5
-   COMMANDE + SUPABASE + WHATSAPP
-   ========================================================= */
+   FAVORIS
+========================================================= */
 
+function toggleFavorite(productId) {
 
-/* =========================================================
-   CRÉER LE LIEN WHATSAPP
-   ========================================================= */
+  const product = products.find(
+    item => item.id === productId
+  );
 
-function createWhatsAppLink(message) {
+  if (!product) return;
 
-    if (
-        !WHATSAPP_NUMBER ||
-        WHATSAPP_NUMBER.includes("XXXXXXXX")
-    ) {
+  const index =
+    favorites.indexOf(productId);
 
-        alert(
-            "Le numéro WhatsApp n'est pas configuré."
-        );
+  if (index === -1) {
 
-        return null;
+    favorites.push(productId);
 
-    }
-
-
-    return (
-        "https://wa.me/" +
-        WHATSAPP_NUMBER +
-        "?text=" +
-        encodeURIComponent(message)
+    showToast(
+      `${product.name} ajouté aux favoris`,
+      "success"
     );
+
+  } else {
+
+    favorites.splice(index, 1);
+
+    showToast(
+      `${product.name} retiré des favoris`,
+      "success"
+    );
+
+  }
+
+  saveFavorites();
+
+  renderProducts();
+
+  updateFavoritesButtons();
 
 }
 
 
 /* =========================================================
-   CRÉER LE MESSAGE DE COMMANDE
-   ========================================================= */
+   METTRE À JOUR LES BOUTONS FAVORIS
+========================================================= */
 
-function createOrderWhatsAppMessage(
-    customerName,
-    customerPhone,
-    customerAddress
-) {
+function updateFavoritesButtons() {
 
-    let message =
-        "🛍️ *NOUVELLE COMMANDE — WENDK SHOP*\n\n";
+  document
+    .querySelectorAll("[data-favorite]")
+    .forEach(button => {
 
+      const productId =
+        Number(button.dataset.favorite);
 
-    message +=
-        "👤 *Client :* " +
-        customerName +
-        "\n";
+      const isFavorite =
+        favorites.includes(productId);
 
+      button.classList.toggle(
+        "active",
+        isFavorite
+      );
 
-    message +=
-        "📞 *Téléphone :* " +
-        customerPhone +
-        "\n";
-
-
-    message +=
-        "📍 *Adresse :* " +
-        customerAddress +
-        "\n\n";
-
-
-    message +=
-        "🛒 *PRODUITS COMMANDÉS :*\n";
-
-
-    cart.forEach((item, index) => {
-
-        const product =
-            getCartProduct(item.id);
-
-
-        if (!product) {
-
-            return;
-
-        }
-
-
-        const quantity =
-            Number(item.quantity);
-
-
-        const subtotal =
-            Number(product.price) *
-            quantity;
-
-
-        message +=
-            `${index + 1}. ${product.name}\n`;
-
-
-        message +=
-            `   Quantité : ${quantity}\n`;
-
-
-        message +=
-            `   Prix : ${formatPrice(product.price)}\n`;
-
-
-        message +=
-            `   Sous-total : ${formatPrice(subtotal)}\n\n`;
+      button.textContent =
+        isFavorite ? "♥" : "♡";
 
     });
 
-
-    message +=
-        "💰 *TOTAL : " +
-        formatPrice(
-            getCartTotal()
-        ) +
-        "*\n\n";
-
-
-    message +=
-        "Merci de confirmer la disponibilité et les modalités de livraison. 🙏";
-
-
-    return message;
-
 }
 
 
 /* =========================================================
-   ENREGISTRER LA COMMANDE DANS SUPABASE
-   ========================================================= */
+   MODALE FAVORIS
+========================================================= */
 
-async function saveOrderToSupabase(
-    customerName,
-    customerPhone,
-    customerAddress
-) {
+const favoritesModal =
+  document.getElementById("favoritesModal");
 
-    const items =
-        cart.map(item => {
+const favoritesModalOverlay =
+  document.getElementById("favoritesModalOverlay");
 
-            const product =
-                getCartProduct(item.id);
+const favoritesItems =
+  document.getElementById("favoritesItems");
 
+const favoritesBtn =
+  document.getElementById("favoritesBtn");
 
-            return {
+const closeFavoritesModal =
+  document.getElementById("closeFavoritesModal");
 
-                id:
-                    item.id,
+const closeFavoritesBtn =
+  document.getElementById("closeFavoritesBtn");
 
-                name:
-                    product
-                        ? product.name
-                        : "Produit",
 
-                price:
-                    product
-                        ? Number(product.price)
-                        : 0,
+function renderFavorites() {
 
-                quantity:
-                    Number(item.quantity),
+  if (!favoritesItems) return;
 
-                subtotal:
-                    product
-                        ? Number(product.price) *
-                          Number(item.quantity)
-                        : 0
+  if (favorites.length === 0) {
 
-            };
-
-        });
-
-
-    const orderData = {
-
-        customer_name:
-            customerName,
-
-        customer_phone:
-            customerPhone,
-
-        address:
-            customerAddress,
-
-        items:
-            items,
-
-        total:
-            getCartTotal(),
-
-        status:
-            "Nouvelle"
-
-    };
-
-
-    try {
-
-        /*
-           IMPORTANT :
-           La table utilisée ici est "orders".
-        */
-
-        const response =
-            await fetch(
-                `${SUPABASE_URL}/rest/v1/orders`,
-                {
-
-                    method:
-                        "POST",
-
-                    headers: {
-
-                        ...SUPABASE_HEADERS,
-
-                        "Prefer":
-                            "return=representation"
-
-                    },
-
-                    body:
-                        JSON.stringify(
-                            orderData
-                        )
-
-                }
-            );
-
-
-        if (!response.ok) {
-
-            const errorText =
-                await response.text();
-
-
-            console.error(
-                "❌ Erreur Supabase :",
-                errorText
-            );
-
-
-            return {
-
-                success:
-                    false,
-
-                error:
-                    errorText
-
-            };
-
-        }
-
-
-        const data =
-            await response.json();
-
-
-        console.log(
-            "✅ Commande enregistrée dans Supabase :",
-            data
-        );
-
-
-        return {
-
-            success:
-                true,
-
-            data:
-                data
-
-        };
-
-    }
-
-
-    catch (error) {
-
-        console.error(
-            "❌ Impossible de contacter Supabase :",
-            error
-        );
-
-
-        return {
-
-            success:
-                false,
-
-            error:
-                error.message
-
-        };
-
-    }
-
-}
-
-
-/* =========================================================
-   CRÉER LA FENÊTRE DE COMMANDE
-   ========================================================= */
-
-function createCheckoutModal() {
-
-    /*
-       Éviter plusieurs fenêtres
-    */
-
-    const oldModal =
-        document.getElementById(
-            "checkoutModal"
-        );
-
-
-    if (oldModal) {
-
-        oldModal.remove();
-
-    }
-
-
-    const modal =
-        document.createElement(
-            "div"
-        );
-
-
-    modal.id =
-        "checkoutModal";
-
-
-    modal.innerHTML = `
-
-        <div
-            class="checkout-modal-overlay"
-            id="checkoutModalOverlay"
-        >
-
-            <div
-                class="checkout-modal"
-                role="dialog"
-                aria-modal="true"
-            >
-
-                <button
-                    type="button"
-                    class="checkout-modal-close"
-                    id="closeCheckoutModal"
-                >
-                    ×
-                </button>
-
-
-                <div class="checkout-modal-header">
-
-                    <span class="section-label">
-                        FINALISER LA COMMANDE
-                    </span>
-
-
-                    <h2>
-                        Vos informations
-                    </h2>
-
-
-                    <p>
-                        Remplissez vos informations
-                        avant d'envoyer la commande.
-                    </p>
-
-                </div>
-
-
-                <form
-                    id="checkoutForm"
-                    class="checkout-form"
-                >
-
-                    <label>
-                        Nom complet
-                    </label>
-
-                    <input
-                        type="text"
-                        id="customerName"
-                        name="customerName"
-                        placeholder="Votre nom complet"
-                        required
-                    >
-
-
-                    <label>
-                        Téléphone
-                    </label>
-
-                    <input
-                        type="tel"
-                        id="customerPhone"
-                        name="customerPhone"
-                        placeholder="Ex : 70 00 00 00"
-                        required
-                    >
-
-
-                    <label>
-                        Adresse
-                    </label>
-
-                    <textarea
-                        id="customerAddress"
-                        name="customerAddress"
-                        placeholder="Quartier, secteur, ville..."
-                        rows="3"
-                        required
-                    ></textarea>
-
-
-                    <div
-                        class="checkout-summary"
-                    >
-
-                        <span>
-                            Total de la commande
-                        </span>
-
-                        <strong
-                            id="checkoutModalTotal"
-                        >
-                            ${formatPrice(getCartTotal())}
-                        </strong>
-
-                    </div>
-
-
-                    <button
-                        type="submit"
-                        class="btn btn-whatsapp checkout-submit"
-                        id="confirmOrderBtn"
-                    >
-                        💬 Confirmer la commande
-                    </button>
-
-
-                    <p
-                        id="checkoutStatus"
-                        class="checkout-status"
-                    ></p>
-
-                </form>
-
-            </div>
-
-        </div>
-
+    favoritesItems.innerHTML = `
+      <div class="empty-cart">
+        <div class="empty-cart-icon">♡</div>
+        <h3>Aucun favori</h3>
+        <p>
+          Ajoutez vos produits préférés ici.
+        </p>
+      </div>
     `;
 
+    return;
 
-    document.body.appendChild(
-        modal
-    );
+  }
 
+  favoritesItems.innerHTML = favorites
+    .map(productId => {
 
-    const closeButton =
-        document.getElementById(
-            "closeCheckoutModal"
-        );
+      const product = products.find(
+        item => item.id === productId
+      );
 
+      if (!product) return "";
 
-    const overlay =
-        document.getElementById(
-            "checkoutModalOverlay"
-        );
+      return `
+        <div class="favorite-item">
 
+          <img
+            src="${product.image}"
+            alt="${product.name}"
+          >
 
-    const form =
-        document.getElementById(
-            "checkoutForm"
-        );
+          <div class="favorite-item-info">
 
+            <h4>
+              ${product.name}
+            </h4>
 
-    if (closeButton) {
+            <p>
+              ${formatPrice(product.price)}
+            </p>
 
-        closeButton.addEventListener(
-            "click",
-            closeCheckoutModal
-        );
+          </div>
 
-    }
+          <button
+            class="remove-cart-item"
+            data-remove-favorite="${product.id}"
+          >
+            🗑️
+          </button>
 
+        </div>
+      `;
 
-    if (overlay) {
+    })
+    .join("");
 
-        overlay.addEventListener(
-            "click",
-            event => {
-
-                if (
-                    event.target ===
-                    overlay
-                ) {
-
-                    closeCheckoutModal();
-
-                }
-
-            }
-        );
-
-    }
+}
 
 
-    if (form) {
+function openFavorites() {
 
-        form.addEventListener(
-            "submit",
-            handleCheckoutSubmit
-        );
+  renderFavorites();
 
-    }
+  if (favoritesModal) {
+    favoritesModal.classList.add("active");
+  }
+
+  if (favoritesModalOverlay) {
+    favoritesModalOverlay.classList.add("active");
+  }
+
+  document.body.style.overflow = "hidden";
+
+}
+
+
+function closeFavorites() {
+
+  if (favoritesModal) {
+    favoritesModal.classList.remove("active");
+  }
+
+  if (favoritesModalOverlay) {
+    favoritesModalOverlay.classList.remove("active");
+  }
+
+  document.body.style.overflow = "";
+
+}
+
+
+if (favoritesBtn) {
+
+  favoritesBtn.addEventListener(
+    "click",
+    openFavorites
+  );
+
+}
+
+
+if (closeFavoritesModal) {
+
+  closeFavoritesModal.addEventListener(
+    "click",
+    closeFavorites
+  );
+
+}
+
+
+if (closeFavoritesBtn) {
+
+  closeFavoritesBtn.addEventListener(
+    "click",
+    closeFavorites
+  );
+
+}
+
+
+if (favoritesModalOverlay) {
+
+  favoritesModalOverlay.addEventListener(
+    "click",
+    closeFavorites
+  );
 
 }
 
 
 /* =========================================================
-   FERMER LA FENÊTRE DE COMMANDE
-   ========================================================= */
+   SUPPRESSION FAVORI
+========================================================= */
 
-function closeCheckoutModal() {
+document.addEventListener("click", (event) => {
 
-    const modal =
-        document.getElementById(
-            "checkoutModal"
-        );
+  const removeFavorite =
+    event.target.closest("[data-remove-favorite]");
 
+  if (!removeFavorite) return;
 
-    if (modal) {
+  const productId =
+    Number(removeFavorite.dataset.removeFavorite);
 
-        modal.remove();
+  favorites =
+    favorites.filter(id => id !== productId);
 
-    }
+  saveFavorites();
 
-}
+  renderFavorites();
+
+  renderProducts();
+
+  showToast(
+    "Produit retiré des favoris",
+    "success"
+  );
+
+});
 
 
 /* =========================================================
-   TRAITER LA COMMANDE
-   ========================================================= */
-
-async function handleCheckoutSubmit(
-    event
-) {
-
-    event.preventDefault();
-
-
-    if (
-        !cart ||
-        cart.length === 0
-    ) {
-
-        alert(
-            "Votre panier est vide."
-        );
-
-        closeCheckoutModal();
-
-        return;
-
-    }
-
-
-    const customerName =
-        document
-            .getElementById(
-                "customerName"
-            )
-            ?.value
-            .trim();
-
-
-    const customerPhone =
-        document
-            .getElementById(
-                "customerPhone"
-            )
-            ?.value
-            .trim();
-
-
-    const customerAddress =
-        document
-            .getElementById(
-                "customerAddress"
-            )
-            ?.value
-            .trim();
-
-
-    if (
-        !customerName ||
-        !customerPhone ||
-        !customerAddress
-    ) {
-
-        alert(
-            "Veuillez remplir tous les champs."
-        );
-
-        return;
-
-    }
-
-
-    const confirmButton =
-        document.getElementById(
-            "confirmOrderBtn"
-        );
-
-
-    const status =
-        document.getElementById(
-            "checkoutStatus"
-        );
-
-
-    if (confirmButton) {
-
-        confirmButton.disabled =
-            true;
-
-        confirmButton.textContent =
-            "⏳ Enregistrement...";
-
-    }
-
-
-    if (status) {
-
-        status.textContent =
-            "Enregistrement de votre commande...";
-
-    }
-
-
-    /*
-       1️⃣ Enregistrement Supabase
-    */
-
-    const result =
-        await saveOrderToSupabase(
-            customerName,
-            customerPhone,
-            customerAddress
-        );
-
-
-    /*
-       2️⃣ Création du message WhatsApp
-    */
-
-    const message =
-        createOrderWhatsAppMessage(
-            customerName,
-            customerPhone,
-            customerAddress
-        );
-
-
-    const whatsappLink =
-        createWhatsAppLink(
-            message
-        );
-
-
-    /*
-       3️⃣ Même si Supabase rencontre
-          un problème, on permet au client
-          de contacter WENDK SHOP.
-    */
-
-    if (!whatsappLink) {
-
-        if (confirmButton) {
-
-            confirmButton.disabled =
-                false;
-
-            confirmButton.textContent =
-                "💬 Confirmer la commande";
-
-        }
-
-        return;
-
-    }
-
-
-    /*
-       4️⃣ Message à l'utilisateur
-    */
-
-    if (result.success) {
-
-        if (status) {
-
-            status.textContent =
-                "✅ Commande enregistrée. Ouverture de WhatsApp...";
-
-        }
-
-    } else {
-
-        if (status) {
-
-            status.textContent =
-                "⚠️ WhatsApp va s'ouvrir. L'enregistrement automatique a rencontré un problème.";
-
-        }
-
-    }
-
-
-    /*
-       5️⃣ Ouvrir WhatsApp
-    */
-
-    setTimeout(
-        () => {
-
-            window.location.href =
-                whatsappLink;
-
-        },
-        500
-    );
-
-
-    /*
-       6️⃣ Vider le panier après
-          préparation de la commande
-    */
-
-    cart = [];
-
-    saveCart();
-
-    updateCartUI();
-
-}
-
-
-/* =========================================================
-   FIN DU BLOC 4
-   ========================================================= */
-
-/* =========================================================
-   WENDK SHOP
-   SCRIPT.JS — BLOC 5/5
-   INITIALISATION + ÉVÉNEMENTS
-   ========================================================= */
-
-
-/* =========================================================
-   CATÉGORIES
-   ========================================================= */
-
-function setupCategories() {
-
-    const buttons =
-        document.querySelectorAll(
-            ".category-btn"
-        );
-
-
-    buttons.forEach(button => {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                buttons.forEach(btn => {
-
-                    btn.classList.remove(
-                        "active"
-                    );
-
-                });
-
-
-                this.classList.add(
-                    "active"
-                );
-
-
-                currentCategory =
-                    this.dataset.category ||
-                    "all";
-
-
-                renderProducts();
-
-            }
-        );
-
-    });
-
-}
-
-
-/* =========================================================
-   RECHERCHE
-   ========================================================= */
-
-function setupSearch() {
-
-    if (!searchInput) {
-
-        return;
-
-    }
-
-
-    searchInput.addEventListener(
-        "input",
-        function () {
-
-            searchTerm =
-                this.value.trim();
-
-
-            renderProducts();
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   RESET FILTRES
-   ========================================================= */
-
-function setupResetFilters() {
-
-    if (!resetFilters) {
-
-        return;
-
-    }
-
-
-    resetFilters.addEventListener(
-        "click",
-        function (event) {
-
-            event.preventDefault();
-
-
-            currentCategory =
-                "all";
-
-
-            searchTerm =
-                "";
-
-
-            if (searchInput) {
-
-                searchInput.value =
-                    "";
-
-            }
-
-
-            document
-                .querySelectorAll(
-                    ".category-btn"
-                )
-                .forEach(button => {
-
-                    button.classList.remove(
-                        "active"
-                    );
-
-
-                    if (
-                        button.dataset.category ===
-                        "all"
-                    ) {
-
-                        button.classList.add(
-                            "active"
-                        );
-
-                    }
-
-                });
-
-
-            renderProducts();
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   PANIER
-   ========================================================= */
-
-function setupCartEvents() {
-
-    /*
-       OUVRIR
-    */
-
-    if (openCartBtn) {
-
-        openCartBtn.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-                event.stopPropagation();
-
-                openCart();
-
-            }
-        );
-
-    }
-
-
-    /*
-       FERMER
-    */
-
-    if (closeCartBtn) {
-
-        closeCartBtn.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-                event.stopPropagation();
-
-                closeCart();
-
-            }
-        );
-
-    }
-
-
-    /*
-       OVERLAY
-    */
-
-    if (cartOverlay) {
-
-        cartOverlay.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-                closeCart();
-
-            }
-        );
-
-    }
-
-
-    /*
-       CONTINUER LES ACHATS
-    */
-
-    if (continueShopping) {
-
-        continueShopping.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-                closeCart();
-
-            }
-        );
-
-    }
-
-
-    /*
-       VIDER
-    */
-
-    if (clearCartBtn) {
-
-        clearCartBtn.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-                clearCart();
-
-            }
-        );
-
-    }
-
-
-    /*
-       COMMANDER
-    */
-
-    if (checkoutBtn) {
-
-        checkoutBtn.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-
-                if (
-                    !cart ||
-                    cart.length === 0
-                ) {
-
-                    alert(
-                        "Votre panier est vide."
-                    );
-
-                    return;
-
-                }
-
-
-                createCheckoutModal();
-
-            }
-        );
-
-    }
-
-}
-
-
-/* =========================================================
-   WHATSAPP CONTACT
-   ========================================================= */
-
-function setupWhatsAppLinks() {
-
-    const message =
-        "Bonjour WENDK SHOP 👋\n\n" +
-        "Je souhaite avoir des informations " +
-        "sur vos téléphones et accessoires.";
-
-
-    const link =
-        createWhatsAppLink(
-            message
-        );
-
-
-    if (!link) {
-
-        return;
-
-    }
-
-
-    if (promoWhatsapp) {
-
-        promoWhatsapp.href =
-            link;
-
-    }
-
-
-    if (contactWhatsapp) {
-
-        contactWhatsapp.href =
-            link;
-
-    }
-
-}
-
-
-/* =========================================================
-   ANNÉE
-   ========================================================= */
-
-function setupYear() {
-
-    if (currentYear) {
-
-        currentYear.textContent =
-            new Date().getFullYear();
-
-    }
-
-}
-
-
-/* =========================================================
-   TOUCHE ESC
-   ========================================================= */
-
-function setupEscapeKey() {
-
-    document.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (
-                event.key !==
-                "Escape"
-            ) {
-
-                return;
-
-            }
-
-
-            closeCart();
-
-            closeProductDetails();
-
-            closeCheckoutModal();
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   NETTOYER LE PANIER
-   ========================================================= */
-
-function cleanInvalidCartItems() {
-
-    if (!Array.isArray(cart)) {
-
-        cart = [];
-
-        saveCart();
-
-        return;
-
-    }
-
-
-    const validIds =
-        products.map(
-            product =>
-                Number(product.id)
-        );
-
-
-    const cleaned =
-        cart.filter(item => {
-
-            return (
-                validIds.includes(
-                    Number(item.id)
-                ) &&
-                Number(item.quantity) > 0
-            );
-
-        });
-
-
-    if (
-        cleaned.length !==
-        cart.length
-    ) {
-
-        cart = cleaned;
-
-        saveCart();
-
-    }
-
-}
-
-
-/* =========================================================
-   DÉMARRAGE DES PRODUITS
-   ========================================================= */
-
-async function initializeProducts() {
-
-    /*
-       Affichage immédiat des produits
-       locaux.
-    */
-
-    renderProducts();
-
-
-    /*
-       Tentative de récupération
-       depuis Supabase.
-    */
-
-    await loadProductsFromSupabase();
-
-
-    /*
-       Actualisation si Supabase
-       contient des produits.
-    */
-
-    renderProducts();
-
-
-    /*
-       Nettoyage du panier après
-       chargement des produits.
-    */
-
-    cleanInvalidCartItems();
-
-    updateCartUI();
-
-}
-
-
-/* =========================================================
-   INITIALISATION PRINCIPALE
-   ========================================================= */
-
-async function initializeWendkShop() {
-
-    console.log(
-        "🚀 WENDK SHOP démarre..."
-    );
-
-
-    /*
-       Initialisation du panier
-    */
-
-    updateCartUI();
-
-
-    /*
-       Événements
-    */
-
-    setupCategories();
-
-    setupSearch();
-
-    setupResetFilters();
-
-    setupCartEvents();
-
-    setupWhatsAppLinks();
-
-    setupYear();
-
-    setupEscapeKey();
-
-
-    /*
-       Produits
-    */
-
-    await initializeProducts();
-
-
-    console.log(
-        "✅ WENDK SHOP est opérationnel."
-    );
-
-}
-
-
-/* =========================================================
-   DÉMARRAGE APRÈS CHARGEMENT HTML
-   ========================================================= */
-
-if (
-    document.readyState ===
-    "loading"
-) {
-
-    document.addEventListener(
-        "DOMContentLoaded",
-        initializeWendkShop
-    );
-
-} else {
-
-    initializeWendkShop();
-
-}
-
-
-/* =========================================================
-   FIN DU SCRIPT.JS
-   ========================================================= */
-/* =========================================================
-   WENDK SHOP — CORRECTION FORCÉE DU PANIER
-   ========================================================= */
-
-(function () {
-
-    function forceCartFix() {
-
-        const cartButton =
-            document.getElementById("openCartBtn");
-
-        const cartDrawer =
-            document.getElementById("cartDrawer");
-
-        const cartOverlay =
-            document.getElementById("cartOverlay");
-
-        const closeButton =
-            document.getElementById("closeCartBtn");
-
-        if (!cartButton || !cartDrawer) {
-
-            console.error(
-                "❌ Panier introuvable dans index.html"
-            );
-
-            return;
-
-        }
-
-
-        /* État initial propre */
-
-        cartDrawer.style.zIndex = "99999";
-        cartDrawer.style.position = "fixed";
-
-        if (cartOverlay) {
-
-            cartOverlay.style.zIndex = "99998";
-
-        }
-
-
-        /* Ouverture forcée */
-
-        cartButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-                event.stopPropagation();
-
-
-                renderCart();
-
-
-                cartDrawer.classList.add("open");
-
-
-                cartDrawer.style.transform =
-                    "translateX(0)";
-
-                cartDrawer.style.visibility =
-                    "visible";
-
-                cartDrawer.style.display =
-                    "block";
-
-
-                if (cartOverlay) {
-
-                    cartOverlay.classList.add(
-                        "active"
-                    );
-
-                    cartOverlay.style.display =
-                        "block";
-
-                    cartOverlay.style.visibility =
-                        "visible";
-
-                    cartOverlay.style.pointerEvents =
-                        "auto";
-
-                }
-
-
-                document.body.classList.add(
-                    "cart-open"
-                );
-
-            },
-            true
-        );
-
-
-        /* Fermeture */
-
-        function forceCloseCart() {
-
-            cartDrawer.classList.remove(
-                "open"
-            );
-
-
-            cartDrawer.style.transform =
-                "translateX(100%)";
-
-            cartDrawer.style.visibility =
-                "hidden";
-
-
-            if (cartOverlay) {
-
-                cartOverlay.classList.remove(
-                    "active"
-                );
-
-                cartOverlay.style.display =
-                    "none";
-
-                cartOverlay.style.pointerEvents =
-                    "none";
-
-            }
-
-
-            document.body.classList.remove(
-                "cart-open"
-            );
-
-        }
-
-
-        if (closeButton) {
-
-            closeButton.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    forceCloseCart();
-
-                },
-                true
-            );
-
-        }
-
-
-        if (cartOverlay) {
-
-            cartOverlay.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    forceCloseCart();
-
-                },
-                true
-            );
-
-        }
-
-
-        /* ESC pour fermer */
-
-        document.addEventListener(
-            "keydown",
-            function (event) {
-
-                if (
-                    event.key === "Escape"
-                ) {
-
-                    forceCloseCart();
-
-                }
-
-            }
-        );
-
-
-        console.log(
-            "✅ Correction forcée du panier activée."
-        );
-
-    }
-
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            forceCartFix
-        );
-
-    } else {
-
-        forceCartFix();
-
-    }
-
-})();
-/* =========================================================
-   WENDK SHOP — CORRECTION PASSER LA COMMANDE
-   ========================================================= */
-
-(function () {
-
-    function fixCheckoutButton() {
-
-        const checkoutButton =
-            document.getElementById("checkoutBtn");
-
-        if (!checkoutButton) {
-
-            console.error(
-                "❌ Bouton checkoutBtn introuvable."
-            );
-
-            return;
-
-        }
-
-
-        checkoutButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-                event.stopPropagation();
-
-
-                /* Vérifier le panier */
-
-                if (
-                    !Array.isArray(cart) ||
-                    cart.length === 0
-                ) {
-
-                    alert(
-                        "Votre panier est vide."
-                    );
-
-                    return;
-
-                }
-
-
-                /*
-                   Fermer le panier avant d'ouvrir
-                   le formulaire de commande.
-                */
-
-                if (
-                    typeof closeCart ===
-                    "function"
-                ) {
-
-                    closeCart();
-
-                }
-
-
-                /*
-                   Créer le formulaire
-                */
-
-                if (
-                    typeof createCheckoutModal ===
-                    "function"
-                ) {
-
-                    createCheckoutModal();
-
-                } else {
-
-                    console.error(
-                        "❌ createCheckoutModal introuvable."
-                    );
-
-                    return;
-
-                }
-
-
-                /*
-                   Petit délai pour éviter
-                   un conflit d'animation.
-                */
-
-                setTimeout(
-                    function () {
-
-                        const modal =
-                            document.getElementById(
-                                "checkoutModal"
-                            );
-
-                        if (modal) {
-
-                            modal.style.display =
-                                "block";
-
-                            modal.style.visibility =
-                                "visible";
-
-                            modal.style.opacity =
-                                "1";
-
-                            modal.style.zIndex =
-                                "100000";
-
-                        }
-
-                    },
-                    50
-                );
-
-            },
-            true
-        );
-
-
-        console.log(
-            "✅ Bouton de commande corrigé."
-        );
-
-    }
-
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            fixCheckoutButton
-        );
-
-    } else {
-
-        fixCheckoutButton();
-
-    }
-
-})();
-/* =========================================================
-   WENDK SHOP — RESET COMPLET DU BOUTON COMMANDE
-   ========================================================= */
-
-(function () {
-
-    function resetCheckoutButton() {
-
-        const oldButton =
-            document.getElementById("checkoutBtn");
-
-        if (!oldButton) {
-
-            console.error(
-                "❌ checkoutBtn introuvable."
-            );
-
-            return;
-
-        }
-
-
-        /*
-           On clone le bouton.
-
-           Cela supprime TOUS les anciens
-           addEventListener attachés dessus.
-        */
-
-        const newButton =
-            oldButton.cloneNode(true);
-
-
-        oldButton.parentNode.replaceChild(
-            newButton,
-            oldButton
-        );
-
-
-        /*
-           Nouveau comportement unique
-        */
-
-        newButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-                event.stopPropagation();
-
-
-                console.log(
-                    "🛒 Bouton Commander cliqué"
-                );
-
-
-                if (
-                    !Array.isArray(cart) ||
-                    cart.length === 0
-                ) {
-
-                    alert(
-                        "Votre panier est vide."
-                    );
-
-                    return;
-
-                }
-
-
-                /*
-                   Fermer le panier
-                */
-
-                if (
-                    typeof closeCart ===
-                    "function"
-                ) {
-
-                    closeCart();
-
-                }
-
-
-                /*
-                   Supprimer une ancienne
-                   fenêtre de commande
-                */
-
-                const oldModal =
-                    document.getElementById(
-                        "checkoutModal"
-                    );
-
-
-                if (oldModal) {
-
-                    oldModal.remove();
-
-                }
-
-
-                /*
-                   Créer directement le formulaire
-                   sans utiliser l'ancien
-                   createCheckoutModal().
-                */
-
-                const modal =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                modal.id =
-                    "checkoutModal";
-
-
-                modal.innerHTML = `
-
-                    <div
-                        style="
-                            position:fixed;
-                            inset:0;
-                            z-index:100000;
-                            background:rgba(0,0,0,.65);
-                            display:flex;
-                            align-items:center;
-                            justify-content:center;
-                            padding:20px;
-                            overflow-y:auto;
-                        "
-                        id="newCheckoutOverlay"
-                    >
-
-                        <div
-                            style="
-                                width:100%;
-                                max-width:500px;
-                                max-height:90vh;
-                                overflow-y:auto;
-                                background:#fff;
-                                border-radius:18px;
-                                padding:24px;
-                                position:relative;
-                                box-sizing:border-box;
-                            "
-                        >
-
-                            <button
-                                type="button"
-                                id="newCloseCheckout"
-                                style="
-                                    position:absolute;
-                                    top:12px;
-                                    right:15px;
-                                    border:0;
-                                    background:#f1f1f1;
-                                    border-radius:50%;
-                                    width:38px;
-                                    height:38px;
-                                    font-size:24px;
-                                    cursor:pointer;
-                                "
-                            >
-                                ×
-                            </button>
-
-
-                            <h2
-                                style="
-                                    margin-top:0;
-                                "
-                            >
-                                🛍️ Finaliser la commande
-                            </h2>
-
-
-                            <p>
-                                Entrez vos informations
-                                pour confirmer votre commande.
-                            </p>
-
-
-                            <form
-                                id="newCheckoutForm"
-                            >
-
-                                <label>
-                                    Nom complet
-                                </label>
-
-                                <input
-                                    id="newCustomerName"
-                                    type="text"
-                                    placeholder="Votre nom complet"
-                                    required
-                                    style="
-                                        width:100%;
-                                        padding:13px;
-                                        margin:7px 0 15px;
-                                        box-sizing:border-box;
-                                        border:1px solid #ddd;
-                                        border-radius:8px;
-                                    "
-                                >
-
-
-                                <label>
-                                    Téléphone
-                                </label>
-
-                                <input
-                                    id="newCustomerPhone"
-                                    type="tel"
-                                    placeholder="Ex : 70 00 00 00"
-                                    required
-                                    style="
-                                        width:100%;
-                                        padding:13px;
-                                        margin:7px 0 15px;
-                                        box-sizing:border-box;
-                                        border:1px solid #ddd;
-                                        border-radius:8px;
-                                    "
-                                >
-
-
-                                <label>
-                                    Adresse
-                                </label>
-
-                                <textarea
-                                    id="newCustomerAddress"
-                                    placeholder="Quartier, secteur, ville..."
-                                    rows="3"
-                                    required
-                                    style="
-                                        width:100%;
-                                        padding:13px;
-                                        margin:7px 0 15px;
-                                        box-sizing:border-box;
-                                        border:1px solid #ddd;
-                                        border-radius:8px;
-                                    "
-                                ></textarea>
-
-
-                                <div
-                                    style="
-                                        display:flex;
-                                        justify-content:space-between;
-                                        align-items:center;
-                                        padding:15px 0;
-                                        border-top:1px solid #eee;
-                                        border-bottom:1px solid #eee;
-                                        margin-bottom:15px;
-                                    "
-                                >
-
-                                    <strong>
-                                        Total
-                                    </strong>
-
-                                    <strong>
-                                        ${formatPrice(getCartTotal())}
-                                    </strong>
-
-                                </div>
-
-
-                                <button
-                                    type="submit"
-                                    id="newConfirmOrder"
-                                    style="
-                                        width:100%;
-                                        padding:15px;
-                                        border:0;
-                                        border-radius:10px;
-                                        background:#25D366;
-                                        color:#fff;
-                                        font-size:16px;
-                                        font-weight:bold;
-                                        cursor:pointer;
-                                    "
-                                >
-                                    💬 Confirmer la commande
-                                </button>
-
-
-                                <p
-                                    id="newCheckoutStatus"
-                                    style="
-                                        text-align:center;
-                                        margin-top:12px;
-                                    "
-                                ></p>
-
-                            </form>
-
-                        </div>
-
-                    </div>
-
-                `;
-
-
-                document.body.appendChild(
-                    modal
-                );
-
-
-                /*
-                   Bouton fermer
-                */
-
-                const closeButton =
-                    document.getElementById(
-                        "newCloseCheckout"
-                    );
-
-
-                if (closeButton) {
-
-                    closeButton.onclick =
-                        function () {
-
-                            modal.remove();
-
-                        };
-
-                }
-
-
-                /*
-                   Fermer en cliquant
-                   sur l'arrière-plan
-                */
-
-                const overlay =
-                    document.getElementById(
-                        "newCheckoutOverlay"
-                    );
-
-
-                if (overlay) {
-
-                    overlay.onclick =
-                        function (e) {
-
-                            if (
-                                e.target ===
-                                overlay
-                            ) {
-
-                                modal.remove();
-
-                            }
-
-                        };
-
-                }
-
-
-                /*
-                   FORMULAIRE
-                */
-
-                const form =
-                    document.getElementById(
-                        "newCheckoutForm"
-                    );
-
-
-                if (form) {
-
-                    form.addEventListener(
-                        "submit",
-                        async function (e) {
-
-                            e.preventDefault();
-
-
-                            const name =
-                                document
-                                    .getElementById(
-                                        "newCustomerName"
-                                    )
-                                    .value
-                                    .trim();
-
-
-                            const phone =
-                                document
-                                    .getElementById(
-                                        "newCustomerPhone"
-                                    )
-                                    .value
-                                    .trim();
-
-
-                            const address =
-                                document
-                                    .getElementById(
-                                        "newCustomerAddress"
-                                    )
-                                    .value
-                                    .trim();
-
-
-                            if (
-                                !name ||
-                                !phone ||
-                                !address
-                            ) {
-
-                                alert(
-                                    "Veuillez remplir tous les champs."
-                                );
-
-                                return;
-
-                            }
-
-
-                            const confirmButton =
-                                document.getElementById(
-                                    "newConfirmOrder"
-                                );
-
-
-                            const status =
-                                document.getElementById(
-                                    "newCheckoutStatus"
-                                );
-
-
-                            confirmButton.disabled =
-                                true;
-
-
-                            confirmButton.textContent =
-                                "⏳ Enregistrement...";
-
-
-                            /*
-                               Enregistrement Supabase
-                            */
-
-                            let result = {
-                                success: false
-                            };
-
-
-                            try {
-
-                                if (
-                                    typeof saveOrderToSupabase ===
-                                    "function"
-                                ) {
-
-                                    result =
-                                        await saveOrderToSupabase(
-                                            name,
-                                            phone,
-                                            address
-                                        );
-
-                                }
-
-                            } catch (error) {
-
-                                console.error(
-                                    "Erreur commande :",
-                                    error
-                                );
-
-                            }
-
-
-                            /*
-                               Message WhatsApp
-                            */
-
-                            const message =
-                                createOrderWhatsAppMessage(
-                                    name,
-                                    phone,
-                                    address
-                                );
-
-
-                            const whatsappLink =
-                                createWhatsAppLink(
-                                    message
-                                );
-
-
-                            if (
-                                status
-                            ) {
-
-                                status.textContent =
-                                    result.success
-                                    ? "✅ Commande enregistrée. Ouverture de WhatsApp..."
-                                    : "⚠️ Ouverture de WhatsApp...";
-
-                            }
-
-
-                            /*
-                               Ouvrir WhatsApp
-                            */
-
-                            if (
-                                whatsappLink
-                            ) {
-
-                                setTimeout(
-                                    function () {
-
-                                        window.location.href =
-                                            whatsappLink;
-
-                                    },
-                                    400
-                                );
-
-                            }
-
-
-                            /*
-                               Vider le panier
-                            */
-
-                            cart = [];
-
-                            saveCart();
-
-                            updateCartUI();
-
-                        }
-                    );
-
-                }
-
-            },
-            false
-        );
-
-
-        console.log(
-            "✅ Bouton de commande entièrement réinitialisé."
-        );
-
-    }
-
-
-    if (
-        document.readyState ===
-        "loading"
-    ) {
-
-        document.addEventListener(
-            "DOMContentLoaded",
-            resetCheckoutButton
-        );
-
-    } else {
-
-        resetCheckoutButton();
-
-    }
-
-})();
+   FIN DU BLOC 2/3
+=================================================== */
