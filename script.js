@@ -2533,3 +2533,51 @@ updateFavoriteButtons();
 console.log(
   "WENDK SHOP : site initialisé avec succès."
 );
+
+// ===== CORRECTIF BOUTON PASSER LA COMMANDE =====
+document.addEventListener("DOMContentLoaded", function () {
+  const cartFooter = document.getElementById("cartFooter");
+
+  if (!cartFooter) return;
+
+  if (!document.getElementById("checkoutBtn")) {
+    const checkoutButton = document.createElement("button");
+
+    checkoutButton.id = "checkoutBtn";
+    checkoutButton.type = "button";
+    checkoutButton.className = "btn btn-primary checkout-btn";
+    checkoutButton.textContent = "📲 Passer la commande sur WhatsApp";
+
+    cartFooter.appendChild(checkoutButton);
+
+    checkoutButton.addEventListener("click", function () {
+      if (!cart || cart.length === 0) {
+        alert("Votre panier est vide.");
+        return;
+      }
+
+      let message = "Bonjour WENDK SHOP 👋%0A%0A";
+      message += "Je souhaite passer cette commande :%0A%0A";
+
+      cart.forEach(function (item) {
+        const product = products.find(function (p) {
+          return p.id === item.id;
+        });
+
+        if (product) {
+          message += "📦 " + product.name + "%0A";
+          message += "Quantité : " + item.quantity + "%0A";
+          message += "Prix : " + formatPrice(product.price * item.quantity) + "%0A%0A";
+        }
+      });
+
+      message += "💰 Total : " + formatPrice(getCartTotal()) + "%0A%0A";
+      message += "Merci de me contacter pour confirmer la commande.";
+
+      window.open(
+        "https://wa.me/22607309472?text=" + message,
+        "_blank"
+      );
+    });
+  }
+});
