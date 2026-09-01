@@ -1,594 +1,360 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+  <meta name="description" content="WENDK SHOP - Téléphones, smartphones et accessoires au Burkina Faso.">
+  <meta name="theme-color" content="#111111">
 
-    <meta
-        name="description"
-        content="WENDK SHOP - Téléphones, smartphones et accessoires au Burkina Faso."
-    >
+  <title>WENDK SHOP | Téléphones & Accessoires</title>
 
-    <meta
-        name="theme-color"
-        content="#111111"
-    >
-
-    <title>WENDK SHOP | Téléphones & Accessoires</title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- =====================================================
-     TOP BAR
-     ===================================================== -->
+  <!-- ================================
+       BARRE SUPÉRIEURE
+  ================================= -->
 
-<div class="top-bar">
-
+  <div class="top-bar">
     <div class="container top-bar-content">
 
-        <div>
-            🚚 Livraison disponible à Ouagadougou
-            et partout au Burkina Faso
-        </div>
+      <span>🚚 Livraison à Ouagadougou & partout au Burkina Faso</span>
 
-        <div class="top-right">
-            <span>✓ Qualité</span>
-            <span>✓ Prix compétitifs</span>
-            <span>📱 +226 07 30 94 72</span>
-        </div>
+      <div class="top-bar-right">
+        <span>✓ Qualité</span>
+        <span>✓ Prix compétitifs</span>
+        <span>📞 +226 07 30 94 72</span>
+      </div>
 
     </div>
+  </div>
 
-</div>
+
+  <!-- ================================
+       HEADER
+  ================================= -->
+
+  <header class="header">
+
+    <div class="container header-content">
+
+      <!-- LOGO -->
+      <a href="#accueil" class="brand">
+        <div class="brand-icon">W</div>
+
+        <div class="brand-text">
+          <strong>WENDK</strong>
+          <span>SHOP</span>
+        </div>
+      </a>
 
 
-<!-- =====================================================
-     HEADER
-     ===================================================== -->
+      <!-- RECHERCHE -->
+      <div class="search-box">
 
-<header class="header">
-
-    <div class="container header-main">
-
-        <!-- LOGO -->
-
-        <a
-            href="#accueil"
-            class="brand"
-            aria-label="WENDK SHOP"
+        <input
+          type="search"
+          id="searchInput"
+          placeholder="Rechercher un téléphone ou accessoire..."
+          autocomplete="off"
         >
 
-            <div class="brand-icon">
-                W
-            </div>
+        <button type="button" id="searchBtn">
+          🔍
+        </button>
 
-            <div class="brand-text">
-
-                <strong>
-                    WENDK
-                </strong>
-
-                <span>
-                    SHOP
-                </span>
-
-            </div>
-
-        </a>
+      </div>
 
 
-        <!-- RECHERCHE -->
+      <!-- ACTIONS -->
+      <div class="header-actions">
 
-        <div class="search-box">
+        <button type="button" id="accountBtn" class="header-action">
+          👤
+          <span>Compte</span>
+        </button>
 
-            <input
-                type="search"
-                id="searchInput"
-                placeholder="Rechercher un produit..."
-                autocomplete="off"
-            >
+        <button type="button" id="favoritesBtn" class="header-action">
+          ♡
+          <span>Favoris</span>
+        </button>
 
-            <button
-                type="button"
-                id="searchBtn"
-                aria-label="Rechercher"
-            >
-                🔍
-            </button>
+        <button type="button" id="openCartBtn" class="header-action cart-action">
+          🛒
+          <span>Panier</span>
 
-        </div>
+          <span id="cartCount" class="cart-count">0</span>
 
+          <small id="headerCartTotal">0 FCFA</small>
+        </button>
 
-        <!-- ACTIONS -->
-
-        <div class="header-actions">
-
-            <button
-                type="button"
-                class="header-action"
-                id="accountBtn"
-            >
-
-                <span class="action-icon">
-                    👤
-                </span>
-
-                <span>
-                    Mon compte
-                </span>
-
-            </button>
-
-
-            <button
-                type="button"
-                class="header-action"
-                id="favoritesBtn"
-            >
-
-                <span class="action-icon">
-                    ♡
-                </span>
-
-                <span>
-                    Favoris
-                </span>
-
-            </button>
-
-
-            <button
-                type="button"
-                class="header-action cart-action"
-                id="openCartBtn"
-            >
-
-                <span class="cart-icon-wrapper">
-
-                    🛒
-
-                    <span
-                        id="cartCount"
-                        class="cart-count"
-                    >
-                        0
-                    </span>
-
-                </span>
-
-                <span class="cart-label">
-
-                    <strong>
-                        Panier
-                    </strong>
-
-                    <small id="headerCartTotal">
-                        0 FCFA
-                    </small>
-
-                </span>
-
-            </button>
-
-        </div>
+      </div>
 
     </div>
 
 
-    <!-- =================================================
-         NAVIGATION
-         ================================================= -->
+    <!-- NAVIGATION -->
 
     <nav class="main-nav">
 
-        <div class="container nav-content">
+      <div class="container nav-content">
 
-            <a
-                href="#accueil"
-                class="nav-link active"
-            >
-                🏠 ACCUEIL
-            </a>
+        <a href="#accueil">Accueil</a>
 
-            <a
-                href="#produits"
-                class="nav-link"
-                data-category="iphone"
-            >
-                📱 IPHONE
-            </a>
+        <a href="#produits" data-category="all">
+          Tous les produits
+        </a>
 
-            <a
-                href="#produits"
-                class="nav-link"
-                data-category="samsung"
-            >
-                SAMSUNG
-            </a>
+        <a href="#produits" data-category="iphone">
+          iPhone
+        </a>
 
-            <a
-                href="#produits"
-                class="nav-link"
-                data-category="redmi"
-            >
-                REDMI
-            </a>
+        <a href="#produits" data-category="samsung">
+          Samsung
+        </a>
 
-            <a
-                href="#produits"
-                class="nav-link"
-                data-category="tecno"
-            >
-                TECNO
-            </a>
+        <a href="#produits" data-category="redmi">
+          Redmi
+        </a>
 
-            <a
-                href="#produits"
-                class="nav-link"
-                data-category="accessoires"
-            >
-                🎧 ACCESSOIRES
-            </a>
+        <a href="#produits" data-category="tecno">
+          Tecno
+        </a>
 
-            <a
-                href="#a-propos"
-                class="nav-link"
-            >
-                À PROPOS
-            </a>
+        <a href="#produits" data-category="accessoires">
+          Accessoires
+        </a>
 
-            <a
-                href="#contact"
-                class="nav-link"
-            >
-                CONTACT
-            </a>
+        <a href="#a-propos">
+          À propos
+        </a>
 
-        </div>
+        <a href="#contact">
+          Contact
+        </a>
+
+      </div>
 
     </nav>
 
-</header>
+  </header>
 
 
-<!-- =====================================================
-     CONTENU PRINCIPAL
-     ===================================================== -->
+  <!-- ================================
+       HERO
+  ================================= -->
 
-<main>
+  <main>
 
+    <section class="hero" id="accueil">
 
-<!-- =====================================================
-     HERO
-     ===================================================== -->
-
-<section
-    id="accueil"
-    class="hero"
->
-
-    <div class="container hero-content">
+      <div class="container hero-content">
 
         <div class="hero-text">
 
-            <span class="eyebrow">
-                BIENVENUE CHEZ
-            </span>
+          <span class="hero-badge">
+            🔥 WENDK SHOP
+          </span>
 
-            <h1>
-                WENDK
-                <span>
-                    SHOP
-                </span>
-            </h1>
+          <h1>
+            Votre smartphone,
+            <span>votre style.</span>
+          </h1>
 
-            <p class="hero-description">
-                Votre boutique en ligne spécialisée
-                dans la vente de téléphones,
-                smartphones et accessoires
-                au meilleur prix au
-                <strong>Burkina Faso</strong>.
-            </p>
+          <p>
+            Découvrez nos téléphones et accessoires sélectionnés
+            pour vous offrir qualité, performance et prix compétitifs.
+          </p>
 
+          <div class="hero-buttons">
 
-            <div class="hero-benefits">
-
-                <div class="benefit">
-
-                    <span>
-                        ✓
-                    </span>
-
-                    <div>
-
-                        <strong>
-                            Produits de qualité
-                        </strong>
-
-                        <small>
-                            Sélectionnés avec soin
-                        </small>
-
-                    </div>
-
-                </div>
-
-
-                <div class="benefit">
-
-                    <span>
-                        🚚
-                    </span>
-
-                    <div>
-
-                        <strong>
-                            Livraison
-                        </strong>
-
-                        <small>
-                            Selon votre zone
-                        </small>
-
-                    </div>
-
-                </div>
-
-
-                <div class="benefit">
-
-                    <span>
-                        🛡️
-                    </span>
-
-                    <div>
-
-                        <strong>
-                            Service fiable
-                        </strong>
-
-                        <small>
-                            Assistance client
-                        </small>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+            <a href="#produits" class="btn btn-primary">
+              🛍️ Découvrir les produits
+            </a>
 
             <a
-                href="#produits"
-                class="hero-btn"
+              href="https://wa.me/22607309472"
+              target="_blank"
+              class="btn btn-secondary"
             >
-                DÉCOUVRIR NOS PRODUITS
-
-                <span>
-                    →
-                </span>
-
+              💬 Nous contacter
             </a>
+
+          </div>
+
+
+          <div class="hero-benefits">
+
+            <div>
+              <strong>✓</strong>
+              <span>Produits de qualité</span>
+            </div>
+
+            <div>
+              <strong>✓</strong>
+              <span>Prix compétitifs</span>
+            </div>
+
+            <div>
+              <strong>✓</strong>
+              <span>Livraison disponible</span>
+            </div>
+
+          </div>
 
         </div>
 
-
-        <!-- VISUEL HERO -->
 
         <div class="hero-visual">
 
-            <div class="device device-one">
-                📱
-            </div>
+          <div class="hero-phone">
+            📱
+          </div>
 
-            <div class="device device-two">
-                📱
-            </div>
+          <div class="hero-accessory accessory-1">
+            🎧
+          </div>
 
-            <div class="device device-three">
-                📱
-            </div>
+          <div class="hero-accessory accessory-2">
+            ⌚
+          </div>
 
-            <div class="hero-accessory accessory-one">
-                🎧
-            </div>
-
-            <div class="hero-accessory accessory-two">
-                ⌚
-            </div>
-
-            <div class="hero-accessory accessory-three">
-                🔌
-            </div>
+          <div class="hero-accessory accessory-3">
+            🔋
+          </div>
 
         </div>
 
-    </div>
+      </div>
 
-</section>
-
-
-<!-- =====================================================
-     CATÉGORIES
-     ===================================================== -->
-
-<section class="categories-section">
-
-    <div class="container category-grid">
+    </section>
 
 
-        <button
+    <!-- ================================
+         CATÉGORIES
+    ================================= -->
+
+    <section class="categories-section">
+
+      <div class="container">
+
+        <div class="section-heading">
+
+          <span class="section-label">
+            CATÉGORIES
+          </span>
+
+          <h2>
+            Trouvez ce qu'il vous faut
+          </h2>
+
+          <p>
+            Explorez rapidement nos différentes catégories.
+          </p>
+
+        </div>
+
+
+        <div class="categories-grid">
+
+          <button
             type="button"
             class="category-card"
-            data-category="all"
-        >
-
-            <div class="category-image">
-                📱
-            </div>
-
-            <div>
-
-                <strong>
-                    Téléphones
-                </strong>
-
-                <small>
-                    Voir tous →
-                </small>
-
-            </div>
-
-        </button>
+            data-category="iphone"
+          >
+            <span class="category-icon">🍎</span>
+            <strong>iPhone</strong>
+            <small>Smartphones Apple</small>
+          </button>
 
 
-        <button
+          <button
             type="button"
             class="category-card"
-            data-category="accessoires"
-        >
-
-            <div class="category-image">
-                🎧
-            </div>
-
-            <div>
-
-                <strong>
-                    Accessoires
-                </strong>
-
-                <small>
-                    Voir tous →
-                </small>
-
-            </div>
-
-        </button>
+            data-category="samsung"
+          >
+            <span class="category-icon">📱</span>
+            <strong>Samsung</strong>
+            <small>Galaxy & autres</small>
+          </button>
 
 
-        <button
+          <button
             type="button"
             class="category-card"
-            data-category="accessoires"
-        >
-
-            <div class="category-image">
-                ⌚
-            </div>
-
-            <div>
-
-                <strong>
-                    Montres connectées
-                </strong>
-
-                <small>
-                    Voir tous →
-                </small>
-
-            </div>
-
-        </button>
+            data-category="redmi"
+          >
+            <span class="category-icon">📲</span>
+            <strong>Redmi</strong>
+            <small>Performance & prix</small>
+          </button>
 
 
-        <button
+          <button
             type="button"
             class="category-card"
-            data-category="all"
-        >
-
-            <div class="category-image">
-                📲
-            </div>
-
-            <div>
-
-                <strong>
-                    Tablettes
-                </strong>
-
-                <small>
-                    Voir tous →
-                </small>
-
-            </div>
-
-        </button>
+            data-category="tecno"
+          >
+            <span class="category-icon">📱</span>
+            <strong>Tecno</strong>
+            <small>Smartphones Tecno</small>
+          </button>
 
 
-        <button
+          <button
             type="button"
             class="category-card"
             data-category="accessoires"
-        >
+          >
+            <span class="category-icon">🎧</span>
+            <strong>Accessoires</strong>
+            <small>Audio, chargeurs...</small>
+          </button>
 
-            <div class="category-image">
-                🔋
-            </div>
+        </div>
 
-            <div>
+      </div>
 
-                <strong>
-                    Chargeurs & Powerbanks
-                </strong>
-
-                <small>
-                    Voir tous →
-                </small>
-
-            </div>
-
-        </button>
-
-    </div>
-
-</section>
+    </section>
 
 
-<!-- =====================================================
-     PRODUITS
-     ===================================================== -->
+    <!-- ================================
+         PRODUITS
+    ================================= -->
 
-<section
-    id="produits"
-    class="products-section"
->
+    <section class="products-section" id="produits">
 
-    <div class="container">
+      <div class="container">
 
-        <div class="section-header">
+        <div class="section-heading products-heading">
 
-            <div>
+          <div>
 
-                <span class="section-label">
-                    WENDK SHOP
-                </span>
+            <span class="section-label">
+              NOTRE BOUTIQUE
+            </span>
 
-                <h2>
-                    PRODUITS POPULAIRES
-                </h2>
+            <h2>
+              Nos produits
+            </h2>
 
-            </div>
+            <p>
+              Choisissez votre produit et ajoutez-le au panier.
+            </p>
+
+          </div>
 
 
-            <button
-                type="button"
-                id="showAllProducts"
-                class="view-all"
-            >
-                Voir tout →
-            </button>
+          <button
+            type="button"
+            id="showAllProducts"
+            class="btn btn-secondary"
+          >
+            Voir tous les produits
+          </button>
 
         </div>
 
@@ -597,53 +363,53 @@
 
         <div class="filters">
 
-            <button
-                type="button"
-                class="filter-btn active"
-                data-category="all"
-            >
-                Tous
-            </button>
+          <button
+            type="button"
+            class="filter-btn active"
+            data-filter="all"
+          >
+            Tous
+          </button>
 
-            <button
-                type="button"
-                class="filter-btn"
-                data-category="iphone"
-            >
-                iPhone
-            </button>
+          <button
+            type="button"
+            class="filter-btn"
+            data-filter="iphone"
+          >
+            iPhone
+          </button>
 
-            <button
-                type="button"
-                class="filter-btn"
-                data-category="samsung"
-            >
-                Samsung
-            </button>
+          <button
+            type="button"
+            class="filter-btn"
+            data-filter="samsung"
+          >
+            Samsung
+          </button>
 
-            <button
-                type="button"
-                class="filter-btn"
-                data-category="redmi"
-            >
-                Redmi
-            </button>
+          <button
+            type="button"
+            class="filter-btn"
+            data-filter="redmi"
+          >
+            Redmi
+          </button>
 
-            <button
-                type="button"
-                class="filter-btn"
-                data-category="tecno"
-            >
-                Tecno
-            </button>
+          <button
+            type="button"
+            class="filter-btn"
+            data-filter="tecno"
+          >
+            Tecno
+          </button>
 
-            <button
-                type="button"
-                class="filter-btn"
-                data-category="accessoires"
-            >
-                Accessoires
-            </button>
+          <button
+            type="button"
+            class="filter-btn"
+            data-filter="accessoires"
+          >
+            Accessoires
+          </button>
 
         </div>
 
@@ -651,253 +417,247 @@
         <!-- GRILLE PRODUITS -->
 
         <div
-            id="productsGrid"
-            class="products-grid"
-        >
-        </div>
+          id="productsGrid"
+          class="products-grid"
+        ></div>
 
 
         <!-- AUCUN PRODUIT -->
 
         <div
-            id="noProducts"
-            class="no-products hidden"
+          id="noProducts"
+          class="empty-products hidden"
         >
 
-            <div>
-                🔎
-            </div>
+          <div class="empty-icon">
+            🔎
+          </div>
 
-            <h3>
-                Aucun produit trouvé
-            </h3>
+          <h3>
+            Aucun produit trouvé
+          </h3>
 
-            <p>
-                Essayez une autre recherche ou catégorie.
-            </p>
+          <p>
+            Essayez une autre recherche ou catégorie.
+          </p>
 
-            <button
-                type="button"
-                id="resetFilters"
-            >
-                Réinitialiser
-            </button>
+          <button
+            type="button"
+            id="resetFilters"
+            class="btn btn-primary"
+          >
+            Réinitialiser
+          </button>
 
         </div>
 
-    </div>
+      </div>
 
-                </section>
-       <!-- =====================================================
-     POURQUOI WENDK SHOP
-     ===================================================== -->
+            </section>
+        <!-- ================================
+         À PROPOS / GARANTIES
+    ================================= -->
 
-<section
-    id="a-propos"
-    class="trust-section"
->
+    <section class="trust-section" id="a-propos">
 
-    <div class="container">
+      <div class="container">
 
-        <div class="section-header centered">
+        <div class="section-heading">
 
-            <span class="section-label">
-                POURQUOI NOUS CHOISIR ?
-            </span>
+          <span class="section-label">
+            POURQUOI WENDK SHOP ?
+          </span>
 
-            <h2>
-                WENDK SHOP
-            </h2>
+          <h2>
+            Achetez en toute confiance
+          </h2>
 
-            <p>
-                Nous mettons l'accent sur la qualité,
-                le service et la satisfaction de nos clients.
-            </p>
+          <p>
+            Notre priorité est de vous proposer une expérience
+            simple, rapide et fiable.
+          </p>
 
         </div>
 
 
         <div class="trust-grid">
 
-            <!-- QUALITÉ -->
+          <div class="trust-card">
 
-            <div class="trust-card">
-
-                <div class="trust-icon">
-                    🛡️
-                </div>
-
-                <h3>
-                    Qualité
-                </h3>
-
-                <p>
-                    Des produits sélectionnés avec
-                    attention pour répondre à vos besoins.
-                </p>
-
+            <div class="trust-icon">
+              ✓
             </div>
 
+            <div>
+              <h3>
+                Qualité
+              </h3>
 
-            <!-- PRIX -->
-
-            <div class="trust-card">
-
-                <div class="trust-icon">
-                    💰
-                </div>
-
-                <h3>
-                    Prix compétitifs
-                </h3>
-
-                <p>
-                    Des prix affichés clairement
-                    en FCFA.
-                </p>
-
+              <p>
+                Nous sélectionnons des produits adaptés
+                aux besoins de nos clients.
+              </p>
             </div>
 
+          </div>
 
-            <!-- LIVRAISON -->
 
-            <div class="trust-card">
+          <div class="trust-card">
 
-                <div class="trust-icon">
-                    🚚
-                </div>
-
-                <h3>
-                    Livraison
-                </h3>
-
-                <p>
-                    Livraison disponible à Ouagadougou
-                    et selon les possibilités ailleurs.
-                </p>
-
+            <div class="trust-icon">
+              💰
             </div>
 
+            <div>
+              <h3>
+                Prix compétitifs
+              </h3>
 
-            <!-- ASSISTANCE -->
-
-            <div class="trust-card">
-
-                <div class="trust-icon">
-                    💬
-                </div>
-
-                <h3>
-                    Assistance
-                </h3>
-
-                <p>
-                    Une commande simple avec
-                    confirmation par WhatsApp.
-                </p>
-
+              <p>
+                Des prix étudiés pour vous permettre
+                de faire de bonnes affaires.
+              </p>
             </div>
+
+          </div>
+
+
+          <div class="trust-card">
+
+            <div class="trust-icon">
+              🚚
+            </div>
+
+            <div>
+              <h3>
+                Livraison
+              </h3>
+
+              <p>
+                Nous facilitons la livraison de vos commandes
+                à Ouagadougou et selon les possibilités ailleurs.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="trust-card">
+
+            <div class="trust-icon">
+              💬
+            </div>
+
+            <div>
+              <h3>
+                Assistance
+              </h3>
+
+              <p>
+                Une équipe disponible pour vous accompagner
+                avant et après votre achat.
+              </p>
+            </div>
+
+          </div>
 
         </div>
 
-    </div>
+      </div>
 
-</section>
+    </section>
 
 
-<!-- =====================================================
-     CONTACT
-     ===================================================== -->
+    <!-- ================================
+         CONTACT
+    ================================= -->
 
-<section
-    id="contact"
-    class="contact-section"
->
+    <section class="contact-section" id="contact">
 
-    <div class="container contact-box">
+      <div class="container">
 
-        <div>
+        <div class="contact-box">
+
+          <div class="contact-content">
 
             <span class="section-label">
-                BESOIN D'AIDE ?
+              BESOIN D'AIDE ?
             </span>
 
             <h2>
-                Une question sur un produit ?
+              Une question sur un produit ?
             </h2>
 
             <p>
-                Contactez WENDK SHOP directement
-                sur WhatsApp.
+              Contactez directement WENDK SHOP sur WhatsApp.
+              Nous vous répondrons rapidement.
             </p>
+
+
+            <a
+              href="https://wa.me/22607309472"
+              target="_blank"
+              id="contactWhatsapp"
+              class="btn btn-primary"
+            >
+              💬 Contacter WENDK SHOP
+            </a>
+
+          </div>
+
+
+          <div class="contact-icon">
+            💬
+          </div>
 
         </div>
 
+      </div>
 
-        <a
-            id="contactWhatsapp"
-            href="#"
-            class="whatsapp-btn"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            💬 NOUS CONTACTER SUR WHATSAPP
-        </a>
+    </section>
 
-    </div>
-
-</section>
+  </main>
 
 
-</main>
+  <!-- ================================
+       PANIER
+  ================================= -->
 
-
-<!-- =====================================================
-     PANIER — OVERLAY
-     ===================================================== -->
-
-<div
+  <div
     id="cartOverlay"
-    class="cart-overlay"
->
-</div>
+    class="overlay hidden"
+  ></div>
 
 
-<!-- =====================================================
-     PANIER — DRAWER
-     ===================================================== -->
-
-<aside
+  <aside
     id="cartDrawer"
     class="cart-drawer"
     aria-label="Panier"
->
-
-    <!-- EN-TÊTE DU PANIER -->
+  >
 
     <div class="cart-header">
 
-        <div>
+      <div>
 
-            <span class="section-label">
-                WENDK SHOP
-            </span>
+        <span class="section-label">
+          WENDK SHOP
+        </span>
 
-            <h2>
-                Mon panier
-            </h2>
+        <h2>
+          Mon panier
+        </h2>
 
-        </div>
+      </div>
 
 
-        <button
-            type="button"
-            id="closeCartBtn"
-            class="cart-close"
-            aria-label="Fermer le panier"
-        >
-            ×
-        </button>
+      <button
+        type="button"
+        id="closeCartBtn"
+        class="close-btn"
+        aria-label="Fermer le panier"
+      >
+        ×
+      </button>
 
     </div>
 
@@ -905,542 +665,495 @@
     <!-- PRODUITS DU PANIER -->
 
     <div
-        id="cartItems"
-        class="cart-items"
-    >
-    </div>
+      id="cartItems"
+      class="cart-items"
+    ></div>
 
 
     <!-- PANIER VIDE -->
 
     <div
-        id="emptyCart"
-        class="empty-cart"
+      id="emptyCart"
+      class="empty-cart"
     >
 
-        <div class="empty-cart-icon">
-            🛒
-        </div>
+      <div class="empty-icon">
+        🛒
+      </div>
 
-        <h3>
-            Votre panier est vide
-        </h3>
+      <h3>
+        Votre panier est vide
+      </h3>
 
-        <p>
-            Ajoutez des produits pour commencer.
-        </p>
+      <p>
+        Ajoutez des produits pour commencer votre commande.
+      </p>
 
-        <button
-            type="button"
-            id="continueShopping"
-            class="primary-btn"
-        >
-            Continuer mes achats
-        </button>
+      <button
+        type="button"
+        id="continueShopping"
+        class="btn btn-primary"
+      >
+        Continuer mes achats
+      </button>
 
     </div>
 
 
-    <!-- TOTAL ET COMMANDE -->
+    <!-- PIED DU PANIER -->
 
     <div
-        id="cartFooter"
-        class="cart-footer hidden"
+      id="cartFooter"
+      class="cart-footer"
     >
 
-        <div class="cart-total-row">
+      <div class="cart-total-row">
 
-            <span>
-                Total
-            </span>
+        <span>
+          Total
+        </span>
 
-            <strong id="cartTotal">
-                0 FCFA
+        <strong id="cartTotal">
+          0 FCFA
+        </strong>
+
+      </div>
+
+
+      <!-- BOUTON COMMANDE -->
+
+      <button
+        type="button"
+        id="checkoutBtn"
+        class="btn btn-primary checkout-btn"
+      >
+        📲 Passer la commande sur WhatsApp
+      </button>
+
+
+      <!-- VIDER -->
+
+      <button
+        type="button"
+        id="clearCartBtn"
+        class="btn btn-secondary clear-cart-btn"
+      >
+        🗑️ Vider le panier
+      </button>
+
+    </div>
+
+  </aside>
+
+
+  <!-- ================================
+       DÉTAILS PRODUIT
+  ================================= -->
+
+  <div
+    id="productDetailsModal"
+    class="modal hidden"
+  >
+
+    <div
+      id="productDetailsOverlay"
+      class="modal-overlay"
+    ></div>
+
+
+    <div
+      class="modal-content product-details-content"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Détails du produit"
+    >
+
+      <button
+        type="button"
+        id="closeProductDetails"
+        class="close-btn modal-close"
+        aria-label="Fermer"
+      >
+        ×
+      </button>
+
+
+      <div class="details-grid">
+
+        <div class="details-image-container">
+
+          <img
+            id="detailsProductImage"
+            src=""
+            alt=""
+            class="details-product-image"
+          >
+
+        </div>
+
+
+        <div class="details-info">
+
+          <span
+            id="detailsProductCategory"
+            class="product-category"
+          ></span>
+
+
+          <h2 id="detailsProductName">
+            Produit
+          </h2>
+
+
+          <div class="details-price">
+
+            <strong id="detailsProductPrice">
+              0 FCFA
             </strong>
 
-        </div>
+          </div>
 
 
-        <button
+          <p id="detailsProductDescription">
+          </p>
+
+
+          <div class="details-specifications">
+
+            <h3>
+              Caractéristiques
+            </h3>
+
+            <ul id="detailsProductSpecs">
+            </ul>
+
+          </div>
+
+
+          <button
             type="button"
-            id="checkoutBtn"
-            class="checkout-btn"
-        >
-            PASSER LA COMMANDE
-        </button>
-
-
-        <button
-            type="button"
-            id="clearCartBtn"
-            class="clear-cart-btn"
-        >
-            🗑️ Vider le panier
-        </button>
-
-    </div>
-
-</aside>
-
-
-<!-- =====================================================
-     MODALE — DÉTAILS PRODUIT
-     ===================================================== -->
-
-<div
-    id="productDetailsModal"
-    class="modal-container hidden"
->
-
-    <div
-        id="productDetailsOverlay"
-        class="modal-overlay"
-    >
-
-        <div
-            class="product-modal"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="detailsProductName"
-        >
-
-            <!-- FERMER -->
-
-            <button
-                type="button"
-                id="closeProductDetails"
-                class="modal-close"
-                aria-label="Fermer"
-            >
-                ×
-            </button>
-
-
-            <!-- IMAGE PRODUIT -->
-
-            <div class="product-modal-image">
-
-                <img
-                    id="detailsProductImage"
-                    src=""
-                    alt="Produit"
-                >
-
-            </div>
-
-
-            <!-- INFORMATIONS PRODUIT -->
-
-            <div class="product-modal-content">
-
-                <span
-                    id="detailsProductCategory"
-                    class="section-label"
-                >
-                    Produit
-                </span>
-
-
-                <h2 id="detailsProductName">
-                    Produit
-                </h2>
-
-
-                <p
-                    id="detailsProductDescription"
-                    class="details-description"
-                >
-                </p>
-
-
-                <div
-                    id="detailsProductPrice"
-                    class="details-price"
-                >
-                    0 FCFA
-                </div>
-
-
-                <!-- FICHE TECHNIQUE -->
-
-                <h3>
-                    📋 Fiche technique
-                </h3>
-
-
-                <div
-                    id="detailsProductSpecs"
-                    class="specs-list"
-                >
-                </div>
-
-
-                <!-- AJOUT PANIER -->
-
-                <button
-                    type="button"
-                    id="detailsAddCart"
-                    class="checkout-btn"
-                >
-                    🛒 AJOUTER AU PANIER
-                </button>
-
-            </div>
+            id="detailsAddCart"
+            class="btn btn-primary details-add-btn"
+          >
+            🛒 Ajouter au panier
+          </button>
 
         </div>
 
+      </div>
+
     </div>
 
-</div>
+  </div>
 
 
-<!-- =====================================================
-     MODALE — COMPTE
-     ===================================================== -->
+  <!-- ================================
+       COMPTE
+  ================================= -->
 
-<div
+  <div
     id="accountModal"
-    class="modal-container hidden"
->
+    class="modal hidden"
+  >
 
     <div
-        class="modal-overlay"
-        id="accountModalOverlay"
+      id="accountModalOverlay"
+      class="modal-overlay"
+    ></div>
+
+
+    <div
+      class="modal-content account-content"
+      role="dialog"
+      aria-modal="true"
     >
 
-        <div
-            class="simple-modal"
-            role="dialog"
-            aria-modal="true"
-        >
-
-            <button
-                type="button"
-                id="closeAccountModal"
-                class="modal-close"
-                aria-label="Fermer"
-            >
-                ×
-            </button>
+      <button
+        type="button"
+        id="closeAccountModal"
+        class="close-btn modal-close"
+        aria-label="Fermer"
+      >
+        ×
+      </button>
 
 
-            <div class="simple-modal-icon">
-                👤
-            </div>
+      <div class="account-icon">
+        👤
+      </div>
+
+      <h2>
+        Mon compte
+      </h2>
+
+      <p>
+        Pour le moment, les commandes et demandes
+        sont traitées directement sur WhatsApp.
+      </p>
 
 
-            <h2>
-                Mon compte
-            </h2>
-
-
-            <p>
-                La gestion du compte client sera bientôt
-                disponible sur WENDK SHOP.
-            </p>
-
-
-            <button
-                type="button"
-                id="accountWhatsappBtn"
-                class="primary-btn"
-            >
-                💬 Contacter WENDK SHOP
-            </button>
-
-        </div>
+      <a
+        href="https://wa.me/22607309472"
+        target="_blank"
+        id="accountWhatsappBtn"
+        class="btn btn-primary"
+      >
+        💬 Contacter WENDK SHOP
+      </a>
 
     </div>
 
-</div>
+  </div>
 
 
-<!-- =====================================================
-     MODALE — FAVORIS
-     ===================================================== -->
+  <!-- ================================
+       FAVORIS
+  ================================= -->
 
-<div
+  <div
     id="favoritesModal"
-    class="modal-container hidden"
->
+    class="modal hidden"
+  >
 
     <div
-        class="modal-overlay"
-        id="favoritesModalOverlay"
+      id="favoritesModalOverlay"
+      class="modal-overlay"
+    ></div>
+
+
+    <div
+      class="modal-content favorites-content"
+      role="dialog"
+      aria-modal="true"
     >
 
-        <div
-            class="simple-modal favorites-modal"
-            role="dialog"
-            aria-modal="true"
-        >
-
-            <button
-                type="button"
-                id="closeFavoritesModal"
-                class="modal-close"
-                aria-label="Fermer"
-            >
-                ×
-            </button>
+      <button
+        type="button"
+        id="closeFavoritesModal"
+        class="close-btn modal-close"
+        aria-label="Fermer"
+      >
+        ×
+      </button>
 
 
-            <div class="simple-modal-icon">
-                ❤️
-            </div>
+      <div class="favorites-header">
+
+        <span class="section-label">
+          WENDK SHOP
+        </span>
+
+        <h2>
+          Mes favoris
+        </h2>
+
+      </div>
 
 
-            <h2>
-                Mes favoris
-            </h2>
+      <div
+        id="favoritesItems"
+        class="favorites-items"
+      ></div>
 
 
-            <div
-                id="favoritesItems"
-                class="favorites-items"
-            >
-            </div>
-
-
-            <button
-                type="button"
-                id="closeFavoritesBtn"
-                class="primary-btn"
-            >
-                Fermer
-            </button>
-
-        </div>
+      <button
+        type="button"
+        id="closeFavoritesBtn"
+        class="btn btn-secondary"
+      >
+        Fermer
+      </button>
 
     </div>
 
-</div>
+  </div>
 
 
-<!-- =====================================================
-     TOAST / NOTIFICATION
-     ===================================================== -->
+  <!-- ================================
+       MESSAGE TOAST
+  ================================= -->
 
-<div
+  <div
     id="toast"
     class="toast"
     role="status"
     aria-live="polite"
->
-                    </div>
-    <!-- =====================================================
-     FOOTER
-     ===================================================== -->
+  ></div>  
+      <!-- ================================
+       FOOTER
+  ================================= -->
 
-<footer class="footer">
+  <footer class="footer">
 
     <div class="container footer-grid">
 
-        <!-- INFORMATIONS -->
+      <!-- MARQUE -->
 
-        <div class="footer-column">
+      <div class="footer-column footer-brand">
 
-            <a
-                href="#accueil"
-                class="footer-brand"
-            >
+        <a href="#accueil" class="brand">
 
-                <div class="brand-icon">
-                    W
-                </div>
+          <div class="brand-icon">
+            W
+          </div>
 
-                <div class="brand-text">
+          <div class="brand-text">
+            <strong>WENDK</strong>
+            <span>SHOP</span>
+          </div>
 
-                    <strong>
-                        WENDK
-                    </strong>
+        </a>
 
-                    <span>
-                        SHOP
-                    </span>
+        <p>
+          Votre boutique en ligne pour téléphones,
+          smartphones et accessoires au Burkina Faso.
+        </p>
 
-                </div>
-
-            </a>
+      </div>
 
 
-            <p class="footer-description">
+      <!-- LIENS RAPIDES -->
 
-                Votre boutique spécialisée dans la vente
-                de téléphones, smartphones et accessoires
-                au Burkina Faso.
+      <div class="footer-column">
 
-            </p>
+        <h3>
+          Liens rapides
+        </h3>
 
-        </div>
+        <a href="#accueil">
+          Accueil
+        </a>
 
+        <a href="#produits">
+          Produits
+        </a>
 
-        <!-- LIENS RAPIDES -->
+        <a href="#a-propos">
+          À propos
+        </a>
 
-        <div class="footer-column">
+        <a href="#contact">
+          Contact
+        </a>
 
-            <h3>
-                Liens rapides
-            </h3>
-
-            <a href="#accueil">
-                Accueil
-            </a>
-
-            <a href="#produits">
-                Nos produits
-            </a>
-
-            <a href="#a-propos">
-                À propos
-            </a>
-
-            <a href="#contact">
-                Contact
-            </a>
-
-        </div>
+      </div>
 
 
-        <!-- CATÉGORIES -->
+      <!-- CATÉGORIES -->
 
-        <div class="footer-column">
+      <div class="footer-column">
 
-            <h3>
-                Catégories
-            </h3>
+        <h3>
+          Catégories
+        </h3>
 
-            <a
-                href="#produits"
-                data-category="iphone"
-            >
-                iPhone
-            </a>
+        <a href="#produits" data-category="iphone">
+          iPhone
+        </a>
 
-            <a
-                href="#produits"
-                data-category="samsung"
-            >
-                Samsung
-            </a>
+        <a href="#produits" data-category="samsung">
+          Samsung
+        </a>
 
-            <a
-                href="#produits"
-                data-category="redmi"
-            >
-                Redmi
-            </a>
+        <a href="#produits" data-category="redmi">
+          Redmi
+        </a>
 
-            <a
-                href="#produits"
-                data-category="tecno"
-            >
-                Tecno
-            </a>
+        <a href="#produits" data-category="tecno">
+          Tecno
+        </a>
 
-            <a
-                href="#produits"
-                data-category="accessoires"
-            >
-                Accessoires
-            </a>
+        <a href="#produits" data-category="accessoires">
+          Accessoires
+        </a>
 
-        </div>
+      </div>
 
 
-        <!-- CONTACT -->
+      <!-- CONTACT -->
 
-        <div class="footer-column">
+      <div class="footer-column">
 
-            <h3>
-                Contact
-            </h3>
+        <h3>
+          Contact
+        </h3>
 
-            <p>
-                📍 Ouagadougou, Burkina Faso
-            </p>
+        <p>
+          📍 Ouagadougou, Burkina Faso
+        </p>
 
-            <p>
-                📱 +226 07 30 94 72
-            </p>
+        <p>
+          📞 +226 07 30 94 72
+        </p>
 
-            <a
-                href="https://wa.me/22607309472"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                💬 WhatsApp
-            </a>
+        <a
+          href="https://wa.me/22607309472"
+          target="_blank"
+        >
+          💬 WhatsApp
+        </a>
 
-        </div>
+      </div>
 
     </div>
 
 
-    <!-- BAS DU FOOTER -->
+    <!-- BAS FOOTER -->
 
     <div class="footer-bottom">
 
-        <div class="container footer-bottom-content">
+      <div class="container footer-bottom-content">
 
-            <p>
-                © <span id="currentYear">2026</span>
-                WENDK SHOP. Tous droits réservés.
-            </p>
+        <p>
+          © <span id="currentYear"></span>
+          WENDK SHOP. Tous droits réservés.
+        </p>
 
-            <p>
-                Boutique en ligne au Burkina Faso 🇧🇫
-            </p>
+        <p>
+          Téléphones & Accessoires
+        </p>
 
-        </div>
+      </div>
 
     </div>
 
-</footer>
+  </footer>
 
 
-<!-- =====================================================
-     BOUTON WHATSAPP FLOTTANT
-     ===================================================== -->
+  <!-- ================================
+       WHATSAPP FLOTTANT
+  ================================= -->
 
-<a
+  <a
     id="floatingWhatsapp"
-    class="floating-whatsapp"
     href="https://wa.me/22607309472"
     target="_blank"
-    rel="noopener noreferrer"
+    class="floating-whatsapp"
     aria-label="Contacter WENDK SHOP sur WhatsApp"
->
-
-    <span>
-        💬
-    </span>
-
-</a>
+  >
+    💬
+  </a>
 
 
-<!-- =====================================================
-     BOUTON RETOUR EN HAUT
-     ===================================================== -->
+  <!-- ================================
+       RETOUR EN HAUT
+  ================================= -->
 
-<button
+  <button
     type="button"
     id="backToTop"
     class="back-to-top"
     aria-label="Retour en haut"
->
-
+  >
     ↑
+  </button>
 
-</button>
 
+  <!-- ================================
+       JAVASCRIPT
+  ================================= -->
 
-<!-- =====================================================
-     SCRIPT JAVASCRIPT
-     ===================================================== -->
-
-<script src="script.js"></script>
-
+  <script src="script.js"></script>
 
 </body>
     </html>
