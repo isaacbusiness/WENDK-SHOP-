@@ -2192,3 +2192,38 @@ document.addEventListener(
 /* =========================================================
    FIN DU SCRIPT.JS
 ========================================================= */
+/* =========================================================
+   CORRECTION — MODALE DÉTAILS PRODUIT
+========================================================= */
+
+document.addEventListener("click", function(event) {
+
+  const viewButton = event.target.closest("[data-view]");
+
+  if (!viewButton) return;
+
+  const productId = Number(viewButton.dataset.view);
+
+  const product = products.find(
+    product => product.id === productId
+  );
+
+  if (!product) return;
+
+  const modal =
+    document.getElementById("productDetailsModal");
+
+  const overlay =
+    document.getElementById("productDetailsOverlay");
+
+  if (modal) {
+    modal.classList.remove("hidden");
+    modal.classList.add("active");
+  }
+
+  if (overlay) {
+    overlay.classList.remove("hidden");
+    overlay.classList.add("active");
+  }
+
+});
