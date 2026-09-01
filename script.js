@@ -2305,3 +2305,79 @@ document.addEventListener("click", function (event) {
   document.body.style.overflow = "hidden";
 
 });
+/* =========================================================
+   CORRECTIF — FERMETURE FENÊTRE DÉTAILS PRODUIT
+========================================================= */
+
+function forceCloseProductDetails() {
+
+  const modal =
+    document.getElementById("productDetailsModal");
+
+  const overlay =
+    document.getElementById("productDetailsOverlay");
+
+  if (modal) {
+    modal.classList.remove("active");
+    modal.classList.add("hidden");
+  }
+
+  if (overlay) {
+    overlay.classList.remove("active");
+    overlay.classList.add("hidden");
+  }
+
+  document.body.style.overflow = "";
+
+}
+
+
+/* Bouton X */
+
+document.addEventListener("click", function(event) {
+
+  const closeButton =
+    event.target.closest("#closeProductDetails");
+
+  if (!closeButton) return;
+
+  event.preventDefault();
+
+  forceCloseProductDetails();
+
+});
+
+
+/* Clic sur l'arrière-plan */
+
+document.addEventListener("click", function(event) {
+
+  const overlay =
+    event.target.closest("#productDetailsOverlay");
+
+  if (!overlay) return;
+
+  forceCloseProductDetails();
+
+});
+
+
+/* Touche Échap */
+
+document.addEventListener("keydown", function(event) {
+
+  if (event.key === "Escape") {
+
+    const modal =
+      document.getElementById("productDetailsModal");
+
+    if (
+      modal &&
+      modal.classList.contains("active")
+    ) {
+      forceCloseProductDetails();
+    }
+
+  }
+
+});
