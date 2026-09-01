@@ -3,24 +3,33 @@
    BLOC 1/3
 ========================================================= */
 
+"use strict";
+
 /* =========================================================
    CONFIGURATION
 ========================================================= */
 
 const WHATSAPP_NUMBER = "22607309472";
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
+
+
+/* =========================================================
+   PRODUITS
+========================================================= */
 
 const products = [
+
   {
     id: 1,
     name: "iPhone 17 Pro Max",
     category: "iphone",
     price: 850000,
     oldPrice: 900000,
-    image: "https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=800&q=80",
     badge: "Nouveau",
+    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80",
     description: "iPhone haut de gamme avec performances exceptionnelles et design premium.",
     specs: [
-      "Écran Super Retina",
+      "Écran Super Retina XDR",
       "Grande capacité de stockage",
       "Appareil photo professionnel",
       "Face ID",
@@ -34,15 +43,15 @@ const products = [
     category: "iphone",
     price: 650000,
     oldPrice: 700000,
-    image: "https://images.unsplash.com/photo-1591337676887-a217a6970a8a?auto=format&fit=crop&w=800&q=80",
     badge: "Promo",
-    description: "Un smartphone puissant avec une excellente qualité photo et vidéo.",
+    image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&w=800&q=80",
+    description: "Un smartphone premium puissant, élégant et performant.",
     specs: [
       "Écran OLED",
-      "Puce Apple performante",
-      "Caméra professionnelle",
-      "5G",
-      "Face ID"
+      "Puce Apple Silicon",
+      "Appareil photo Pro",
+      "Face ID",
+      "5G"
     ]
   },
 
@@ -52,11 +61,11 @@ const products = [
     category: "iphone",
     price: 350000,
     oldPrice: 390000,
-    image: "https://images.unsplash.com/photo-1603891128711-11b4b03bb138?auto=format&fit=crop&w=800&q=80",
     badge: "Promo",
+    image: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=800&q=80",
     description: "Un iPhone fiable et performant pour une utilisation quotidienne.",
     specs: [
-      "Écran Super Retina XDR",
+      "Écran Super Retina",
       "Double caméra",
       "Face ID",
       "5G",
@@ -70,15 +79,15 @@ const products = [
     category: "samsung",
     price: 750000,
     oldPrice: 800000,
-    image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80",
     badge: "Nouveau",
-    description: "Le smartphone premium Samsung avec puissance, caméra et intelligence artificielle.",
+    image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80",
+    description: "Smartphone Samsung premium avec puissance et photographie avancée.",
     specs: [
-      "Écran Dynamic AMOLED",
+      "Écran AMOLED",
       "Caméra haute résolution",
       "S Pen",
       "5G",
-      "Grande autonomie"
+      "Batterie grande capacité"
     ]
   },
 
@@ -88,15 +97,15 @@ const products = [
     category: "samsung",
     price: 600000,
     oldPrice: 670000,
-    image: "https://images.unsplash.com/photo-1616348436168-de43ad0db179?auto=format&fit=crop&w=800&q=80",
     badge: "Promo",
+    image: "https://images.unsplash.com/photo-1610792516307-ea5acd9c3b3b?auto=format&fit=crop&w=800&q=80",
     description: "Un smartphone premium Samsung puissant et polyvalent.",
     specs: [
       "Écran AMOLED",
       "S Pen",
-      "Caméra 200 MP",
+      "Caméra professionnelle",
       "5G",
-      "Batterie longue durée"
+      "Charge rapide"
     ]
   },
 
@@ -106,15 +115,15 @@ const products = [
     category: "samsung",
     price: 220000,
     oldPrice: 250000,
-    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
     badge: "Promo",
-    description: "Excellent rapport qualité-prix pour le travail, les réseaux sociaux et le divertissement.",
+    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
+    description: "Excellent rapport qualité-prix pour une utilisation quotidienne.",
     specs: [
       "Écran AMOLED",
       "Triple caméra",
       "5G",
-      "Bonne autonomie",
-      "Design premium"
+      "Grande batterie",
+      "Design moderne"
     ]
   },
 
@@ -124,15 +133,15 @@ const products = [
     category: "redmi",
     price: 180000,
     oldPrice: 210000,
-    image: "https://images.unsplash.com/photo-1556656793-08538906a9f8?auto=format&fit=crop&w=800&q=80",
     badge: "Promo",
-    description: "Un smartphone Redmi puissant avec un excellent rapport qualité-prix.",
+    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
+    description: "Un smartphone Redmi performant à prix accessible.",
     specs: [
-      "Écran AMOLED",
-      "Caméra haute résolution",
+      "Écran haute définition",
+      "Caméra performante",
       "Grande batterie",
       "Charge rapide",
-      "4G/5G selon modèle"
+      "Double SIM"
     ]
   },
 
@@ -142,15 +151,15 @@ const products = [
     category: "redmi",
     price: 135000,
     oldPrice: 155000,
-    image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80",
     badge: "Promo",
-    description: "Un smartphone accessible et performant pour tous les jours.",
+    image: "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=80",
+    description: "Smartphone économique avec de bonnes performances.",
     specs: [
       "Écran AMOLED",
       "Grande batterie",
-      "Caméra performante",
-      "Charge rapide",
-      "Double SIM"
+      "Caméra haute résolution",
+      "Double SIM",
+      "Charge rapide"
     ]
   },
 
@@ -160,12 +169,12 @@ const products = [
     category: "tecno",
     price: 165000,
     oldPrice: 185000,
-    image: "https://images.unsplash.com/photo-1567581935884-3349723552ca?auto=format&fit=crop&w=800&q=80",
     badge: "Nouveau",
-    description: "Smartphone Tecno orienté photo avec design moderne.",
+    image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
+    description: "Smartphone Tecno orienté photographie et divertissement.",
     specs: [
       "Écran AMOLED",
-      "Caméra haute résolution",
+      "Caméra avancée",
       "Grande batterie",
       "Charge rapide",
       "Double SIM"
@@ -178,15 +187,15 @@ const products = [
     category: "tecno",
     price: 85000,
     oldPrice: 100000,
-    image: "https://images.unsplash.com/photo-1580910051074-3eb694886505?auto=format&fit=crop&w=800&q=80",
     badge: "Promo",
-    description: "Un smartphone abordable pour les besoins essentiels.",
+    image: "https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=800&q=80",
+    description: "Smartphone abordable pour les besoins essentiels.",
     specs: [
       "Grand écran",
-      "Bonne autonomie",
+      "Grande batterie",
       "Double caméra",
       "Double SIM",
-      "Stockage généreux"
+      "Stockage confortable"
     ]
   },
 
@@ -196,14 +205,14 @@ const products = [
     category: "accessoires",
     price: 45000,
     oldPrice: 55000,
-    image: "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=800&q=80",
     badge: "Promo",
-    description: "Écouteurs sans fil avec réduction de bruit et boîtier de recharge.",
+    image: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=800&q=80",
+    description: "Écouteurs sans fil pratiques avec excellente qualité sonore.",
     specs: [
-      "Bluetooth",
+      "Connexion Bluetooth",
       "Réduction de bruit",
       "Boîtier de recharge",
-      "Microphone intégré",
+      "Micro intégré",
       "Sans fil"
     ]
   },
@@ -214,15 +223,15 @@ const products = [
     category: "accessoires",
     price: 75000,
     oldPrice: 90000,
-    image: "https://images.unsplash.com/photo-1544117519-31a4b719223d?auto=format&fit=crop&w=800&q=80",
     badge: "Nouveau",
-    description: "Montre connectée élégante pour suivre votre activité et vos notifications.",
+    image: "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=800&q=80",
+    description: "Montre connectée élégante pour accompagner votre quotidien.",
     specs: [
       "Écran tactile",
-      "Bluetooth",
       "Notifications",
       "Suivi d'activité",
-      "Bracelet réglable"
+      "Bluetooth",
+      "Bracelet confortable"
     ]
   },
 
@@ -232,14 +241,14 @@ const products = [
     category: "accessoires",
     price: 18000,
     oldPrice: 22000,
-    image: "https://images.unsplash.com/photo-1609592424841-3f6f7b8c4a4a?auto=format&fit=crop&w=800&q=80",
     badge: "Promo",
-    description: "Batterie externe haute capacité pour recharger vos appareils partout.",
+    image: "https://images.unsplash.com/photo-1609592424753-7e9d7e9e7d7e?auto=format&fit=crop&w=800&q=80",
+    description: "Batterie externe pratique pour recharger vos appareils partout.",
     specs: [
-      "20 000 mAh",
+      "Capacité 20 000 mAh",
       "USB",
-      "Charge rapide",
-      "Indicateur de batterie",
+      "Recharge rapide",
+      "Portable",
       "Compatible smartphones"
     ]
   },
@@ -250,17 +259,18 @@ const products = [
     category: "accessoires",
     price: 10000,
     oldPrice: 13000,
-    image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=80",
     badge: "Promo",
-    description: "Chargeur rapide compatible avec de nombreux smartphones modernes.",
+    image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=80",
+    description: "Chargeur rapide USB-C pratique pour vos smartphones et accessoires.",
     specs: [
-      "USB-C",
+      "Port USB-C",
       "Charge rapide",
-      "Compact",
-      "Protection contre la surtension",
-      "Compatible Android et iPhone"
+      "Format compact",
+      "Compatible smartphones",
+      "Protection contre la surcharge"
     ]
   }
+
 ];
 
 
@@ -268,67 +278,20 @@ const products = [
    ÉTAT DE L'APPLICATION
 ========================================================= */
 
-let cart = JSON.parse(localStorage.getItem("wendkCart")) || [];
+let cart = JSON.parse(
+  localStorage.getItem("wendkCart") || "[]"
+);
 
-let favorites =
-  JSON.parse(localStorage.getItem("wendkFavorites")) || [];
+let favorites = JSON.parse(
+  localStorage.getItem("wendkFavorites") || "[]"
+);
 
 let currentCategory = "all";
-
 let currentProduct = null;
 
 
 /* =========================================================
-   ÉLÉMENTS DOM
-========================================================= */
-
-const productsGrid = document.getElementById("productsGrid");
-
-const noProducts = document.getElementById("noProducts");
-
-const cartItems = document.getElementById("cartItems");
-
-const cartCount = document.getElementById("cartCount");
-
-const cartTotal = document.getElementById("cartTotal");
-
-const headerCartTotal =
-  document.getElementById("headerCartTotal");
-
-const emptyCart = document.getElementById("emptyCart");
-
-const cartFooter = document.getElementById("cartFooter");
-
-const cartOverlay = document.getElementById("cartOverlay");
-
-const cartDrawer = document.getElementById("cartDrawer");
-
-const toast = document.getElementById("toast");
-
-const currentYear = document.getElementById("currentYear");
-
-
-/* =========================================================
-   INITIALISATION
-========================================================= */
-
-document.addEventListener("DOMContentLoaded", () => {
-
-  renderProducts();
-
-  renderCart();
-
-  updateFavoritesButtons();
-
-  if (currentYear) {
-    currentYear.textContent = new Date().getFullYear();
-  }
-
-});
-
-
-/* =========================================================
-   FORMATAGE DES PRIX
+   OUTILS
 ========================================================= */
 
 function formatPrice(price) {
@@ -337,10 +300,6 @@ function formatPrice(price) {
 
 }
 
-
-/* =========================================================
-   SAUVEGARDE LOCALSTORAGE
-========================================================= */
 
 function saveCart() {
 
@@ -362,6 +321,56 @@ function saveFavorites() {
 }
 
 
+function getCategoryName(category) {
+
+  const categories = {
+
+    all: "Tous les produits",
+    iphone: "iPhone",
+    samsung: "Samsung",
+    redmi: "Redmi",
+    tecno: "Tecno",
+    accessoires: "Accessoires"
+
+  };
+
+  return categories[category] || category;
+
+}
+
+
+/* =========================================================
+   RÉFÉRENCES HTML
+========================================================= */
+
+const productsGrid =
+  document.getElementById("productsGrid");
+
+const noProducts =
+  document.getElementById("noProducts");
+
+const cartItems =
+  document.getElementById("cartItems");
+
+const emptyCart =
+  document.getElementById("emptyCart");
+
+const cartCount =
+  document.getElementById("cartCount");
+
+const cartTotal =
+  document.getElementById("cartTotal");
+
+const headerCartTotal =
+  document.getElementById("headerCartTotal");
+
+const favoritesItems =
+  document.getElementById("favoritesItems");
+
+const toast =
+  document.getElementById("toast");
+
+
 /* =========================================================
    AFFICHAGE DES PRODUITS
 ========================================================= */
@@ -370,15 +379,16 @@ function renderProducts() {
 
   if (!productsGrid) return;
 
-  let filteredProducts = products;
+  let filteredProducts = products.filter(product => {
 
-  if (currentCategory !== "all") {
+    if (currentCategory === "all") {
+      return true;
+    }
 
-    filteredProducts = products.filter(
-      product => product.category === currentCategory
-    );
+    return product.category === currentCategory;
 
-  }
+  });
+
 
   if (filteredProducts.length === 0) {
 
@@ -392,13 +402,19 @@ function renderProducts() {
 
   }
 
+
   if (noProducts) {
     noProducts.classList.add("hidden");
   }
 
-  productsGrid.innerHTML = filteredProducts
-    .map(product => createProductCard(product))
-    .join("");
+
+  productsGrid.innerHTML =
+    filteredProducts
+      .map(createProductCard)
+      .join("");
+
+
+  updateFavoritesButtons();
 
 }
 
@@ -409,81 +425,79 @@ function renderProducts() {
 
 function createProductCard(product) {
 
-  const isFavorite = favorites.includes(product.id);
-
-  const badgeClass =
-    product.badge === "Promo"
-      ? "product-badge sale"
-      : "product-badge new";
+  const isFavorite =
+    favorites.includes(product.id);
 
   return `
+
     <article class="product-card">
 
       <div class="product-image-wrapper">
 
-        <img
-          src="${product.image}"
-          alt="${product.name}"
-          loading="lazy"
-        >
-
         ${
           product.badge
-            ? `<span class="${badgeClass}">
-                ${product.badge}
-              </span>`
+            ? `<span class="product-badge">${product.badge}</span>`
             : ""
         }
 
         <button
           class="favorite-btn ${isFavorite ? "active" : ""}"
           data-favorite="${product.id}"
+          type="button"
           aria-label="Ajouter aux favoris"
         >
           ${isFavorite ? "♥" : "♡"}
         </button>
 
-        <button
-          class="product-quick-view"
-          data-view="${product.id}"
+        <img
+          src="${product.image}"
+          alt="${product.name}"
+          class="product-image"
+          loading="lazy"
+          onerror="this.style.display='none'"
         >
-          Voir le produit
-        </button>
 
       </div>
 
-      <div class="product-content">
 
-        <div class="product-category">
+      <div class="product-info">
+
+        <span class="product-category">
           ${getCategoryName(product.category)}
-        </div>
+        </span>
 
         <h3 class="product-name">
           ${product.name}
         </h3>
 
-        <p class="product-description">
-          ${product.description}
-        </p>
+        <div class="product-price">
 
-        <div class="product-bottom">
+          <strong>
+            ${formatPrice(product.price)}
+          </strong>
 
-          <div>
-            <span class="product-price">
-              ${formatPrice(product.price)}
-            </span>
+          ${
+            product.oldPrice
+              ? `<del>${formatPrice(product.oldPrice)}</del>`
+              : ""
+          }
 
-            ${
-              product.oldPrice
-                ? `<span class="product-old-price">
-                    ${formatPrice(product.oldPrice)}
-                  </span>`
-                : ""
-            }
-          </div>
+        </div>
+
+
+        <div class="product-actions">
 
           <button
-            class="add-cart-btn"
+            class="btn btn-secondary"
+            type="button"
+            data-view="${product.id}"
+          >
+            Voir détails
+          </button>
+
+          <button
+            class="btn btn-primary"
+            type="button"
             data-add-cart="${product.id}"
           >
             🛒 Ajouter
@@ -494,114 +508,21 @@ function createProductCard(product) {
       </div>
 
     </article>
+
   `;
 
 }
 
 
 /* =========================================================
-   NOM DES CATÉGORIES
+   INITIALISATION
 ========================================================= */
 
-function getCategoryName(category) {
-
-  const names = {
-    iphone: "iPhone",
-    samsung: "Samsung",
-    redmi: "Redmi",
-    tecno: "Tecno",
-    accessoires: "Accessoires"
-  };
-
-  return names[category] || "Produit";
-
-}
-
-
-/* =========================================================
-   ÉVÉNEMENTS PRODUITS
-========================================================= */
-
-document.addEventListener("click", (event) => {
-
-  const addButton =
-    event.target.closest("[data-add-cart]");
-
-  if (addButton) {
-
-    const productId =
-      Number(addButton.dataset.addCart);
-
-    addToCart(productId);
-
-    return;
-  }
-
-
-  const favoriteButton =
-    event.target.closest("[data-favorite]");
-
-  if (favoriteButton) {
-
-    const productId =
-      Number(favoriteButton.dataset.favorite);
-
-    toggleFavorite(productId);
-
-    return;
-  }
-
-
-  const viewButton =
-    event.target.closest("[data-view]");
-
-  if (viewButton) {
-
-    const productId =
-      Number(viewButton.dataset.view);
-
-    openProductDetails(productId);
-
-    return;
-  }
-
-});
-
-
-/* =========================================================
-   FILTRES CATÉGORIES
-========================================================= */
-
-document.addEventListener("click", (event) => {
-
-  const filterButton =
-    event.target.closest(".filter-btn");
-
-  if (!filterButton) return;
-
-  const category =
-    filterButton.dataset.filter;
-
-  if (!category) return;
-
-  currentCategory = category;
-
-  document
-    .querySelectorAll(".filter-btn")
-    .forEach(button => {
-      button.classList.remove("active");
-    });
-
-  filterButton.classList.add("active");
+document.addEventListener("DOMContentLoaded", function () {
 
   renderProducts();
 
 });
-
-
-/* =========================================================
-   FIN DU BLOC 1/3
-========================================================= */
 /* =========================================================
    WENDK SHOP — SCRIPT.JS
    BLOC 2/3
@@ -609,19 +530,19 @@ document.addEventListener("click", (event) => {
 
 
 /* =========================================================
-   PANIER — AJOUTER UN PRODUIT
+   PANIER
 ========================================================= */
 
 function addToCart(productId) {
 
   const product = products.find(
-    item => item.id === productId
+    item => item.id === Number(productId)
   );
 
   if (!product) return;
 
   const existingItem = cart.find(
-    item => item.id === productId
+    item => item.id === product.id
   );
 
   if (existingItem) {
@@ -638,55 +559,38 @@ function addToCart(productId) {
   }
 
   saveCart();
-
   renderCart();
-
-  showToast(
-    `${product.name} ajouté au panier`,
-    "success"
-  );
+  showToast("Produit ajouté au panier", "success");
 
 }
 
 
 /* =========================================================
-   PANIER — SUPPRIMER UN PRODUIT
+   SUPPRIMER DU PANIER
 ========================================================= */
 
 function removeFromCart(productId) {
 
-  const product = products.find(
-    item => item.id === productId
-  );
-
   cart = cart.filter(
-    item => item.id !== productId
+    item => item.id !== Number(productId)
   );
 
   saveCart();
-
   renderCart();
 
-  if (product) {
-
-    showToast(
-      `${product.name} retiré du panier`,
-      "success"
-    );
-
-  }
+  showToast("Produit retiré du panier", "success");
 
 }
 
 
 /* =========================================================
-   PANIER — MODIFIER LA QUANTITÉ
+   MODIFIER QUANTITÉ
 ========================================================= */
 
 function updateQuantity(productId, change) {
 
   const item = cart.find(
-    cartItem => cartItem.id === productId
+    product => product.id === Number(productId)
   );
 
   if (!item) return;
@@ -695,48 +599,53 @@ function updateQuantity(productId, change) {
 
   if (item.quantity <= 0) {
 
-    removeFromCart(productId);
-
-    return;
+    cart = cart.filter(
+      product => product.id !== Number(productId)
+    );
 
   }
 
   saveCart();
-
   renderCart();
 
 }
 
 
 /* =========================================================
-   CALCUL DU TOTAL
+   TOTAL PANIER
 ========================================================= */
 
 function getCartTotal() {
 
-  return cart.reduce((total, item) => {
+  return cart.reduce(
+    (total, item) => {
 
-    const product = products.find(
-      product => product.id === item.id
-    );
+      const product = products.find(
+        product => product.id === item.id
+      );
 
-    if (!product) return total;
+      if (!product) return total;
 
-    return total + product.price * item.quantity;
+      return total + (
+        product.price * item.quantity
+      );
 
-  }, 0);
+    },
+    0
+  );
 
 }
 
 
 /* =========================================================
-   NOMBRE TOTAL D'ARTICLES
+   NOMBRE D'ARTICLES
 ========================================================= */
 
 function getCartCount() {
 
   return cart.reduce(
-    (total, item) => total + item.quantity,
+    (total, item) =>
+      total + item.quantity,
     0
   );
 
@@ -759,25 +668,17 @@ function renderCart() {
       emptyCart.classList.remove("hidden");
     }
 
-    if (cartFooter) {
-      cartFooter.classList.add("hidden");
-    }
-
   } else {
 
     if (emptyCart) {
       emptyCart.classList.add("hidden");
     }
 
-    if (cartFooter) {
-      cartFooter.classList.remove("hidden");
-    }
-
-    cartItems.innerHTML = cart
-      .map(item => createCartItem(item))
-      .join("");
+    cartItems.innerHTML =
+      cart.map(createCartItem).join("");
 
   }
+
 
   updateCartTotals();
 
@@ -796,63 +697,75 @@ function createCartItem(item) {
 
   if (!product) return "";
 
+
   const subtotal =
     product.price * item.quantity;
 
+
   return `
+
     <div class="cart-item">
 
-      <img
-        class="cart-item-image"
-        src="${product.image}"
-        alt="${product.name}"
-      >
+      <div class="cart-item-image">
+
+        <img
+          src="${product.image}"
+          alt="${product.name}"
+          onerror="this.style.display='none'"
+        >
+
+      </div>
+
 
       <div class="cart-item-info">
 
-        <h4 class="cart-item-name">
+        <h4>
           ${product.name}
         </h4>
 
-        <div class="cart-item-price">
+        <strong>
           ${formatPrice(subtotal)}
-        </div>
+        </strong>
 
-        <div class="cart-item-controls">
+
+        <div class="quantity-controls">
 
           <button
-            class="quantity-btn"
+            type="button"
             data-decrease="${product.id}"
             aria-label="Diminuer"
           >
             −
           </button>
 
-          <span class="quantity-value">
+          <span>
             ${item.quantity}
           </span>
 
           <button
-            class="quantity-btn"
+            type="button"
             data-increase="${product.id}"
             aria-label="Augmenter"
           >
             +
           </button>
 
-          <button
-            class="remove-cart-item"
-            data-remove-cart="${product.id}"
-            aria-label="Supprimer"
-          >
-            🗑️
-          </button>
-
         </div>
 
       </div>
 
+
+      <button
+        type="button"
+        class="remove-cart-item"
+        data-remove-cart="${product.id}"
+        aria-label="Supprimer"
+      >
+        ×
+      </button>
+
     </div>
+
   `;
 
 }
@@ -865,50 +778,58 @@ function createCartItem(item) {
 function updateCartTotals() {
 
   const count = getCartCount();
-
   const total = getCartTotal();
 
+
   if (cartCount) {
-
     cartCount.textContent = count;
-
-    cartCount.style.display =
-      count > 0 ? "flex" : "none";
-
   }
+
 
   if (cartTotal) {
-
     cartTotal.textContent =
       formatPrice(total);
-
   }
 
-  if (headerCartTotal) {
 
+  if (headerCartTotal) {
     headerCartTotal.textContent =
       formatPrice(total);
-
   }
 
 }
 
 
 /* =========================================================
-   ÉVÉNEMENTS DU PANIER
+   BOUTONS PANIER
 ========================================================= */
 
-document.addEventListener("click", (event) => {
+document.addEventListener("click", function (event) {
+
+  const addButton =
+    event.target.closest("[data-add-cart]");
+
+  if (addButton) {
+
+    const id =
+      Number(addButton.dataset.addCart);
+
+    addToCart(id);
+
+    return;
+
+  }
+
 
   const increaseButton =
     event.target.closest("[data-increase]");
 
   if (increaseButton) {
 
-    const productId =
+    const id =
       Number(increaseButton.dataset.increase);
 
-    updateQuantity(productId, 1);
+    updateQuantity(id, 1);
 
     return;
 
@@ -920,10 +841,10 @@ document.addEventListener("click", (event) => {
 
   if (decreaseButton) {
 
-    const productId =
+    const id =
       Number(decreaseButton.dataset.decrease);
 
-    updateQuantity(productId, -1);
+    updateQuantity(id, -1);
 
     return;
 
@@ -935,12 +856,10 @@ document.addEventListener("click", (event) => {
 
   if (removeButton) {
 
-    const productId =
+    const id =
       Number(removeButton.dataset.removeCart);
 
-    removeFromCart(productId);
-
-    return;
+    removeFromCart(id);
 
   }
 
@@ -948,8 +867,15 @@ document.addEventListener("click", (event) => {
 
 
 /* =========================================================
-   OUVRIR LE PANIER
+   OUVRIR / FERMER LE PANIER
 ========================================================= */
+
+const cartOverlay =
+  document.getElementById("cartOverlay");
+
+const cartDrawer =
+  document.getElementById("cartDrawer");
+
 
 function openCart() {
 
@@ -966,10 +892,6 @@ function openCart() {
 }
 
 
-/* =========================================================
-   FERMER LE PANIER
-========================================================= */
-
 function closeCart() {
 
   if (cartOverlay) {
@@ -984,10 +906,6 @@ function closeCart() {
 
 }
 
-
-/* =========================================================
-   BOUTONS PANIER
-========================================================= */
 
 const openCartBtn =
   document.getElementById("openCartBtn");
@@ -1046,34 +964,30 @@ if (cartOverlay) {
 const clearCartBtn =
   document.getElementById("clearCartBtn");
 
+
 if (clearCartBtn) {
 
   clearCartBtn.addEventListener(
     "click",
-    () => {
+    function () {
 
       if (cart.length === 0) {
-
-        showToast(
-          "Le panier est déjà vide",
-          "error"
-        );
-
         return;
-
       }
 
-      const confirmed =
+
+      const confirmation =
         confirm(
-          "Voulez-vous vraiment vider le panier ?"
+          "Voulez-vous vraiment vider votre panier ?"
         );
 
-      if (!confirmed) return;
+
+      if (!confirmation) return;
+
 
       cart = [];
 
       saveCart();
-
       renderCart();
 
       showToast(
@@ -1093,46 +1007,43 @@ if (clearCartBtn) {
 
 function toggleFavorite(productId) {
 
-  const product = products.find(
-    item => item.id === productId
-  );
+  const id = Number(productId);
 
-  if (!product) return;
+  if (favorites.includes(id)) {
 
-  const index =
-    favorites.indexOf(productId);
-
-  if (index === -1) {
-
-    favorites.push(productId);
+    favorites =
+      favorites.filter(
+        item => item !== id
+      );
 
     showToast(
-      `${product.name} ajouté aux favoris`,
+      "Retiré des favoris",
       "success"
     );
 
   } else {
 
-    favorites.splice(index, 1);
+    favorites.push(id);
 
     showToast(
-      `${product.name} retiré des favoris`,
+      "Ajouté aux favoris",
       "success"
     );
 
   }
 
+
   saveFavorites();
 
-  renderProducts();
-
   updateFavoritesButtons();
+
+  renderFavorites();
 
 }
 
 
 /* =========================================================
-   METTRE À JOUR LES BOUTONS FAVORIS
+   BOUTONS FAVORIS
 ========================================================= */
 
 function updateFavoritesButtons() {
@@ -1141,23 +1052,48 @@ function updateFavoritesButtons() {
     .querySelectorAll("[data-favorite]")
     .forEach(button => {
 
-      const productId =
+      const id =
         Number(button.dataset.favorite);
 
-      const isFavorite =
-        favorites.includes(productId);
+      const active =
+        favorites.includes(id);
+
 
       button.classList.toggle(
         "active",
-        isFavorite
+        active
       );
 
+
       button.textContent =
-        isFavorite ? "♥" : "♡";
+        active ? "♥" : "♡";
 
     });
 
 }
+
+
+/* =========================================================
+   CLIC FAVORIS
+========================================================= */
+
+document.addEventListener("click", function (event) {
+
+  const favoriteButton =
+    event.target.closest("[data-favorite]");
+
+  if (!favoriteButton) return;
+
+
+  const id =
+    Number(
+      favoriteButton.dataset.favorite
+    );
+
+
+  toggleFavorite(id);
+
+});
 
 
 /* =========================================================
@@ -1168,97 +1104,56 @@ const favoritesModal =
   document.getElementById("favoritesModal");
 
 const favoritesModalOverlay =
-  document.getElementById("favoritesModalOverlay");
-
-const favoritesItems =
-  document.getElementById("favoritesItems");
-
-const favoritesBtn =
-  document.getElementById("favoritesBtn");
+  document.getElementById(
+    "favoritesModalOverlay"
+  );
 
 const closeFavoritesModal =
-  document.getElementById("closeFavoritesModal");
+  document.getElementById(
+    "closeFavoritesModal"
+  );
 
 const closeFavoritesBtn =
-  document.getElementById("closeFavoritesBtn");
+  document.getElementById(
+    "closeFavoritesBtn"
+  );
 
-
-function renderFavorites() {
-
-  if (!favoritesItems) return;
-
-  if (favorites.length === 0) {
-
-    favoritesItems.innerHTML = `
-      <div class="empty-cart">
-        <div class="empty-cart-icon">♡</div>
-        <h3>Aucun favori</h3>
-        <p>
-          Ajoutez vos produits préférés ici.
-        </p>
-      </div>
-    `;
-
-    return;
-
-  }
-
-  favoritesItems.innerHTML = favorites
-    .map(productId => {
-
-      const product = products.find(
-        item => item.id === productId
-      );
-
-      if (!product) return "";
-
-      return `
-        <div class="favorite-item">
-
-          <img
-            src="${product.image}"
-            alt="${product.name}"
-          >
-
-          <div class="favorite-item-info">
-
-            <h4>
-              ${product.name}
-            </h4>
-
-            <p>
-              ${formatPrice(product.price)}
-            </p>
-
-          </div>
-
-          <button
-            class="remove-cart-item"
-            data-remove-favorite="${product.id}"
-          >
-            🗑️
-          </button>
-
-        </div>
-      `;
-
-    })
-    .join("");
-
-}
+const favoritesItems =
+  document.getElementById(
+    "favoritesItems"
+  );
 
 
 function openFavorites() {
 
   renderFavorites();
 
+
   if (favoritesModal) {
-    favoritesModal.classList.add("active");
+
+    favoritesModal.classList.remove(
+      "hidden"
+    );
+
+    favoritesModal.classList.add(
+      "active"
+    );
+
   }
 
+
   if (favoritesModalOverlay) {
-    favoritesModalOverlay.classList.add("active");
+
+    favoritesModalOverlay.classList.remove(
+      "hidden"
+    );
+
+    favoritesModalOverlay.classList.add(
+      "active"
+    );
+
   }
+
 
   document.body.style.overflow = "hidden";
 
@@ -1268,16 +1163,126 @@ function openFavorites() {
 function closeFavorites() {
 
   if (favoritesModal) {
-    favoritesModal.classList.remove("active");
+
+    favoritesModal.classList.remove(
+      "active"
+    );
+
+    favoritesModal.classList.add(
+      "hidden"
+    );
+
   }
 
+
   if (favoritesModalOverlay) {
-    favoritesModalOverlay.classList.remove("active");
+
+    favoritesModalOverlay.classList.remove(
+      "active"
+    );
+
+    favoritesModalOverlay.classList.add(
+      "hidden"
+    );
+
   }
+
 
   document.body.style.overflow = "";
 
 }
+
+
+/* =========================================================
+   AFFICHER LES FAVORIS
+========================================================= */
+
+function renderFavorites() {
+
+  if (!favoritesItems) return;
+
+
+  const favoriteProducts =
+    products.filter(
+      product =>
+        favorites.includes(product.id)
+    );
+
+
+  if (favoriteProducts.length === 0) {
+
+    favoritesItems.innerHTML = `
+
+      <div class="empty-state">
+
+        <div class="empty-state-icon">
+          ♡
+        </div>
+
+        <h3>
+          Aucun favori
+        </h3>
+
+        <p>
+          Ajoutez vos produits préférés
+          à vos favoris.
+        </p>
+
+      </div>
+
+    `;
+
+    return;
+
+  }
+
+
+  favoritesItems.innerHTML =
+    favoriteProducts
+      .map(product => `
+
+        <div class="favorite-item">
+
+          <img
+            src="${product.image}"
+            alt="${product.name}"
+          >
+
+          <div>
+
+            <h4>
+              ${product.name}
+            </h4>
+
+            <strong>
+              ${formatPrice(product.price)}
+            </strong>
+
+          </div>
+
+          <button
+            type="button"
+            data-remove-favorite="${product.id}"
+          >
+            ×
+          </button>
+
+        </div>
+
+      `)
+      .join("");
+
+}
+
+
+/* =========================================================
+   BOUTONS FAVORIS MODALE
+========================================================= */
+
+const favoritesBtn =
+  document.getElementById(
+    "favoritesBtn"
+  );
 
 
 if (favoritesBtn) {
@@ -1321,39 +1326,44 @@ if (favoritesModalOverlay) {
 
 
 /* =========================================================
-   SUPPRESSION FAVORI
+   SUPPRIMER UN FAVORI
 ========================================================= */
 
-document.addEventListener("click", (event) => {
+document.addEventListener("click", function (event) {
 
-  const removeFavorite =
-    event.target.closest("[data-remove-favorite]");
+  const button =
+    event.target.closest(
+      "[data-remove-favorite]"
+    );
 
-  if (!removeFavorite) return;
+  if (!button) return;
 
-  const productId =
-    Number(removeFavorite.dataset.removeFavorite);
+
+  const id =
+    Number(
+      button.dataset.removeFavorite
+    );
+
 
   favorites =
-    favorites.filter(id => id !== productId);
+    favorites.filter(
+      item => item !== id
+    );
+
 
   saveFavorites();
 
   renderFavorites();
 
-  renderProducts();
+  updateFavoritesButtons();
+
 
   showToast(
-    "Produit retiré des favoris",
+    "Favori supprimé",
     "success"
   );
 
 });
-
-
-/* =========================================================
-   FIN DU BLOC 2/3
-=================================================== */
 /* =========================================================
    WENDK SHOP — SCRIPT.JS
    BLOC 3/3
@@ -1361,7 +1371,7 @@ document.addEventListener("click", (event) => {
 
 
 /* =========================================================
-   MODALE DÉTAILS PRODUIT
+   DÉTAILS PRODUIT
 ========================================================= */
 
 const productDetailsModal =
@@ -1399,15 +1409,12 @@ const detailsAddCart =
    OUVRIR LES DÉTAILS
 ========================================================= */
 
-function openProductDetails(productId) {
-
-  const product = products.find(
-    item => item.id === productId
-  );
+function openProductDetails(product) {
 
   if (!product) return;
 
   currentProduct = product;
+
 
   if (detailsProductImage) {
 
@@ -1419,12 +1426,14 @@ function openProductDetails(productId) {
 
   }
 
+
   if (detailsProductCategory) {
 
     detailsProductCategory.textContent =
       getCategoryName(product.category);
 
   }
+
 
   if (detailsProductName) {
 
@@ -1433,12 +1442,14 @@ function openProductDetails(productId) {
 
   }
 
+
   if (detailsProductDescription) {
 
     detailsProductDescription.textContent =
       product.description;
 
   }
+
 
   if (detailsProductPrice) {
 
@@ -1447,31 +1458,63 @@ function openProductDetails(productId) {
 
   }
 
+
   if (detailsProductSpecs) {
 
     detailsProductSpecs.innerHTML =
-      product.specs
+      (product.specs || [])
         .map(spec => `
           <li class="spec-item">
             <span>✓</span>
-            ${spec}
+            <span>${spec}</span>
           </li>
         `)
         .join("");
 
   }
 
-  if (productDetailsModal) {
 
-    productDetailsModal.classList.add("active");
+  if (detailsAddCart) {
+
+    detailsAddCart.onclick = function () {
+
+      addToCart(product.id);
+
+    };
 
   }
+
+
+  /*
+     IMPORTANT :
+     On retire "hidden" ET on ajoute "active".
+  */
 
   if (productDetailsOverlay) {
 
-    productDetailsOverlay.classList.add("active");
+    productDetailsOverlay.classList.remove(
+      "hidden"
+    );
+
+    productDetailsOverlay.classList.add(
+      "active"
+    );
 
   }
+
+
+  if (productDetailsModal) {
+
+    productDetailsModal.classList.remove(
+      "hidden"
+    );
+
+    productDetailsModal.classList.add(
+      "active"
+    );
+
+  }
+
 
   document.body.style.overflow = "hidden";
 
@@ -1486,15 +1529,29 @@ function closeProductDetailsModal() {
 
   if (productDetailsModal) {
 
-    productDetailsModal.classList.remove("active");
+    productDetailsModal.classList.remove(
+      "active"
+    );
+
+    productDetailsModal.classList.add(
+      "hidden"
+    );
 
   }
+
 
   if (productDetailsOverlay) {
 
-    productDetailsOverlay.classList.remove("active");
+    productDetailsOverlay.classList.remove(
+      "active"
+    );
+
+    productDetailsOverlay.classList.add(
+      "hidden"
+    );
 
   }
+
 
   document.body.style.overflow = "";
 
@@ -1503,43 +1560,20 @@ function closeProductDetailsModal() {
 }
 
 
+/* =========================================================
+   BOUTON FERMER
+========================================================= */
+
 if (closeProductDetails) {
 
   closeProductDetails.addEventListener(
     "click",
-    closeProductDetailsModal
-  );
+    function (event) {
 
-}
-
-
-if (productDetailsOverlay) {
-
-  productDetailsOverlay.addEventListener(
-    "click",
-    closeProductDetailsModal
-  );
-
-}
-
-
-/* =========================================================
-   AJOUTER LE PRODUIT DE LA MODALE AU PANIER
-========================================================= */
-
-if (detailsAddCart) {
-
-  detailsAddCart.addEventListener(
-    "click",
-    () => {
-
-      if (!currentProduct) return;
-
-      addToCart(currentProduct.id);
+      event.preventDefault();
+      event.stopPropagation();
 
       closeProductDetailsModal();
-
-      openCart();
 
     }
   );
@@ -1548,7 +1582,63 @@ if (detailsAddCart) {
 
 
 /* =========================================================
-   RECHERCHE PRODUITS
+   CLIC SUR L'ARRIÈRE-PLAN
+========================================================= */
+
+if (productDetailsOverlay) {
+
+  productDetailsOverlay.addEventListener(
+    "click",
+    function (event) {
+
+      if (
+        event.target ===
+        productDetailsOverlay
+      ) {
+
+        closeProductDetailsModal();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   BOUTON VOIR DÉTAILS
+========================================================= */
+
+document.addEventListener(
+  "click",
+  function (event) {
+
+    const button =
+      event.target.closest("[data-view]");
+
+    if (!button) return;
+
+    const productId =
+      Number(button.dataset.view);
+
+    const product =
+      products.find(
+        item => item.id === productId
+      );
+
+    if (product) {
+
+      openProductDetails(product);
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   RECHERCHE
 ========================================================= */
 
 const searchInput =
@@ -1562,12 +1652,14 @@ function searchProducts() {
 
   if (!searchInput) return;
 
-  const searchTerm =
+
+  const search =
     searchInput.value
       .trim()
       .toLowerCase();
 
-  if (!searchTerm) {
+
+  if (!search) {
 
     currentCategory = "all";
 
@@ -1577,21 +1669,22 @@ function searchProducts() {
 
   }
 
+
   const results =
     products.filter(product => {
 
       return (
         product.name
           .toLowerCase()
-          .includes(searchTerm) ||
-
-        product.description
-          .toLowerCase()
-          .includes(searchTerm) ||
-
+          .includes(search)
+        ||
         product.category
           .toLowerCase()
-          .includes(searchTerm)
+          .includes(search)
+        ||
+        product.description
+          .toLowerCase()
+          .includes(search)
       );
 
     });
@@ -1599,13 +1692,17 @@ function searchProducts() {
 
   if (!productsGrid) return;
 
+
   if (results.length === 0) {
 
     productsGrid.innerHTML = "";
 
+
     if (noProducts) {
 
-      noProducts.classList.remove("hidden");
+      noProducts.classList.remove(
+        "hidden"
+      );
 
     }
 
@@ -1616,15 +1713,20 @@ function searchProducts() {
 
   if (noProducts) {
 
-    noProducts.classList.add("hidden");
+    noProducts.classList.add(
+      "hidden"
+    );
 
   }
 
 
   productsGrid.innerHTML =
     results
-      .map(product => createProductCard(product))
+      .map(createProductCard)
       .join("");
+
+
+  updateFavoritesButtons();
 
 }
 
@@ -1643,7 +1745,7 @@ if (searchInput) {
 
   searchInput.addEventListener(
     "keydown",
-    event => {
+    function (event) {
 
       if (event.key === "Enter") {
 
@@ -1658,18 +1760,86 @@ if (searchInput) {
 
 
 /* =========================================================
+   FILTRES CATÉGORIES
+========================================================= */
+
+document.addEventListener(
+  "click",
+  function (event) {
+
+    const filter =
+      event.target.closest(
+        ".filter-btn"
+      );
+
+    if (!filter) return;
+
+
+    const category =
+      filter.dataset.category;
+
+
+    if (!category) return;
+
+
+    currentCategory =
+      category;
+
+
+    document
+      .querySelectorAll(
+        ".filter-btn"
+      )
+      .forEach(button => {
+
+        button.classList.remove(
+          "active"
+        );
+
+      });
+
+
+    filter.classList.add(
+      "active"
+    );
+
+
+    renderProducts();
+
+
+    const productsSection =
+      document.getElementById(
+        "produits"
+      );
+
+
+    if (productsSection) {
+
+      productsSection.scrollIntoView({
+        behavior: "smooth"
+      });
+
+    }
+
+  }
+);
+
+
+/* =========================================================
    AFFICHER TOUS LES PRODUITS
 ========================================================= */
 
 const showAllProducts =
-  document.getElementById("showAllProducts");
+  document.getElementById(
+    "showAllProducts"
+  );
 
 
 if (showAllProducts) {
 
   showAllProducts.addEventListener(
     "click",
-    event => {
+    function (event) {
 
       event.preventDefault();
 
@@ -1681,30 +1851,12 @@ if (showAllProducts) {
 
       }
 
-      document
-        .querySelectorAll(".filter-btn")
-        .forEach(button => {
-
-          button.classList.remove("active");
-
-        });
-
-
-      const allButton =
-        document.querySelector(
-          '.filter-btn[data-filter="all"]'
-        );
-
-      if (allButton) {
-
-        allButton.classList.add("active");
-
-      }
-
       renderProducts();
 
       const productsSection =
-        document.getElementById("produits");
+        document.getElementById(
+          "produits"
+        );
 
       if (productsSection) {
 
@@ -1721,44 +1873,26 @@ if (showAllProducts) {
 
 
 /* =========================================================
-   RESET DES FILTRES
+   RÉINITIALISER LES FILTRES
 ========================================================= */
 
 const resetFilters =
-  document.getElementById("resetFilters");
+  document.getElementById(
+    "resetFilters"
+  );
 
 
 if (resetFilters) {
 
   resetFilters.addEventListener(
     "click",
-    () => {
+    function () {
 
       currentCategory = "all";
 
       if (searchInput) {
 
         searchInput.value = "";
-
-      }
-
-      document
-        .querySelectorAll(".filter-btn")
-        .forEach(button => {
-
-          button.classList.remove("active");
-
-        });
-
-
-      const allButton =
-        document.querySelector(
-          '.filter-btn[data-filter="all"]'
-        );
-
-      if (allButton) {
-
-        allButton.classList.add("active");
 
       }
 
@@ -1771,144 +1905,173 @@ if (resetFilters) {
 
 
 /* =========================================================
-   COMMANDE WHATSAPP
+   COMMANDER SUR WHATSAPP
 ========================================================= */
 
 const checkoutBtn =
-  document.getElementById("checkoutBtn");
-
-
-function checkoutWhatsApp() {
-
-  if (cart.length === 0) {
-
-    showToast(
-      "Votre panier est vide",
-      "error"
-    );
-
-    return;
-
-  }
-
-
-  let message =
-    "🛍️ *COMMANDE WENDK SHOP*\n\n";
-
-
-  cart.forEach((item, index) => {
-
-    const product =
-      products.find(
-        product => product.id === item.id
-      );
-
-    if (!product) return;
-
-    const subtotal =
-      product.price * item.quantity;
-
-
-    message +=
-      `${index + 1}. ${product.name}\n`;
-
-    message +=
-      `   Quantité : ${item.quantity}\n`;
-
-    message +=
-      `   Prix : ${formatPrice(subtotal)}\n\n`;
-
-  });
-
-
-  message +=
-    `💰 *TOTAL : ${formatPrice(
-      getCartTotal()
-    )}*\n\n`;
-
-  message +=
-    "📍 Livraison : Burkina Faso\n";
-
-  message +=
-    "📞 Merci de confirmer votre commande avec WENDK SHOP.";
-
-
-  const whatsappUrl =
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-      message
-    )}`;
-
-
-  window.open(
-    whatsappUrl,
-    "_blank"
+  document.getElementById(
+    "checkoutBtn"
   );
-
-}
 
 
 if (checkoutBtn) {
 
   checkoutBtn.addEventListener(
     "click",
-    checkoutWhatsApp
+    function () {
+
+      if (cart.length === 0) {
+
+        showToast(
+          "Votre panier est vide",
+          "error"
+        );
+
+        return;
+
+      }
+
+
+      let message =
+        "Bonjour WENDK SHOP 👋%0A%0A";
+
+      message +=
+        "Je souhaite commander :%0A%0A";
+
+
+      cart.forEach(item => {
+
+        const product =
+          products.find(
+            product =>
+              product.id === item.id
+          );
+
+
+        if (!product) return;
+
+
+        message +=
+          `• ${product.name} x${item.quantity}%0A`;
+
+        message +=
+          `  ${formatPrice(
+            product.price * item.quantity
+          )}%0A%0A`;
+
+      });
+
+
+      message +=
+        `Total : ${formatPrice(
+          getCartTotal()
+        )}%0A%0A`;
+
+      message +=
+        "Merci de me confirmer la disponibilité et les modalités de livraison.";
+
+
+      window.open(
+        `${WHATSAPP_URL}?text=${message}`,
+        "_blank"
+      );
+
+    }
   );
 
 }
 
 
 /* =========================================================
-   BOUTON COMPTE
+   COMPTE CLIENT
 ========================================================= */
 
-const accountBtn =
-  document.getElementById("accountBtn");
-
 const accountModal =
-  document.getElementById("accountModal");
+  document.getElementById(
+    "accountModal"
+  );
 
 const accountModalOverlay =
-  document.getElementById("accountModalOverlay");
+  document.getElementById(
+    "accountModalOverlay"
+  );
+
+const accountBtn =
+  document.getElementById(
+    "accountBtn"
+  );
 
 const closeAccountModal =
-  document.getElementById("closeAccountModal");
+  document.getElementById(
+    "closeAccountModal"
+  );
 
 const accountWhatsappBtn =
-  document.getElementById("accountWhatsappBtn");
+  document.getElementById(
+    "accountWhatsappBtn"
+  );
 
 
 function openAccountModal() {
 
   if (accountModal) {
 
-    accountModal.classList.add("active");
+    accountModal.classList.remove(
+      "hidden"
+    );
+
+    accountModal.classList.add(
+      "active"
+    );
 
   }
+
 
   if (accountModalOverlay) {
 
-    accountModalOverlay.classList.add("active");
+    accountModalOverlay.classList.remove(
+      "hidden"
+    );
+
+    accountModalOverlay.classList.add(
+      "active"
+    );
 
   }
+
 
   document.body.style.overflow = "hidden";
 
 }
 
 
-function closeAccountModalFunction() {
+function closeAccount() {
 
   if (accountModal) {
 
-    accountModal.classList.remove("active");
+    accountModal.classList.remove(
+      "active"
+    );
+
+    accountModal.classList.add(
+      "hidden"
+    );
 
   }
+
 
   if (accountModalOverlay) {
 
-    accountModalOverlay.classList.remove("active");
+    accountModalOverlay.classList.remove(
+      "active"
+    );
+
+    accountModalOverlay.classList.add(
+      "hidden"
+    );
 
   }
+
 
   document.body.style.overflow = "";
 
@@ -1929,7 +2092,7 @@ if (closeAccountModal) {
 
   closeAccountModal.addEventListener(
     "click",
-    closeAccountModalFunction
+    closeAccount
   );
 
 }
@@ -1939,7 +2102,18 @@ if (accountModalOverlay) {
 
   accountModalOverlay.addEventListener(
     "click",
-    closeAccountModalFunction
+    function (event) {
+
+      if (
+        event.target ===
+        accountModalOverlay
+      ) {
+
+        closeAccount();
+
+      }
+
+    }
   );
 
 }
@@ -1949,19 +2123,18 @@ if (accountWhatsappBtn) {
 
   accountWhatsappBtn.addEventListener(
     "click",
-    () => {
+    function () {
 
       const message =
-        "Bonjour WENDK SHOP 👋\n\n" +
-        "Je souhaite créer un compte client " +
-        "et obtenir plus d'informations.";
+        encodeURIComponent(
+          "Bonjour WENDK SHOP 👋 Je souhaite créer un compte client."
+        );
 
-      const url =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
-          message
-        )}`;
 
-      window.open(url, "_blank");
+      window.open(
+        `${WHATSAPP_URL}?text=${message}`,
+        "_blank"
+      );
 
     }
   );
@@ -1970,24 +2143,34 @@ if (accountWhatsappBtn) {
 
 
 /* =========================================================
-   LIENS CATÉGORIES
+   CATÉGORIES / NAVIGATION
 ========================================================= */
 
 document.addEventListener(
   "click",
-  event => {
+  function (event) {
 
-    const categoryLink =
-      event.target.closest("[data-category]");
+    const link =
+      event.target.closest(
+        "[data-category]"
+      );
 
-    if (!categoryLink) return;
+    if (!link) return;
+
 
     const category =
-      categoryLink.dataset.category;
+      link.dataset.category;
+
 
     if (!category) return;
 
-    currentCategory = category;
+
+    event.preventDefault();
+
+
+    currentCategory =
+      category;
+
 
     if (searchInput) {
 
@@ -1995,30 +2178,30 @@ document.addEventListener(
 
     }
 
+
     document
-      .querySelectorAll(".filter-btn")
+      .querySelectorAll(
+        ".filter-btn"
+      )
       .forEach(button => {
 
-        button.classList.remove("active");
+        button.classList.toggle(
+          "active",
+          button.dataset.category ===
+            category
+        );
 
       });
 
 
-    const filterButton =
-      document.querySelector(
-        `.filter-btn[data-filter="${category}"]`
-      );
-
-    if (filterButton) {
-
-      filterButton.classList.add("active");
-
-    }
-
     renderProducts();
 
+
     const productsSection =
-      document.getElementById("produits");
+      document.getElementById(
+        "produits"
+      );
+
 
     if (productsSection) {
 
@@ -2033,106 +2216,142 @@ document.addEventListener(
 
 
 /* =========================================================
-   NAVIGATION FLUIDE
+   NAVIGATION ANCRES
 ========================================================= */
 
-document.querySelectorAll(
-  'a[href^="#"]'
-).forEach(link => {
+document
+  .querySelectorAll(
+    'a[href^="#"]'
+  )
+  .forEach(link => {
 
-  link.addEventListener(
-    "click",
-    event => {
+    link.addEventListener(
+      "click",
+      function (event) {
 
-      const targetId =
-        link.getAttribute("href");
+        const targetId =
+          link.getAttribute("href");
 
-      if (
-        !targetId ||
-        targetId === "#"
-      ) {
-        return;
+
+        if (
+          !targetId ||
+          targetId === "#"
+        ) {
+          return;
+        }
+
+
+        const target =
+          document.querySelector(
+            targetId
+          );
+
+
+        if (!target) return;
+
+
+        event.preventDefault();
+
+
+        target.scrollIntoView({
+          behavior: "smooth"
+        });
+
       }
+    );
 
-      const target =
-        document.querySelector(targetId);
-
-      if (!target) return;
-
-      event.preventDefault();
-
-      target.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-
-    }
-  );
-
-});
+  });
 
 
 /* =========================================================
-   TOAST / NOTIFICATION
+   NOTIFICATIONS
 ========================================================= */
 
-let toastTimeout;
+let toastTimer;
 
 
-function showToast(message, type = "success") {
+function showToast(
+  message,
+  type = "success"
+) {
 
   if (!toast) return;
 
-  clearTimeout(toastTimeout);
 
-  toast.textContent = message;
+  toast.textContent =
+    message;
+
 
   toast.className =
-    `toast ${type} show`;
+    "toast show";
 
-  toastTimeout =
-    setTimeout(() => {
 
-      toast.classList.remove("show");
+  if (type) {
 
-    }, 3000);
+    toast.classList.add(
+      type
+    );
+
+  }
+
+
+  clearTimeout(
+    toastTimer
+  );
+
+
+  toastTimer =
+    setTimeout(
+      function () {
+
+        toast.classList.remove(
+          "show"
+        );
+
+      },
+      3000
+    );
 
 }
 
 
 /* =========================================================
-   BOUTON RETOUR EN HAUT
+   RETOUR EN HAUT
 ========================================================= */
 
 const backToTop =
-  document.getElementById("backToTop");
-
-
-window.addEventListener(
-  "scroll",
-  () => {
-
-    if (!backToTop) return;
-
-    if (window.scrollY > 500) {
-
-      backToTop.classList.add("active");
-
-    } else {
-
-      backToTop.classList.remove("active");
-
-    }
-
-  }
-);
+  document.getElementById(
+    "backToTop"
+  );
 
 
 if (backToTop) {
 
+  window.addEventListener(
+    "scroll",
+    function () {
+
+      if (window.scrollY > 400) {
+
+        backToTop.classList.add(
+          "show"
+        );
+
+      } else {
+
+        backToTop.classList.remove(
+          "show"
+        );
+
+      }
+
+    }
+  );
+
+
   backToTop.addEventListener(
     "click",
-    () => {
+    function () {
 
       window.scrollTo({
         top: 0,
@@ -2146,14 +2365,17 @@ if (backToTop) {
 
 
 /* =========================================================
-   FERMER LES MODALES AVEC ÉCHAP
+   TOUCHE ÉCHAP
 ========================================================= */
 
 document.addEventListener(
   "keydown",
-  event => {
+  function (event) {
 
-    if (event.key !== "Escape") return;
+    if (event.key !== "Escape") {
+      return;
+    }
+
 
     closeCart();
 
@@ -2161,345 +2383,40 @@ document.addEventListener(
 
     closeProductDetailsModal();
 
-    closeAccountModalFunction();
+    closeAccount();
 
   }
 );
 
 
 /* =========================================================
-   PROTECTION DES IMAGES
+   ANNÉE AUTOMATIQUE
 ========================================================= */
 
-document.addEventListener(
-  "error",
-  event => {
-
-    if (
-      event.target &&
-      event.target.tagName === "IMG"
-    ) {
-
-      event.target.style.objectFit = "contain";
-
-    }
-
-  },
-  true
-);
-
-
-/* =========================================================
-   FIN DU SCRIPT.JS
-========================================================= */
-/* =========================================================
-   CORRECTION — MODALE DÉTAILS PRODUIT
-========================================================= */
-
-document.addEventListener("click", function(event) {
-
-  const viewButton = event.target.closest("[data-view]");
-
-  if (!viewButton) return;
-
-  const productId = Number(viewButton.dataset.view);
-
-  const product = products.find(
-    product => product.id === productId
+const currentYear =
+  document.getElementById(
+    "currentYear"
   );
 
-  if (!product) return;
 
-  const modal =
-    document.getElementById("productDetailsModal");
+if (currentYear) {
 
-  const overlay =
-    document.getElementById("productDetailsOverlay");
-
-  if (modal) {
-    modal.classList.remove("hidden");
-    modal.classList.add("active");
-  }
-
-  if (overlay) {
-    overlay.classList.remove("hidden");
-    overlay.classList.add("active");
-  }
-
-});
-
-/* =========================================================
-   CORRECTIF COMPLET — DÉTAILS PRODUIT
-========================================================= */
-
-document.addEventListener("click", function (event) {
-
-  const button = event.target.closest(".product-quick-view");
-
-  if (!button) return;
-
-  const productId = Number(button.dataset.view);
-
-  const product = products.find(p => p.id === productId);
-
-  if (!product) {
-    console.error("Produit introuvable :", productId);
-    return;
-  }
-
-  const modal = document.getElementById("productDetailsModal");
-  const overlay = document.getElementById("productDetailsOverlay");
-
-  const image = document.getElementById("detailsProductImage");
-  const category = document.getElementById("detailsProductCategory");
-  const name = document.getElementById("detailsProductName");
-  const description = document.getElementById("detailsProductDescription");
-  const price = document.getElementById("detailsProductPrice");
-  const specs = document.getElementById("detailsProductSpecs");
-
-  if (!modal) {
-    console.error("productDetailsModal introuvable");
-    return;
-  }
-
-  if (image) {
-    image.src = product.image;
-    image.alt = product.name;
-  }
-
-  if (category) {
-    category.textContent = getCategoryName(product.category);
-  }
-
-  if (name) {
-    name.textContent = product.name;
-  }
-
-  if (description) {
-    description.textContent = product.description;
-  }
-
-  if (price) {
-    price.textContent = formatPrice(product.price);
-  }
-
-  if (specs) {
-    specs.innerHTML = product.specs
-      .map(spec => `
-        <li class="spec-item">
-          <span>✓</span>
-          ${spec}
-        </li>
-      `)
-      .join("");
-  }
-
-  modal.classList.remove("hidden");
-  modal.classList.add("active");
-
-  if (overlay) {
-    overlay.classList.remove("hidden");
-    overlay.classList.add("active");
-  }
-
-  document.body.style.overflow = "hidden";
-
-});
-/* =========================================================
-   CORRECTIF — FERMETURE FENÊTRE DÉTAILS PRODUIT
-========================================================= */
-
-function forceCloseProductDetails() {
-
-  const modal =
-    document.getElementById("productDetailsModal");
-
-  const overlay =
-    document.getElementById("productDetailsOverlay");
-
-  if (modal) {
-    modal.classList.remove("active");
-    modal.classList.add("hidden");
-  }
-
-  if (overlay) {
-    overlay.classList.remove("active");
-    overlay.classList.add("hidden");
-  }
-
-  document.body.style.overflow = "";
+  currentYear.textContent =
+    new Date().getFullYear();
 
 }
 
 
-/* Bouton X */
-
-document.addEventListener("click", function(event) {
-
-  const closeButton =
-    event.target.closest("#closeProductDetails");
-
-  if (!closeButton) return;
-
-  event.preventDefault();
-
-  forceCloseProductDetails();
-
-});
-
-
-/* Clic sur l'arrière-plan */
-
-document.addEventListener("click", function(event) {
-
-  const overlay =
-    event.target.closest("#productDetailsOverlay");
-
-  if (!overlay) return;
-
-  forceCloseProductDetails();
-
-});
-
-
-/* Touche Échap */
-
-document.addEventListener("keydown", function(event) {
-
-  if (event.key === "Escape") {
-
-    const modal =
-      document.getElementById("productDetailsModal");
-
-    if (
-      modal &&
-      modal.classList.contains("active")
-    ) {
-      forceCloseProductDetails();
-    }
-
-  }
-
-});
 /* =========================================================
-   CORRECTIF FINAL — FENÊTRE DÉTAILS PRODUIT
+   INITIALISATION FINALE
 ========================================================= */
 
-(function () {
+renderProducts();
 
-  function getDetailsModal() {
-    return document.getElementById("productDetailsModal");
-  }
+renderCart();
 
-  function getDetailsOverlay() {
-    return document.getElementById("productDetailsOverlay");
-  }
+renderFavorites();
 
-  /* FERMER LA FENÊTRE */
-  function closeDetailsForce() {
+updateCartTotals();
 
-    const modal = getDetailsModal();
-    const overlay = getDetailsOverlay();
-
-    if (modal) {
-      modal.classList.remove("active");
-      modal.classList.add("hidden");
-      modal.style.display = "none";
-      modal.setAttribute("aria-hidden", "true");
-    }
-
-    if (overlay) {
-      overlay.classList.remove("active");
-      overlay.classList.add("hidden");
-      overlay.style.display = "none";
-    }
-
-    document.body.style.overflow = "";
-  }
-
-  /* OUVRIR LA FENÊTRE */
-  function openDetailsForce() {
-
-    const modal = getDetailsModal();
-    const overlay = getDetailsOverlay();
-
-    if (modal) {
-      modal.classList.remove("hidden");
-      modal.classList.add("active");
-      modal.style.display = "flex";
-      modal.setAttribute("aria-hidden", "false");
-    }
-
-    if (overlay) {
-      overlay.classList.remove("hidden");
-      overlay.classList.add("active");
-      overlay.style.display = "block";
-    }
-
-    document.body.style.overflow = "hidden";
-  }
-
-  /* CLIC SUR LE BOUTON FERMER */
-  document.addEventListener("click", function (event) {
-
-    const closeButton =
-      event.target.closest("#closeProductDetails");
-
-    if (closeButton) {
-      event.preventDefault();
-      event.stopPropagation();
-      closeDetailsForce();
-      return;
-    }
-
-  }, true);
-
-
-  /* CLIC SUR L'OVERLAY */
-  document.addEventListener("click", function (event) {
-
-    const overlay =
-      document.getElementById("productDetailsOverlay");
-
-    if (overlay && event.target === overlay) {
-      closeDetailsForce();
-    }
-
-  }, true);
-
-
-  /* TOUCHE ÉCHAP */
-  document.addEventListener("keydown", function (event) {
-
-    if (event.key === "Escape") {
-      closeDetailsForce();
-    }
-
-  });
-
-
-  /* INTERCEPTER LES BOUTONS "VOIR DÉTAILS" */
-  document.addEventListener("click", function (event) {
-
-    const button =
-      event.target.closest("[data-view]");
-
-    if (!button) return;
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    const productId =
-      Number(button.dataset.view);
-
-    const product =
-      window.products?.find(p => p.id === productId);
-
-    if (product && typeof window.openProductDetails === "function") {
-      window.openProductDetails(product);
-      setTimeout(openDetailsForce, 10);
-    }
-
-  }, true);
-
-})();
+updateFavoritesButtons();
