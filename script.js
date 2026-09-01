@@ -2381,3 +2381,125 @@ document.addEventListener("keydown", function(event) {
   }
 
 });
+/* =========================================================
+   CORRECTIF FINAL — FENÊTRE DÉTAILS PRODUIT
+========================================================= */
+
+(function () {
+
+  function getDetailsModal() {
+    return document.getElementById("productDetailsModal");
+  }
+
+  function getDetailsOverlay() {
+    return document.getElementById("productDetailsOverlay");
+  }
+
+  /* FERMER LA FENÊTRE */
+  function closeDetailsForce() {
+
+    const modal = getDetailsModal();
+    const overlay = getDetailsOverlay();
+
+    if (modal) {
+      modal.classList.remove("active");
+      modal.classList.add("hidden");
+      modal.style.display = "none";
+      modal.setAttribute("aria-hidden", "true");
+    }
+
+    if (overlay) {
+      overlay.classList.remove("active");
+      overlay.classList.add("hidden");
+      overlay.style.display = "none";
+    }
+
+    document.body.style.overflow = "";
+  }
+
+  /* OUVRIR LA FENÊTRE */
+  function openDetailsForce() {
+
+    const modal = getDetailsModal();
+    const overlay = getDetailsOverlay();
+
+    if (modal) {
+      modal.classList.remove("hidden");
+      modal.classList.add("active");
+      modal.style.display = "flex";
+      modal.setAttribute("aria-hidden", "false");
+    }
+
+    if (overlay) {
+      overlay.classList.remove("hidden");
+      overlay.classList.add("active");
+      overlay.style.display = "block";
+    }
+
+    document.body.style.overflow = "hidden";
+  }
+
+  /* CLIC SUR LE BOUTON FERMER */
+  document.addEventListener("click", function (event) {
+
+    const closeButton =
+      event.target.closest("#closeProductDetails");
+
+    if (closeButton) {
+      event.preventDefault();
+      event.stopPropagation();
+      closeDetailsForce();
+      return;
+    }
+
+  }, true);
+
+
+  /* CLIC SUR L'OVERLAY */
+  document.addEventListener("click", function (event) {
+
+    const overlay =
+      document.getElementById("productDetailsOverlay");
+
+    if (overlay && event.target === overlay) {
+      closeDetailsForce();
+    }
+
+  }, true);
+
+
+  /* TOUCHE ÉCHAP */
+  document.addEventListener("keydown", function (event) {
+
+    if (event.key === "Escape") {
+      closeDetailsForce();
+    }
+
+  });
+
+
+  /* INTERCEPTER LES BOUTONS "VOIR DÉTAILS" */
+  document.addEventListener("click", function (event) {
+
+    const button =
+      event.target.closest("[data-view]");
+
+    if (!button) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    const productId =
+      Number(button.dataset.view);
+
+    const product =
+      window.products?.find(p => p.id === productId);
+
+    if (product && typeof window.openProductDetails === "function") {
+      window.openProductDetails(product);
+      setTimeout(openDetailsForce, 10);
+    }
+
+  }, true);
+
+})();
