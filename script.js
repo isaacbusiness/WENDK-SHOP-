@@ -2581,3 +2581,85 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+// ===== BOUTON COMMANDE FORCÉ =====
+(function () {
+
+  function createOrderButton() {
+
+    if (document.getElementById("forceOrderBtn")) return;
+
+    const cartDrawer = document.getElementById("cartDrawer");
+
+    if (!cartDrawer) return;
+
+    const button = document.createElement("button");
+
+    button.id = "forceOrderBtn";
+    button.type = "button";
+    button.innerHTML = "📲 PASSER LA COMMANDE";
+    
+    button.style.cssText = `
+      display:block;
+      width:calc(100% - 30px);
+      margin:15px;
+      padding:16px;
+      background:#25D366;
+      color:white;
+      border:none;
+      border-radius:10px;
+      font-size:16px;
+      font-weight:700;
+      cursor:pointer;
+      text-align:center;
+      box-sizing:border-box;
+      position:relative;
+      z-index:9999;
+    `;
+
+    cartDrawer.appendChild(button);
+
+    button.addEventListener("click", function () {
+
+      if (!cart || cart.length === 0) {
+        alert("Votre panier est vide.");
+        return;
+      }
+
+      let message = "Bonjour WENDK SHOP 👋\n\n";
+      message += "Je souhaite passer cette commande :\n\n";
+
+      cart.forEach(function(item) {
+
+        const product = products.find(function(p) {
+          return p.id === item.id;
+        });
+
+        if (product) {
+          message += "📦 " + product.name + "\n";
+          message += "Quantité : " + item.quantity + "\n";
+          message += "Prix : " +
+            formatPrice(product.price * item.quantity) +
+            "\n\n";
+        }
+
+      });
+
+      message += "💰 TOTAL : " + formatPrice(getCartTotal()) + "\n\n";
+      message += "Merci de confirmer ma commande.";
+
+      window.open(
+        "https://wa.me/22607309472?text=" +
+        encodeURIComponent(message),
+        "_blank"
+      );
+
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", createOrderButton);
+  } else {
+    createOrderButton();
+  }
+
+})();
