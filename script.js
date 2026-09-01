@@ -1,16 +1,11 @@
-/* =========================================================
-   WENDK SHOP — SCRIPT.JS
-   BLOC 1/3
-========================================================= */
-
 "use strict";
 
 /* =========================================================
-   CONFIGURATION
+   WENDK SHOP — BLOC 1/3
 ========================================================= */
 
 const WHATSAPP_NUMBER = "22607309472";
-const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
+const WHATSAPP_URL = "https://wa.me/" + WHATSAPP_NUMBER;
 
 
 /* =========================================================
@@ -27,13 +22,12 @@ const products = [
     oldPrice: 900000,
     badge: "Nouveau",
     image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?auto=format&fit=crop&w=800&q=80",
-    description: "iPhone haut de gamme avec performances exceptionnelles et design premium.",
+    description: "iPhone haut de gamme avec performances exceptionnelles.",
     specs: [
-      "Écran Super Retina XDR",
-      "Grande capacité de stockage",
+      "Écran haute qualité",
       "Appareil photo professionnel",
-      "Face ID",
-      "5G"
+      "5G",
+      "Face ID"
     ]
   },
 
@@ -45,13 +39,12 @@ const products = [
     oldPrice: 700000,
     badge: "Promo",
     image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&w=800&q=80",
-    description: "Un smartphone premium puissant, élégant et performant.",
+    description: "Smartphone premium Apple puissant et élégant.",
     specs: [
       "Écran OLED",
-      "Puce Apple Silicon",
-      "Appareil photo Pro",
-      "Face ID",
-      "5G"
+      "Caméra Pro",
+      "5G",
+      "Face ID"
     ]
   },
 
@@ -63,13 +56,12 @@ const products = [
     oldPrice: 390000,
     badge: "Promo",
     image: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=800&q=80",
-    description: "Un iPhone fiable et performant pour une utilisation quotidienne.",
+    description: "Un iPhone performant pour une utilisation quotidienne.",
     specs: [
-      "Écran Super Retina",
+      "Écran Retina",
       "Double caméra",
-      "Face ID",
       "5G",
-      "Batterie longue durée"
+      "Face ID"
     ]
   },
 
@@ -81,13 +73,12 @@ const products = [
     oldPrice: 800000,
     badge: "Nouveau",
     image: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?auto=format&fit=crop&w=800&q=80",
-    description: "Smartphone Samsung premium avec puissance et photographie avancée.",
+    description: "Smartphone Samsung premium très performant.",
     specs: [
       "Écran AMOLED",
       "Caméra haute résolution",
-      "S Pen",
       "5G",
-      "Batterie grande capacité"
+      "S Pen"
     ]
   },
 
@@ -99,13 +90,12 @@ const products = [
     oldPrice: 670000,
     badge: "Promo",
     image: "https://images.unsplash.com/photo-1610792516307-ea5acd9c3b3b?auto=format&fit=crop&w=800&q=80",
-    description: "Un smartphone premium Samsung puissant et polyvalent.",
+    description: "Smartphone Samsung puissant et polyvalent.",
     specs: [
       "Écran AMOLED",
       "S Pen",
       "Caméra professionnelle",
-      "5G",
-      "Charge rapide"
+      "5G"
     ]
   },
 
@@ -117,13 +107,12 @@ const products = [
     oldPrice: 250000,
     badge: "Promo",
     image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
-    description: "Excellent rapport qualité-prix pour une utilisation quotidienne.",
+    description: "Excellent rapport qualité-prix.",
     specs: [
       "Écran AMOLED",
-      "Triple caméra",
       "5G",
       "Grande batterie",
-      "Design moderne"
+      "Triple caméra"
     ]
   },
 
@@ -135,10 +124,9 @@ const products = [
     oldPrice: 210000,
     badge: "Promo",
     image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
-    description: "Un smartphone Redmi performant à prix accessible.",
+    description: "Smartphone Redmi performant et accessible.",
     specs: [
       "Écran haute définition",
-      "Caméra performante",
       "Grande batterie",
       "Charge rapide",
       "Double SIM"
@@ -153,11 +141,10 @@ const products = [
     oldPrice: 155000,
     badge: "Promo",
     image: "https://images.unsplash.com/photo-1565849904461-04a58ad377e0?auto=format&fit=crop&w=800&q=80",
-    description: "Smartphone économique avec de bonnes performances.",
+    description: "Smartphone économique et performant.",
     specs: [
       "Écran AMOLED",
       "Grande batterie",
-      "Caméra haute résolution",
       "Double SIM",
       "Charge rapide"
     ]
@@ -171,12 +158,11 @@ const products = [
     oldPrice: 185000,
     badge: "Nouveau",
     image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=80",
-    description: "Smartphone Tecno orienté photographie et divertissement.",
+    description: "Smartphone Tecno orienté photographie.",
     specs: [
       "Écran AMOLED",
       "Caméra avancée",
       "Grande batterie",
-      "Charge rapide",
       "Double SIM"
     ]
   },
@@ -189,13 +175,12 @@ const products = [
     oldPrice: 100000,
     badge: "Promo",
     image: "https://images.unsplash.com/photo-1605236453806-6ff36851218e?auto=format&fit=crop&w=800&q=80",
-    description: "Smartphone abordable pour les besoins essentiels.",
+    description: "Smartphone abordable pour le quotidien.",
     specs: [
       "Grand écran",
       "Grande batterie",
       "Double caméra",
-      "Double SIM",
-      "Stockage confortable"
+      "Double SIM"
     ]
   },
 
@@ -207,12 +192,11 @@ const products = [
     oldPrice: 55000,
     badge: "Promo",
     image: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=800&q=80",
-    description: "Écouteurs sans fil pratiques avec excellente qualité sonore.",
+    description: "Écouteurs sans fil avec excellente qualité sonore.",
     specs: [
-      "Connexion Bluetooth",
+      "Bluetooth",
       "Réduction de bruit",
       "Boîtier de recharge",
-      "Micro intégré",
       "Sans fil"
     ]
   },
@@ -225,13 +209,12 @@ const products = [
     oldPrice: 90000,
     badge: "Nouveau",
     image: "https://images.unsplash.com/photo-1551816230-ef5deaed4a26?auto=format&fit=crop&w=800&q=80",
-    description: "Montre connectée élégante pour accompagner votre quotidien.",
+    description: "Montre connectée élégante.",
     specs: [
       "Écran tactile",
       "Notifications",
       "Suivi d'activité",
-      "Bluetooth",
-      "Bracelet confortable"
+      "Bluetooth"
     ]
   },
 
@@ -243,13 +226,12 @@ const products = [
     oldPrice: 22000,
     badge: "Promo",
     image: "https://images.unsplash.com/photo-1609592424753-7e9d7e9e7d7e?auto=format&fit=crop&w=800&q=80",
-    description: "Batterie externe pratique pour recharger vos appareils partout.",
+    description: "Batterie externe pratique pour vos appareils.",
     specs: [
-      "Capacité 20 000 mAh",
+      "20 000 mAh",
       "USB",
       "Recharge rapide",
-      "Portable",
-      "Compatible smartphones"
+      "Portable"
     ]
   },
 
@@ -261,13 +243,12 @@ const products = [
     oldPrice: 13000,
     badge: "Promo",
     image: "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?auto=format&fit=crop&w=800&q=80",
-    description: "Chargeur rapide USB-C pratique pour vos smartphones et accessoires.",
+    description: "Chargeur rapide USB-C compact.",
     specs: [
-      "Port USB-C",
+      "USB-C",
       "Charge rapide",
       "Format compact",
-      "Compatible smartphones",
-      "Protection contre la surcharge"
+      "Protection surcharge"
     ]
   }
 
@@ -275,19 +256,48 @@ const products = [
 
 
 /* =========================================================
-   ÉTAT DE L'APPLICATION
+   VARIABLES
 ========================================================= */
 
-let cart = JSON.parse(
-  localStorage.getItem("wendkCart") || "[]"
-);
+let cart = [];
 
-let favorites = JSON.parse(
-  localStorage.getItem("wendkFavorites") || "[]"
-);
+let favorites = [];
 
 let currentCategory = "all";
+
 let currentProduct = null;
+
+
+/* =========================================================
+   CHARGEMENT LOCALSTORAGE
+========================================================= */
+
+try {
+
+  cart =
+    JSON.parse(
+      localStorage.getItem("wendkCart")
+    ) || [];
+
+} catch (error) {
+
+  cart = [];
+
+}
+
+
+try {
+
+  favorites =
+    JSON.parse(
+      localStorage.getItem("wendkFavorites")
+    ) || [];
+
+} catch (error) {
+
+  favorites = [];
+
+}
 
 
 /* =========================================================
@@ -296,7 +306,8 @@ let currentProduct = null;
 
 function formatPrice(price) {
 
-  return new Intl.NumberFormat("fr-FR").format(price) + " FCFA";
+  return new Intl.NumberFormat("fr-FR")
+    .format(price) + " FCFA";
 
 }
 
@@ -323,9 +334,9 @@ function saveFavorites() {
 
 function getCategoryName(category) {
 
-  const categories = {
+  const names = {
 
-    all: "Tous les produits",
+    all: "Tous",
     iphone: "iPhone",
     samsung: "Samsung",
     redmi: "Redmi",
@@ -334,41 +345,9 @@ function getCategoryName(category) {
 
   };
 
-  return categories[category] || category;
+  return names[category] || category;
 
 }
-
-
-/* =========================================================
-   RÉFÉRENCES HTML
-========================================================= */
-
-const productsGrid =
-  document.getElementById("productsGrid");
-
-const noProducts =
-  document.getElementById("noProducts");
-
-const cartItems =
-  document.getElementById("cartItems");
-
-const emptyCart =
-  document.getElementById("emptyCart");
-
-const cartCount =
-  document.getElementById("cartCount");
-
-const cartTotal =
-  document.getElementById("cartTotal");
-
-const headerCartTotal =
-  document.getElementById("headerCartTotal");
-
-const favoritesItems =
-  document.getElementById("favoritesItems");
-
-const toast =
-  document.getElementById("toast");
 
 
 /* =========================================================
@@ -377,25 +356,49 @@ const toast =
 
 function renderProducts() {
 
-  if (!productsGrid) return;
+  const grid =
+    document.getElementById(
+      "productsGrid"
+    );
 
-  let filteredProducts = products.filter(product => {
-
-    if (currentCategory === "all") {
-      return true;
-    }
-
-    return product.category === currentCategory;
-
-  });
+  const empty =
+    document.getElementById(
+      "noProducts"
+    );
 
 
-  if (filteredProducts.length === 0) {
+  if (!grid) {
 
-    productsGrid.innerHTML = "";
+    console.error(
+      "WENDK SHOP : productsGrid introuvable."
+    );
 
-    if (noProducts) {
-      noProducts.classList.remove("hidden");
+    return;
+
+  }
+
+
+  let list = products;
+
+
+  if (currentCategory !== "all") {
+
+    list =
+      products.filter(
+        product =>
+          product.category ===
+          currentCategory
+      );
+
+  }
+
+
+  if (list.length === 0) {
+
+    grid.innerHTML = "";
+
+    if (empty) {
+      empty.classList.remove("hidden");
     }
 
     return;
@@ -403,18 +406,18 @@ function renderProducts() {
   }
 
 
-  if (noProducts) {
-    noProducts.classList.add("hidden");
+  if (empty) {
+    empty.classList.add("hidden");
   }
 
 
-  productsGrid.innerHTML =
-    filteredProducts
-      .map(createProductCard)
+  grid.innerHTML =
+    list
+      .map(product => createProductCard(product))
       .join("");
 
 
-  updateFavoritesButtons();
+  updateFavoriteButtons();
 
 }
 
@@ -425,8 +428,9 @@ function renderProducts() {
 
 function createProductCard(product) {
 
-  const isFavorite =
+  const favorite =
     favorites.includes(product.id);
+
 
   return `
 
@@ -434,19 +438,16 @@ function createProductCard(product) {
 
       <div class="product-image-wrapper">
 
-        ${
-          product.badge
-            ? `<span class="product-badge">${product.badge}</span>`
-            : ""
-        }
+        <span class="product-badge">
+          ${product.badge}
+        </span>
 
         <button
-          class="favorite-btn ${isFavorite ? "active" : ""}"
-          data-favorite="${product.id}"
           type="button"
-          aria-label="Ajouter aux favoris"
+          class="favorite-btn ${favorite ? "active" : ""}"
+          data-favorite="${product.id}"
         >
-          ${isFavorite ? "♥" : "♡"}
+          ${favorite ? "♥" : "♡"}
         </button>
 
         <img
@@ -454,7 +455,6 @@ function createProductCard(product) {
           alt="${product.name}"
           class="product-image"
           loading="lazy"
-          onerror="this.style.display='none'"
         >
 
       </div>
@@ -476,11 +476,9 @@ function createProductCard(product) {
             ${formatPrice(product.price)}
           </strong>
 
-          ${
-            product.oldPrice
-              ? `<del>${formatPrice(product.oldPrice)}</del>`
-              : ""
-          }
+          <del>
+            ${formatPrice(product.oldPrice)}
+          </del>
 
         </div>
 
@@ -488,16 +486,16 @@ function createProductCard(product) {
         <div class="product-actions">
 
           <button
-            class="btn btn-secondary"
             type="button"
+            class="btn btn-secondary"
             data-view="${product.id}"
           >
             Voir détails
           </button>
 
           <button
-            class="btn btn-primary"
             type="button"
+            class="btn btn-primary"
             data-add-cart="${product.id}"
           >
             🛒 Ajouter
@@ -518,92 +516,109 @@ function createProductCard(product) {
    INITIALISATION
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener(
+  "DOMContentLoaded",
+  function () {
 
-  renderProducts();
+    renderProducts();
 
-});
+  }
+);
 /* =========================================================
-   WENDK SHOP — SCRIPT.JS
-   BLOC 2/3
+   WENDK SHOP — BLOC 2/3
+   PANIER + FAVORIS
 ========================================================= */
 
 
 /* =========================================================
-   PANIER
+   PANIER — AJOUTER
 ========================================================= */
 
 function addToCart(productId) {
 
+  const id = Number(productId);
+
   const product = products.find(
-    item => item.id === Number(productId)
+    item => item.id === id
   );
 
   if (!product) return;
 
-  const existingItem = cart.find(
-    item => item.id === product.id
+
+  const existing = cart.find(
+    item => item.id === id
   );
 
-  if (existingItem) {
 
-    existingItem.quantity += 1;
+  if (existing) {
+
+    existing.quantity += 1;
 
   } else {
 
     cart.push({
-      id: product.id,
+      id: id,
       quantity: 1
     });
 
   }
 
+
   saveCart();
   renderCart();
-  showToast("Produit ajouté au panier", "success");
+
+  showToast(
+    product.name + " ajouté au panier",
+    "success"
+  );
 
 }
 
 
 /* =========================================================
-   SUPPRIMER DU PANIER
+   PANIER — SUPPRIMER
 ========================================================= */
 
 function removeFromCart(productId) {
 
+  const id = Number(productId);
+
   cart = cart.filter(
-    item => item.id !== Number(productId)
+    item => item.id !== id
   );
 
   saveCart();
   renderCart();
 
-  showToast("Produit retiré du panier", "success");
-
 }
 
 
 /* =========================================================
-   MODIFIER QUANTITÉ
+   PANIER — QUANTITÉ
 ========================================================= */
 
-function updateQuantity(productId, change) {
+function changeQuantity(productId, amount) {
+
+  const id = Number(productId);
 
   const item = cart.find(
-    product => product.id === Number(productId)
+    product => product.id === id
   );
 
   if (!item) return;
 
-  item.quantity += change;
+
+  item.quantity += amount;
+
 
   if (item.quantity <= 0) {
 
     cart = cart.filter(
-      product => product.id !== Number(productId)
+      product => product.id !== id
     );
 
   }
+
 
   saveCart();
   renderCart();
@@ -618,17 +633,16 @@ function updateQuantity(productId, change) {
 function getCartTotal() {
 
   return cart.reduce(
-    (total, item) => {
+    function (total, item) {
 
       const product = products.find(
-        product => product.id === item.id
+        p => p.id === item.id
       );
 
       if (!product) return total;
 
-      return total + (
-        product.price * item.quantity
-      );
+      return total +
+        product.price * item.quantity;
 
     },
     0
@@ -644,8 +658,11 @@ function getCartTotal() {
 function getCartCount() {
 
   return cart.reduce(
-    (total, item) =>
-      total + item.quantity,
+    function (total, item) {
+
+      return total + item.quantity;
+
+    },
     0
   );
 
@@ -658,24 +675,44 @@ function getCartCount() {
 
 function renderCart() {
 
-  if (!cartItems) return;
+  const itemsContainer =
+    document.getElementById(
+      "cartItems"
+    );
+
+  const empty =
+    document.getElementById(
+      "emptyCart"
+    );
+
+
+  if (!itemsContainer) return;
+
 
   if (cart.length === 0) {
 
-    cartItems.innerHTML = "";
+    itemsContainer.innerHTML = "";
 
-    if (emptyCart) {
-      emptyCart.classList.remove("hidden");
+
+    if (empty) {
+      empty.classList.remove(
+        "hidden"
+      );
     }
 
   } else {
 
-    if (emptyCart) {
-      emptyCart.classList.add("hidden");
+    if (empty) {
+      empty.classList.add(
+        "hidden"
+      );
     }
 
-    cartItems.innerHTML =
-      cart.map(createCartItem).join("");
+
+    itemsContainer.innerHTML =
+      cart
+        .map(item => createCartItem(item))
+        .join("");
 
   }
 
@@ -686,14 +723,16 @@ function renderCart() {
 
 
 /* =========================================================
-   CARTE D'UN ARTICLE DU PANIER
+   ARTICLE PANIER
 ========================================================= */
 
 function createCartItem(item) {
 
-  const product = products.find(
-    product => product.id === item.id
-  );
+  const product =
+    products.find(
+      p => p.id === item.id
+    );
+
 
   if (!product) return "";
 
@@ -711,7 +750,6 @@ function createCartItem(item) {
         <img
           src="${product.image}"
           alt="${product.name}"
-          onerror="this.style.display='none'"
         >
 
       </div>
@@ -733,7 +771,6 @@ function createCartItem(item) {
           <button
             type="button"
             data-decrease="${product.id}"
-            aria-label="Diminuer"
           >
             −
           </button>
@@ -745,7 +782,6 @@ function createCartItem(item) {
           <button
             type="button"
             data-increase="${product.id}"
-            aria-label="Augmenter"
           >
             +
           </button>
@@ -759,7 +795,6 @@ function createCartItem(item) {
         type="button"
         class="remove-cart-item"
         data-remove-cart="${product.id}"
-        aria-label="Supprimer"
       >
         ×
       </button>
@@ -772,154 +807,242 @@ function createCartItem(item) {
 
 
 /* =========================================================
-   TOTALS DU PANIER
+   MISE À JOUR DES TOTAUX
 ========================================================= */
 
 function updateCartTotals() {
 
-  const count = getCartCount();
-  const total = getCartTotal();
+  const count =
+    getCartCount();
+
+  const total =
+    getCartTotal();
 
 
-  if (cartCount) {
-    cartCount.textContent = count;
+  const cartCountElement =
+    document.getElementById(
+      "cartCount"
+    );
+
+  const cartTotalElement =
+    document.getElementById(
+      "cartTotal"
+    );
+
+  const headerTotal =
+    document.getElementById(
+      "headerCartTotal"
+    );
+
+
+  if (cartCountElement) {
+
+    cartCountElement.textContent =
+      count;
+
   }
 
 
-  if (cartTotal) {
-    cartTotal.textContent =
+  if (cartTotalElement) {
+
+    cartTotalElement.textContent =
       formatPrice(total);
+
   }
 
 
-  if (headerCartTotal) {
-    headerCartTotal.textContent =
+  if (headerTotal) {
+
+    headerTotal.textContent =
       formatPrice(total);
+
   }
 
 }
 
 
 /* =========================================================
-   BOUTONS PANIER
+   CLICS PANIER
 ========================================================= */
 
-document.addEventListener("click", function (event) {
+document.addEventListener(
+  "click",
+  function (event) {
 
-  const addButton =
-    event.target.closest("[data-add-cart]");
 
-  if (addButton) {
+    const addButton =
+      event.target.closest(
+        "[data-add-cart]"
+      );
 
-    const id =
-      Number(addButton.dataset.addCart);
 
-    addToCart(id);
+    if (addButton) {
 
-    return;
+      addToCart(
+        addButton.dataset.addCart
+      );
+
+      return;
+
+    }
+
+
+    const increase =
+      event.target.closest(
+        "[data-increase]"
+      );
+
+
+    if (increase) {
+
+      changeQuantity(
+        increase.dataset.increase,
+        1
+      );
+
+      return;
+
+    }
+
+
+    const decrease =
+      event.target.closest(
+        "[data-decrease]"
+      );
+
+
+    if (decrease) {
+
+      changeQuantity(
+        decrease.dataset.decrease,
+        -1
+      );
+
+      return;
+
+    }
+
+
+    const remove =
+      event.target.closest(
+        "[data-remove-cart]"
+      );
+
+
+    if (remove) {
+
+      removeFromCart(
+        remove.dataset.removeCart
+      );
+
+    }
 
   }
-
-
-  const increaseButton =
-    event.target.closest("[data-increase]");
-
-  if (increaseButton) {
-
-    const id =
-      Number(increaseButton.dataset.increase);
-
-    updateQuantity(id, 1);
-
-    return;
-
-  }
-
-
-  const decreaseButton =
-    event.target.closest("[data-decrease]");
-
-  if (decreaseButton) {
-
-    const id =
-      Number(decreaseButton.dataset.decrease);
-
-    updateQuantity(id, -1);
-
-    return;
-
-  }
-
-
-  const removeButton =
-    event.target.closest("[data-remove-cart]");
-
-  if (removeButton) {
-
-    const id =
-      Number(removeButton.dataset.removeCart);
-
-    removeFromCart(id);
-
-  }
-
-});
+);
 
 
 /* =========================================================
-   OUVRIR / FERMER LE PANIER
+   OUVRIR / FERMER PANIER
 ========================================================= */
-
-const cartOverlay =
-  document.getElementById("cartOverlay");
-
-const cartDrawer =
-  document.getElementById("cartDrawer");
-
 
 function openCart() {
 
-  if (cartOverlay) {
-    cartOverlay.classList.add("active");
+  const overlay =
+    document.getElementById(
+      "cartOverlay"
+    );
+
+  const drawer =
+    document.getElementById(
+      "cartDrawer"
+    );
+
+
+  if (overlay) {
+
+    overlay.classList.add(
+      "active"
+    );
+
   }
 
-  if (cartDrawer) {
-    cartDrawer.classList.add("active");
+
+  if (drawer) {
+
+    drawer.classList.add(
+      "active"
+    );
+
   }
 
-  document.body.style.overflow = "hidden";
+
+  document.body.style.overflow =
+    "hidden";
 
 }
 
 
 function closeCart() {
 
-  if (cartOverlay) {
-    cartOverlay.classList.remove("active");
+  const overlay =
+    document.getElementById(
+      "cartOverlay"
+    );
+
+  const drawer =
+    document.getElementById(
+      "cartDrawer"
+    );
+
+
+  if (overlay) {
+
+    overlay.classList.remove(
+      "active"
+    );
+
   }
 
-  if (cartDrawer) {
-    cartDrawer.classList.remove("active");
+
+  if (drawer) {
+
+    drawer.classList.remove(
+      "active"
+    );
+
   }
 
-  document.body.style.overflow = "";
+
+  document.body.style.overflow =
+    "";
 
 }
 
 
-const openCartBtn =
-  document.getElementById("openCartBtn");
+const openCartButton =
+  document.getElementById(
+    "openCartBtn"
+  );
 
-const closeCartBtn =
-  document.getElementById("closeCartBtn");
+const closeCartButton =
+  document.getElementById(
+    "closeCartBtn"
+  );
 
-const continueShopping =
-  document.getElementById("continueShopping");
+const continueButton =
+  document.getElementById(
+    "continueShopping"
+  );
+
+const cartOverlayElement =
+  document.getElementById(
+    "cartOverlay"
+  );
 
 
-if (openCartBtn) {
+if (openCartButton) {
 
-  openCartBtn.addEventListener(
+  openCartButton.addEventListener(
     "click",
     openCart
   );
@@ -927,9 +1050,9 @@ if (openCartBtn) {
 }
 
 
-if (closeCartBtn) {
+if (closeCartButton) {
 
-  closeCartBtn.addEventListener(
+  closeCartButton.addEventListener(
     "click",
     closeCart
   );
@@ -937,9 +1060,9 @@ if (closeCartBtn) {
 }
 
 
-if (continueShopping) {
+if (continueButton) {
 
-  continueShopping.addEventListener(
+  continueButton.addEventListener(
     "click",
     closeCart
   );
@@ -947,9 +1070,9 @@ if (continueShopping) {
 }
 
 
-if (cartOverlay) {
+if (cartOverlayElement) {
 
-  cartOverlay.addEventListener(
+  cartOverlayElement.addEventListener(
     "click",
     closeCart
   );
@@ -958,42 +1081,51 @@ if (cartOverlay) {
 
 
 /* =========================================================
-   VIDER LE PANIER
+   VIDER PANIER
 ========================================================= */
 
-const clearCartBtn =
-  document.getElementById("clearCartBtn");
+const clearCartButton =
+  document.getElementById(
+    "clearCartBtn"
+  );
 
 
-if (clearCartBtn) {
+if (clearCartButton) {
 
-  clearCartBtn.addEventListener(
+  clearCartButton.addEventListener(
     "click",
     function () {
 
       if (cart.length === 0) {
+
+        showToast(
+          "Le panier est déjà vide",
+          "error"
+        );
+
         return;
+
       }
 
 
-      const confirmation =
+      if (
         confirm(
-          "Voulez-vous vraiment vider votre panier ?"
+          "Voulez-vous vider le panier ?"
+        )
+      ) {
+
+        cart = [];
+
+        saveCart();
+
+        renderCart();
+
+        showToast(
+          "Panier vidé",
+          "success"
         );
 
-
-      if (!confirmation) return;
-
-
-      cart = [];
-
-      saveCart();
-      renderCart();
-
-      showToast(
-        "Panier vidé",
-        "success"
-      );
+      }
 
     }
   );
@@ -1008,6 +1140,7 @@ if (clearCartBtn) {
 function toggleFavorite(productId) {
 
   const id = Number(productId);
+
 
   if (favorites.includes(id)) {
 
@@ -1035,7 +1168,7 @@ function toggleFavorite(productId) {
 
   saveFavorites();
 
-  updateFavoritesButtons();
+  updateFavoriteButtons();
 
   renderFavorites();
 
@@ -1046,14 +1179,19 @@ function toggleFavorite(productId) {
    BOUTONS FAVORIS
 ========================================================= */
 
-function updateFavoritesButtons() {
+function updateFavoriteButtons() {
 
   document
-    .querySelectorAll("[data-favorite]")
+    .querySelectorAll(
+      "[data-favorite]"
+    )
     .forEach(button => {
 
       const id =
-        Number(button.dataset.favorite);
+        Number(
+          button.dataset.favorite
+        );
+
 
       const active =
         favorites.includes(id);
@@ -1077,141 +1215,151 @@ function updateFavoritesButtons() {
    CLIC FAVORIS
 ========================================================= */
 
-document.addEventListener("click", function (event) {
+document.addEventListener(
+  "click",
+  function (event) {
 
-  const favoriteButton =
-    event.target.closest("[data-favorite]");
+    const button =
+      event.target.closest(
+        "[data-favorite]"
+      );
 
-  if (!favoriteButton) return;
+
+    if (!button) return;
 
 
-  const id =
-    Number(
-      favoriteButton.dataset.favorite
+    toggleFavorite(
+      button.dataset.favorite
     );
 
-
-  toggleFavorite(id);
-
-});
+  }
+);
 
 
 /* =========================================================
    MODALE FAVORIS
 ========================================================= */
 
-const favoritesModal =
-  document.getElementById("favoritesModal");
-
-const favoritesModalOverlay =
-  document.getElementById(
-    "favoritesModalOverlay"
-  );
-
-const closeFavoritesModal =
-  document.getElementById(
-    "closeFavoritesModal"
-  );
-
-const closeFavoritesBtn =
-  document.getElementById(
-    "closeFavoritesBtn"
-  );
-
-const favoritesItems =
-  document.getElementById(
-    "favoritesItems"
-  );
-
-
 function openFavorites() {
 
   renderFavorites();
 
 
-  if (favoritesModal) {
+  const modal =
+    document.getElementById(
+      "favoritesModal"
+    );
 
-    favoritesModal.classList.remove(
+  const overlay =
+    document.getElementById(
+      "favoritesModalOverlay"
+    );
+
+
+  if (modal) {
+
+    modal.classList.remove(
       "hidden"
     );
 
-    favoritesModal.classList.add(
+    modal.classList.add(
       "active"
     );
 
   }
 
 
-  if (favoritesModalOverlay) {
+  if (overlay) {
 
-    favoritesModalOverlay.classList.remove(
+    overlay.classList.remove(
       "hidden"
     );
 
-    favoritesModalOverlay.classList.add(
+    overlay.classList.add(
       "active"
     );
 
   }
 
 
-  document.body.style.overflow = "hidden";
+  document.body.style.overflow =
+    "hidden";
 
 }
 
 
 function closeFavorites() {
 
-  if (favoritesModal) {
+  const modal =
+    document.getElementById(
+      "favoritesModal"
+    );
 
-    favoritesModal.classList.remove(
+  const overlay =
+    document.getElementById(
+      "favoritesModalOverlay"
+    );
+
+
+  if (modal) {
+
+    modal.classList.remove(
       "active"
     );
 
-    favoritesModal.classList.add(
+    modal.classList.add(
       "hidden"
     );
 
   }
 
 
-  if (favoritesModalOverlay) {
+  if (overlay) {
 
-    favoritesModalOverlay.classList.remove(
+    overlay.classList.remove(
       "active"
     );
 
-    favoritesModalOverlay.classList.add(
+    overlay.classList.add(
       "hidden"
     );
 
   }
 
 
-  document.body.style.overflow = "";
+  document.body.style.overflow =
+    "";
 
 }
 
 
 /* =========================================================
-   AFFICHER LES FAVORIS
+   AFFICHER FAVORIS
 ========================================================= */
 
 function renderFavorites() {
 
-  if (!favoritesItems) return;
-
-
-  const favoriteProducts =
-    products.filter(
-      product =>
-        favorites.includes(product.id)
+  const container =
+    document.getElementById(
+      "favoritesItems"
     );
 
 
-  if (favoriteProducts.length === 0) {
+  if (!container) return;
 
-    favoritesItems.innerHTML = `
+
+  const list =
+    products.filter(
+      product =>
+        favorites.includes(
+          product.id
+        )
+    );
+
+
+  if (list.length === 0) {
+
+    container.innerHTML = `
 
       <div class="empty-state">
 
@@ -1224,8 +1372,8 @@ function renderFavorites() {
         </h3>
 
         <p>
-          Ajoutez vos produits préférés
-          à vos favoris.
+          Vos produits favoris
+          apparaîtront ici.
         </p>
 
       </div>
@@ -1237,8 +1385,8 @@ function renderFavorites() {
   }
 
 
-  favoritesItems.innerHTML =
-    favoriteProducts
+  container.innerHTML =
+    list
       .map(product => `
 
         <div class="favorite-item">
@@ -1279,15 +1427,30 @@ function renderFavorites() {
    BOUTONS FAVORIS MODALE
 ========================================================= */
 
-const favoritesBtn =
+const favoritesButton =
   document.getElementById(
     "favoritesBtn"
   );
 
+const closeFavoritesButton =
+  document.getElementById(
+    "closeFavoritesModal"
+  );
 
-if (favoritesBtn) {
+const closeFavoritesBottom =
+  document.getElementById(
+    "closeFavoritesBtn"
+  );
 
-  favoritesBtn.addEventListener(
+const favoritesOverlay =
+  document.getElementById(
+    "favoritesModalOverlay"
+  );
+
+
+if (favoritesButton) {
+
+  favoritesButton.addEventListener(
     "click",
     openFavorites
   );
@@ -1295,9 +1458,9 @@ if (favoritesBtn) {
 }
 
 
-if (closeFavoritesModal) {
+if (closeFavoritesButton) {
 
-  closeFavoritesModal.addEventListener(
+  closeFavoritesButton.addEventListener(
     "click",
     closeFavorites
   );
@@ -1305,9 +1468,9 @@ if (closeFavoritesModal) {
 }
 
 
-if (closeFavoritesBtn) {
+if (closeFavoritesBottom) {
 
-  closeFavoritesBtn.addEventListener(
+  closeFavoritesBottom.addEventListener(
     "click",
     closeFavorites
   );
@@ -1315,9 +1478,9 @@ if (closeFavoritesBtn) {
 }
 
 
-if (favoritesModalOverlay) {
+if (favoritesOverlay) {
 
-  favoritesModalOverlay.addEventListener(
+  favoritesOverlay.addEventListener(
     "click",
     closeFavorites
   );
@@ -1326,87 +1489,63 @@ if (favoritesModalOverlay) {
 
 
 /* =========================================================
-   SUPPRIMER UN FAVORI
+   SUPPRIMER FAVORI
 ========================================================= */
 
-document.addEventListener("click", function (event) {
+document.addEventListener(
+  "click",
+  function (event) {
 
-  const button =
-    event.target.closest(
-      "[data-remove-favorite]"
+    const button =
+      event.target.closest(
+        "[data-remove-favorite]"
+      );
+
+
+    if (!button) return;
+
+
+    const id =
+      Number(
+        button.dataset.removeFavorite
+      );
+
+
+    favorites =
+      favorites.filter(
+        item => item !== id
+      );
+
+
+    saveFavorites();
+
+    renderFavorites();
+
+    updateFavoriteButtons();
+
+    showToast(
+      "Favori supprimé",
+      "success"
     );
 
-  if (!button) return;
+  }
+);
 
 
-  const id =
-    Number(
-      button.dataset.removeFavorite
-    );
-
-
-  favorites =
-    favorites.filter(
-      item => item !== id
-    );
-
-
-  saveFavorites();
-
-  renderFavorites();
-
-  updateFavoritesButtons();
-
-
-  showToast(
-    "Favori supprimé",
-    "success"
-  );
-
-});
 /* =========================================================
-   WENDK SHOP — SCRIPT.JS
-   BLOC 3/3
+   INITIALISATION PANIER
+========================================================= */
+
+renderCart();
+renderFavorites();
+updateCartTotals();
+/* =========================================================
+   WENDK SHOP — BLOC 3/3
 ========================================================= */
 
 
 /* =========================================================
    DÉTAILS PRODUIT
-========================================================= */
-
-const productDetailsModal =
-  document.getElementById("productDetailsModal");
-
-const productDetailsOverlay =
-  document.getElementById("productDetailsOverlay");
-
-const closeProductDetails =
-  document.getElementById("closeProductDetails");
-
-const detailsProductImage =
-  document.getElementById("detailsProductImage");
-
-const detailsProductCategory =
-  document.getElementById("detailsProductCategory");
-
-const detailsProductName =
-  document.getElementById("detailsProductName");
-
-const detailsProductDescription =
-  document.getElementById("detailsProductDescription");
-
-const detailsProductPrice =
-  document.getElementById("detailsProductPrice");
-
-const detailsProductSpecs =
-  document.getElementById("detailsProductSpecs");
-
-const detailsAddCart =
-  document.getElementById("detailsAddCart");
-
-
-/* =========================================================
-   OUVRIR LES DÉTAILS
 ========================================================= */
 
 function openProductDetails(product) {
@@ -1415,54 +1554,63 @@ function openProductDetails(product) {
 
   currentProduct = product;
 
+  const modal =
+    document.getElementById("productDetailsModal");
 
-  if (detailsProductImage) {
+  const overlay =
+    document.getElementById("productDetailsOverlay");
 
-    detailsProductImage.src =
-      product.image;
+  const image =
+    document.getElementById("detailsProductImage");
 
-    detailsProductImage.alt =
-      product.name;
+  const category =
+    document.getElementById("detailsProductCategory");
 
+  const name =
+    document.getElementById("detailsProductName");
+
+  const description =
+    document.getElementById("detailsProductDescription");
+
+  const price =
+    document.getElementById("detailsProductPrice");
+
+  const specs =
+    document.getElementById("detailsProductSpecs");
+
+  const addButton =
+    document.getElementById("detailsAddCart");
+
+
+  if (image) {
+    image.src = product.image;
+    image.alt = product.name;
   }
 
-
-  if (detailsProductCategory) {
-
-    detailsProductCategory.textContent =
+  if (category) {
+    category.textContent =
       getCategoryName(product.category);
-
   }
 
-
-  if (detailsProductName) {
-
-    detailsProductName.textContent =
+  if (name) {
+    name.textContent =
       product.name;
-
   }
 
-
-  if (detailsProductDescription) {
-
-    detailsProductDescription.textContent =
+  if (description) {
+    description.textContent =
       product.description;
-
   }
 
-
-  if (detailsProductPrice) {
-
-    detailsProductPrice.textContent =
+  if (price) {
+    price.textContent =
       formatPrice(product.price);
-
   }
 
+  if (specs) {
 
-  if (detailsProductSpecs) {
-
-    detailsProductSpecs.innerHTML =
-      (product.specs || [])
+    specs.innerHTML =
+      product.specs
         .map(spec => `
           <li class="spec-item">
             <span>✓</span>
@@ -1474,9 +1622,9 @@ function openProductDetails(product) {
   }
 
 
-  if (detailsAddCart) {
+  if (addButton) {
 
-    detailsAddCart.onclick = function () {
+    addButton.onclick = function () {
 
       addToCart(product.id);
 
@@ -1486,35 +1634,22 @@ function openProductDetails(product) {
 
 
   /*
-     IMPORTANT :
-     On retire "hidden" ET on ajoute "active".
+     OUVERTURE
   */
 
-  if (productDetailsOverlay) {
+  if (overlay) {
 
-    productDetailsOverlay.classList.remove(
-      "hidden"
-    );
-
-    productDetailsOverlay.classList.add(
-      "active"
-    );
+    overlay.classList.remove("hidden");
+    overlay.classList.add("active");
 
   }
 
+  if (modal) {
 
-  if (productDetailsModal) {
-
-    productDetailsModal.classList.remove(
-      "hidden"
-    );
-
-    productDetailsModal.classList.add(
-      "active"
-    );
+    modal.classList.remove("hidden");
+    modal.classList.add("active");
 
   }
-
 
   document.body.style.overflow = "hidden";
 
@@ -1522,33 +1657,30 @@ function openProductDetails(product) {
 
 
 /* =========================================================
-   FERMER LES DÉTAILS
+   FERMER DÉTAILS PRODUIT
 ========================================================= */
 
 function closeProductDetailsModal() {
 
-  if (productDetailsModal) {
+  const modal =
+    document.getElementById("productDetailsModal");
 
-    productDetailsModal.classList.remove(
-      "active"
-    );
+  const overlay =
+    document.getElementById("productDetailsOverlay");
 
-    productDetailsModal.classList.add(
-      "hidden"
-    );
+
+  if (modal) {
+
+    modal.classList.remove("active");
+    modal.classList.add("hidden");
 
   }
 
 
-  if (productDetailsOverlay) {
+  if (overlay) {
 
-    productDetailsOverlay.classList.remove(
-      "active"
-    );
-
-    productDetailsOverlay.classList.add(
-      "hidden"
-    );
+    overlay.classList.remove("active");
+    overlay.classList.add("hidden");
 
   }
 
@@ -1561,8 +1693,14 @@ function closeProductDetailsModal() {
 
 
 /* =========================================================
-   BOUTON FERMER
+   BOUTON X DÉTAILS
 ========================================================= */
+
+const closeProductDetails =
+  document.getElementById(
+    "closeProductDetails"
+  );
+
 
 if (closeProductDetails) {
 
@@ -1571,7 +1709,6 @@ if (closeProductDetails) {
     function (event) {
 
       event.preventDefault();
-      event.stopPropagation();
 
       closeProductDetailsModal();
 
@@ -1582,8 +1719,14 @@ if (closeProductDetails) {
 
 
 /* =========================================================
-   CLIC SUR L'ARRIÈRE-PLAN
+   CLIC SUR L'ARRIÈRE-PLAN DÉTAILS
 ========================================================= */
+
+const productDetailsOverlay =
+  document.getElementById(
+    "productDetailsOverlay"
+  );
+
 
 if (productDetailsOverlay) {
 
@@ -1619,12 +1762,12 @@ document.addEventListener(
 
     if (!button) return;
 
-    const productId =
+    const id =
       Number(button.dataset.view);
 
     const product =
       products.find(
-        item => item.id === productId
+        item => item.id === id
       );
 
     if (product) {
@@ -1642,10 +1785,14 @@ document.addEventListener(
 ========================================================= */
 
 const searchInput =
-  document.getElementById("searchInput");
+  document.getElementById(
+    "searchInput"
+  );
 
-const searchBtn =
-  document.getElementById("searchBtn");
+const searchButton =
+  document.getElementById(
+    "searchBtn"
+  );
 
 
 function searchProducts() {
@@ -1653,13 +1800,13 @@ function searchProducts() {
   if (!searchInput) return;
 
 
-  const search =
+  const query =
     searchInput.value
       .trim()
       .toLowerCase();
 
 
-  if (!search) {
+  if (!query) {
 
     currentCategory = "all";
 
@@ -1671,39 +1818,42 @@ function searchProducts() {
 
 
   const results =
-    products.filter(product => {
-
-      return (
+    products.filter(
+      product =>
         product.name
           .toLowerCase()
-          .includes(search)
+          .includes(query)
         ||
         product.category
           .toLowerCase()
-          .includes(search)
+          .includes(query)
         ||
         product.description
           .toLowerCase()
-          .includes(search)
-      );
-
-    });
+          .includes(query)
+    );
 
 
-  if (!productsGrid) return;
+  const grid =
+    document.getElementById(
+      "productsGrid"
+    );
+
+  const empty =
+    document.getElementById(
+      "noProducts"
+    );
+
+
+  if (!grid) return;
 
 
   if (results.length === 0) {
 
-    productsGrid.innerHTML = "";
+    grid.innerHTML = "";
 
-
-    if (noProducts) {
-
-      noProducts.classList.remove(
-        "hidden"
-      );
-
+    if (empty) {
+      empty.classList.remove("hidden");
     }
 
     return;
@@ -1711,29 +1861,25 @@ function searchProducts() {
   }
 
 
-  if (noProducts) {
-
-    noProducts.classList.add(
-      "hidden"
-    );
-
+  if (empty) {
+    empty.classList.add("hidden");
   }
 
 
-  productsGrid.innerHTML =
+  grid.innerHTML =
     results
-      .map(createProductCard)
+      .map(product => createProductCard(product))
       .join("");
 
 
-  updateFavoritesButtons();
+  updateFavoriteButtons();
 
 }
 
 
-if (searchBtn) {
+if (searchButton) {
 
-  searchBtn.addEventListener(
+  searchButton.addEventListener(
     "click",
     searchProducts
   );
@@ -1760,24 +1906,23 @@ if (searchInput) {
 
 
 /* =========================================================
-   FILTRES CATÉGORIES
+   FILTRES
 ========================================================= */
 
 document.addEventListener(
   "click",
   function (event) {
 
-    const filter =
+    const button =
       event.target.closest(
         ".filter-btn"
       );
 
-    if (!filter) return;
+    if (!button) return;
 
 
     const category =
-      filter.dataset.category;
-
+      button.dataset.category;
 
     if (!category) return;
 
@@ -1787,35 +1932,95 @@ document.addEventListener(
 
 
     document
-      .querySelectorAll(
-        ".filter-btn"
-      )
-      .forEach(button => {
+      .querySelectorAll(".filter-btn")
+      .forEach(item => {
 
-        button.classList.remove(
+        item.classList.remove(
           "active"
         );
 
       });
 
 
-    filter.classList.add(
+    button.classList.add(
       "active"
     );
 
 
     renderProducts();
 
+  }
+);
 
-    const productsSection =
+
+/* =========================================================
+   LIENS DE CATÉGORIES
+========================================================= */
+
+document.addEventListener(
+  "click",
+  function (event) {
+
+    const link =
+      event.target.closest(
+        "[data-category]"
+      );
+
+    if (!link) return;
+
+
+    if (
+      link.classList.contains(
+        "filter-btn"
+      )
+    ) {
+      return;
+    }
+
+
+    const category =
+      link.dataset.category;
+
+    if (!category) return;
+
+
+    event.preventDefault();
+
+
+    currentCategory =
+      category;
+
+
+    if (searchInput) {
+      searchInput.value = "";
+    }
+
+
+    document
+      .querySelectorAll(".filter-btn")
+      .forEach(button => {
+
+        button.classList.toggle(
+          "active",
+          button.dataset.category ===
+          category
+        );
+
+      });
+
+
+    renderProducts();
+
+
+    const section =
       document.getElementById(
         "produits"
       );
 
 
-    if (productsSection) {
+    if (section) {
 
-      productsSection.scrollIntoView({
+      section.scrollIntoView({
         behavior: "smooth"
       });
 
@@ -1829,15 +2034,15 @@ document.addEventListener(
    AFFICHER TOUS LES PRODUITS
 ========================================================= */
 
-const showAllProducts =
+const showAll =
   document.getElementById(
     "showAllProducts"
   );
 
 
-if (showAllProducts) {
+if (showAll) {
 
-  showAllProducts.addEventListener(
+  showAll.addEventListener(
     "click",
     function (event) {
 
@@ -1846,21 +2051,19 @@ if (showAllProducts) {
       currentCategory = "all";
 
       if (searchInput) {
-
         searchInput.value = "";
-
       }
 
       renderProducts();
 
-      const productsSection =
+      const section =
         document.getElementById(
           "produits"
         );
 
-      if (productsSection) {
+      if (section) {
 
-        productsSection.scrollIntoView({
+        section.scrollIntoView({
           behavior: "smooth"
         });
 
@@ -1873,7 +2076,7 @@ if (showAllProducts) {
 
 
 /* =========================================================
-   RÉINITIALISER LES FILTRES
+   RÉINITIALISER
 ========================================================= */
 
 const resetFilters =
@@ -1891,10 +2094,19 @@ if (resetFilters) {
       currentCategory = "all";
 
       if (searchInput) {
-
         searchInput.value = "";
-
       }
+
+      document
+        .querySelectorAll(".filter-btn")
+        .forEach(button => {
+
+          button.classList.toggle(
+            "active",
+            button.dataset.category === "all"
+          );
+
+        });
 
       renderProducts();
 
@@ -1905,18 +2117,18 @@ if (resetFilters) {
 
 
 /* =========================================================
-   COMMANDER SUR WHATSAPP
+   COMMANDE WHATSAPP
 ========================================================= */
 
-const checkoutBtn =
+const checkoutButton =
   document.getElementById(
     "checkoutBtn"
   );
 
 
-if (checkoutBtn) {
+if (checkoutButton) {
 
-  checkoutBtn.addEventListener(
+  checkoutButton.addEventListener(
     "click",
     function () {
 
@@ -1933,46 +2145,54 @@ if (checkoutBtn) {
 
 
       let message =
-        "Bonjour WENDK SHOP 👋%0A%0A";
+        "Bonjour WENDK SHOP 👋\n\n";
 
       message +=
-        "Je souhaite commander :%0A%0A";
+        "Je souhaite commander :\n\n";
 
 
       cart.forEach(item => {
 
         const product =
           products.find(
-            product =>
-              product.id === item.id
+            p => p.id === item.id
           );
-
 
         if (!product) return;
 
 
         message +=
-          `• ${product.name} x${item.quantity}%0A`;
+          "• " +
+          product.name +
+          " x" +
+          item.quantity +
+          "\n";
 
         message +=
-          `  ${formatPrice(
-            product.price * item.quantity
-          )}%0A%0A`;
+          formatPrice(
+            product.price *
+            item.quantity
+          ) +
+          "\n\n";
 
       });
 
 
       message +=
-        `Total : ${formatPrice(
+        "TOTAL : " +
+        formatPrice(
           getCartTotal()
-        )}%0A%0A`;
+        ) +
+        "\n\n";
 
       message +=
-        "Merci de me confirmer la disponibilité et les modalités de livraison.";
+        "Merci de me confirmer la disponibilité et la livraison.";
 
 
       window.open(
-        `${WHATSAPP_URL}?text=${message}`,
+        WHATSAPP_URL +
+        "?text=" +
+        encodeURIComponent(message),
         "_blank"
       );
 
@@ -1983,36 +2203,36 @@ if (checkoutBtn) {
 
 
 /* =========================================================
-   COMPTE CLIENT
+   COMPTE
 ========================================================= */
+
+const accountButton =
+  document.getElementById(
+    "accountBtn"
+  );
 
 const accountModal =
   document.getElementById(
     "accountModal"
   );
 
-const accountModalOverlay =
+const accountOverlay =
   document.getElementById(
     "accountModalOverlay"
   );
 
-const accountBtn =
-  document.getElementById(
-    "accountBtn"
-  );
-
-const closeAccountModal =
+const closeAccountButton =
   document.getElementById(
     "closeAccountModal"
   );
 
-const accountWhatsappBtn =
+const accountWhatsapp =
   document.getElementById(
     "accountWhatsappBtn"
   );
 
 
-function openAccountModal() {
+function openAccount() {
 
   if (accountModal) {
 
@@ -2027,20 +2247,21 @@ function openAccountModal() {
   }
 
 
-  if (accountModalOverlay) {
+  if (accountOverlay) {
 
-    accountModalOverlay.classList.remove(
+    accountOverlay.classList.remove(
       "hidden"
     );
 
-    accountModalOverlay.classList.add(
+    accountOverlay.classList.add(
       "active"
     );
 
   }
 
 
-  document.body.style.overflow = "hidden";
+  document.body.style.overflow =
+    "hidden";
 
 }
 
@@ -2060,37 +2281,38 @@ function closeAccount() {
   }
 
 
-  if (accountModalOverlay) {
+  if (accountOverlay) {
 
-    accountModalOverlay.classList.remove(
+    accountOverlay.classList.remove(
       "active"
     );
 
-    accountModalOverlay.classList.add(
+    accountOverlay.classList.add(
       "hidden"
     );
 
   }
 
 
-  document.body.style.overflow = "";
+  document.body.style.overflow =
+    "";
 
 }
 
 
-if (accountBtn) {
+if (accountButton) {
 
-  accountBtn.addEventListener(
+  accountButton.addEventListener(
     "click",
-    openAccountModal
+    openAccount
   );
 
 }
 
 
-if (closeAccountModal) {
+if (closeAccountButton) {
 
-  closeAccountModal.addEventListener(
+  closeAccountButton.addEventListener(
     "click",
     closeAccount
   );
@@ -2098,15 +2320,15 @@ if (closeAccountModal) {
 }
 
 
-if (accountModalOverlay) {
+if (accountOverlay) {
 
-  accountModalOverlay.addEventListener(
+  accountOverlay.addEventListener(
     "click",
     function (event) {
 
       if (
         event.target ===
-        accountModalOverlay
+        accountOverlay
       ) {
 
         closeAccount();
@@ -2119,9 +2341,9 @@ if (accountModalOverlay) {
 }
 
 
-if (accountWhatsappBtn) {
+if (accountWhatsapp) {
 
-  accountWhatsappBtn.addEventListener(
+  accountWhatsapp.addEventListener(
     "click",
     function () {
 
@@ -2130,9 +2352,10 @@ if (accountWhatsappBtn) {
           "Bonjour WENDK SHOP 👋 Je souhaite créer un compte client."
         );
 
-
       window.open(
-        `${WHATSAPP_URL}?text=${message}`,
+        WHATSAPP_URL +
+        "?text=" +
+        message,
         "_blank"
       );
 
@@ -2143,180 +2366,88 @@ if (accountWhatsappBtn) {
 
 
 /* =========================================================
-   CATÉGORIES / NAVIGATION
+   FAVORIS — SUPPRESSION
 ========================================================= */
 
 document.addEventListener(
   "click",
   function (event) {
 
-    const link =
+    const button =
       event.target.closest(
-        "[data-category]"
+        "[data-remove-favorite]"
       );
 
-    if (!link) return;
+    if (!button) return;
 
 
-    const category =
-      link.dataset.category;
-
-
-    if (!category) return;
-
-
-    event.preventDefault();
-
-
-    currentCategory =
-      category;
-
-
-    if (searchInput) {
-
-      searchInput.value = "";
-
-    }
-
-
-    document
-      .querySelectorAll(
-        ".filter-btn"
-      )
-      .forEach(button => {
-
-        button.classList.toggle(
-          "active",
-          button.dataset.category ===
-            category
-        );
-
-      });
-
-
-    renderProducts();
-
-
-    const productsSection =
-      document.getElementById(
-        "produits"
+    const id =
+      Number(
+        button.dataset.removeFavorite
       );
 
 
-    if (productsSection) {
+    favorites =
+      favorites.filter(
+        item => item !== id
+      );
 
-      productsSection.scrollIntoView({
-        behavior: "smooth"
-      });
 
-    }
+    saveFavorites();
+
+    renderFavorites();
+
+    updateFavoriteButtons();
 
   }
 );
 
 
 /* =========================================================
-   NAVIGATION ANCRES
+   ÉCHAP — FERMER LES FENÊTRES
 ========================================================= */
 
-document
-  .querySelectorAll(
-    'a[href^="#"]'
-  )
-  .forEach(link => {
+document.addEventListener(
+  "keydown",
+  function (event) {
 
-    link.addEventListener(
-      "click",
-      function (event) {
-
-        const targetId =
-          link.getAttribute("href");
+    if (event.key !== "Escape") {
+      return;
+    }
 
 
-        if (
-          !targetId ||
-          targetId === "#"
-        ) {
-          return;
-        }
+    closeCart();
 
+    closeFavorites();
 
-        const target =
-          document.querySelector(
-            targetId
-          );
+    closeProductDetailsModal();
 
+    closeAccount();
 
-        if (!target) return;
-
-
-        event.preventDefault();
-
-
-        target.scrollIntoView({
-          behavior: "smooth"
-        });
-
-      }
-    );
-
-  });
+  }
+);
 
 
 /* =========================================================
-   NOTIFICATIONS
+   ANNÉE
 ========================================================= */
 
-let toastTimer;
-
-
-function showToast(
-  message,
-  type = "success"
-) {
-
-  if (!toast) return;
-
-
-  toast.textContent =
-    message;
-
-
-  toast.className =
-    "toast show";
-
-
-  if (type) {
-
-    toast.classList.add(
-      type
-    );
-
-  }
-
-
-  clearTimeout(
-    toastTimer
+const year =
+  document.getElementById(
+    "currentYear"
   );
 
 
-  toastTimer =
-    setTimeout(
-      function () {
+if (year) {
 
-        toast.classList.remove(
-          "show"
-        );
-
-      },
-      3000
-    );
+  year.textContent =
+    new Date().getFullYear();
 
 }
 
 
 /* =========================================================
-   RETOUR EN HAUT
+   BOUTON RETOUR EN HAUT
 ========================================================= */
 
 const backToTop =
@@ -2365,44 +2496,22 @@ if (backToTop) {
 
 
 /* =========================================================
-   TOUCHE ÉCHAP
+   WHATSAPP FLOTTANT
 ========================================================= */
 
-document.addEventListener(
-  "keydown",
-  function (event) {
-
-    if (event.key !== "Escape") {
-      return;
-    }
-
-
-    closeCart();
-
-    closeFavorites();
-
-    closeProductDetailsModal();
-
-    closeAccount();
-
-  }
-);
-
-
-/* =========================================================
-   ANNÉE AUTOMATIQUE
-========================================================= */
-
-const currentYear =
+const floatingWhatsapp =
   document.getElementById(
-    "currentYear"
+    "floatingWhatsapp"
   );
 
 
-if (currentYear) {
+if (floatingWhatsapp) {
 
-  currentYear.textContent =
-    new Date().getFullYear();
+  floatingWhatsapp.href =
+    WHATSAPP_URL;
+
+  floatingWhatsapp.target =
+    "_blank";
 
 }
 
@@ -2419,4 +2528,8 @@ renderFavorites();
 
 updateCartTotals();
 
-updateFavoritesButtons();
+updateFavoriteButtons();
+
+console.log(
+  "WENDK SHOP : site initialisé avec succès."
+);
