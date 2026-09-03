@@ -2662,4 +2662,225 @@ document.addEventListener("DOMContentLoaded", function () {
     createOrderButton();
   }
 
-})();
+})();/* =========================================================
+   WENDK SHOP — DÉTAILS DU PRODUIT
+========================================================= */
+
+function openProductDetails(productId) {
+
+  const id = Number(productId);
+
+  const product = products.find(
+    item => item.id === id
+  );
+
+  if (!product) {
+    console.error("Produit introuvable :", productId);
+    return;
+  }
+
+  currentProduct = product;
+
+  // Cherche la fenêtre de détails
+  let modal = document.getElementById("productModal");
+
+  // Si elle n'existe pas encore, on la crée
+  if (!modal) {
+
+    modal = document.createElement("div");
+
+    modal.id = "productModal";
+    modal.className = "product-modal";
+
+    document.body.appendChild(modal);
+
+  }
+
+  modal.innerHTML = `
+
+    <div class="product-modal-overlay"
+         onclick="closeProductDetails()">
+    </div>
+
+    <div class="product-modal-content">
+
+      <button
+        type="button"
+        class="product-modal-close"
+        onclick="closeProductDetails()"
+        aria-label="Fermer"
+      >
+        ×
+      </button>
+
+      <div class="product-detail">
+
+        <div class="product-detail-image">
+
+          <img
+            src="${product.image}"
+            alt="${product.name}"
+          >
+
+        </div>
+
+        <div class="product-detail-info">
+
+          <span class="product-category">
+            ${getCategoryName(product.category)}
+          </span>
+
+          <h2>
+            ${product.name}
+          </h2>
+
+          <div class="product-detail-price">
+
+            <strong>
+              ${formatPrice(product.price)}
+            </strong>
+
+            <del>
+              ${formatPrice(product.oldPrice)}
+            </del>
+
+          </div>
+
+          <p class="product-detail-description">
+            ${product.description}
+          </p>
+
+          <h3>
+            Caractéristiques
+          </h3>
+
+          <ul class="product-specs">
+
+            ${product.specs.map(spec => `
+              <li>✓ ${spec}</li>
+            `).join("")}
+
+          </ul>
+
+          <div class="product-detail-actions">
+
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="addToCart(${product.id}); closeProductDetails();"
+            >
+              🛒 Ajouter au panier
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-whatsapp"
+              onclick="orderProductWhatsApp(${product.id})"
+            >
+              📱 Commander sur WhatsApp
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+  // Affichage
+  requestAnimationFrame(() => {
+    modal.classList.add("active");
+  });
+
+  document.body.style.overflow = "hidden";
+}
+
+
+/* =========================================================
+   FERMER DÉTAILS
+========================================================= */
+
+function closeProductDetails() {
+
+  const modal =
+    document.getElementById("productModal");
+
+  if (modal) {
+
+    modal.classList.remove("active");
+
+  }
+
+  document.body.style.overflow = "";
+
+}
+
+
+/* =========================================================
+   COMMANDE WHATSAPP DU PRODUIT
+========================================================= */
+
+function orderProductWhatsApp(productId) {
+
+  const id = Number(productId);
+
+  const product = products.find(
+    item => item.id === id
+  );
+
+  if (!product) return;
+
+  const message =
+    "Bonjour WENDK SHOP 👋%0A%0A" +
+    "Je souhaite commander :%0A" +
+    "📱 " + product.name + "%0A" +
+    "💰 Prix : " + formatPrice(product.price) + "%0A%0A" +
+    "Merci de me confirmer la disponibilité.";
+
+  window.open(
+    WHATSAPP_URL + "?text=" + message,
+    "_blank"
+  );
+
+}
+
+
+/* =========================================================
+   CLIC SUR "VOIR DÉTAILS"
+========================================================= */
+
+document.addEventListener(
+  "click",
+  function (event) {
+
+    const button =
+      event.target.closest("[data-view]");
+
+    if (!button) return;
+
+    openProductDetails(
+      button.dataset.view
+    );
+
+  }
+);
+
+
+/* =========================================================
+   FERMER AVEC LA TOUCHE ÉCHAP
+========================================================= */
+
+document.addEventListener(
+  "keydown",
+  function (event) {
+
+    if (event.key === "Escape") {
+
+      closeProductDetails();
+
+    }
+
+  }
+);
